@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+  <head>
+    <title>GML 3.2 (ISO 19136:2007) Conformance Test Suite</title>
+    <meta charset="UTF-8"/>
+    <style type="text/css">
+      body {
+        color: black;
+        background: white;
+        font-family: Georgia, serif;
+      }
+      h1, h2, h3 {
+        font-family: Verdana, sans-serif;
+        color: #000099;
+        text-align: left;
+      }
+      h1 {
+        font-size: 1.4em;
+        margin-top: 2em;
+      }
+      h2 {
+        font-size: 1.2em;
+      }
+      h3 {
+        font-size: 1em;
+        margin-bottom: 0.5em;
+      }
+      table {
+        margin-top: 0.5em;
+        margin-bottom: 1em;
+        border-collapse: collapse;
+      }
+      td, th {
+        padding: 0.25em;
+        border: 1px solid black;
+      }
+      caption, figcaption {
+        font-weight: bold;
+        text-align: left;
+        margin: 0.25em;
+      }
+      th {
+        font-weight: bold;
+        font-family: Verdana, sans-serif;
+        text-align: left;
+        vertical-align: top;
+        background: #eeeeee;
+        color: #000099;
+      }
+      dt {
+        margin-top: 0.5em;
+        font-weight: bold;
+      }</style>
+  </head>
+  <body>
+    <h1>GML 3.2 (ISO 19136:2007) Conformance Test Suite</h1>
+    <p>This executable test suite (ETS) verifies the conformance of GML data and application schemas
+      with respect to ISO 19136:2007 (GML 3.2.1). It can be used to validate a GML <strong>application
+      schema</strong> or an <strong>instance document</strong>; both types of resources are referenced 
+      by URI. A GML instance document can also refer to a Schematron schema that defines additional 
+      constraints; this is done by including a schema reference using the <code>xml-model</code> 
+      processing instruction (PI) as described in the W3C group note <em><a target="_blank" 
+      href="http://www.w3.org/TR/xml-model/">Associating Schemas with XML documents 1.0 (Third Edition)</a>
+      </em>.</p>
+
+    <p>The test run arguments are summarized in the following table. The <em>Obligation</em> descriptor 
+    can have the following values: M (mandatory), O (optional), or C (conditional). A GML application
+    schema may be validated by itself. If the 'xsd' and 'gml' arguments are both present, the 'xsd'
+    value is ignored and the (required) schema reference in the GML instance will be used instead.</p>
+
+    <table border="1" style="border-collapse: collapse;">
+      <caption>Test run arguments</caption>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Value domain</th>
+          <th>Obligation</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>xsd</td>
+          <td>URI</td>
+          <td>C (must be present if the 'gml' argument is not supplied)</td>
+          <td>A URI referring to a GML application schema <sup>1</sup>.</td>
+        </tr>
+        <tr>
+          <td>gml</td>
+          <td>URI</td>
+          <td>C (must be present if the 'xsd' argument is not supplied)</td>
+          <td>A URI referring to a representation of a GML data instance <sup>1</sup>.</td>
+        </tr>
+        <tr>
+          <td>sch</td>
+          <td>URI</td>
+          <td>O</td>
+          <td>A URI referring to a Schematron schema that defines supplementary data constraints
+            <sup>2</sup>.</td>
+        </tr>
+        <tr>
+          <td colspan="4">
+            <strong>Notes</strong>
+            <ol>
+              <li>Ampersand ('&amp;') characters appearing within query parameter values must be
+                percent-encoded as %26.</li>
+              <li>
+                <a target="_blank"
+                  href="http://standards.iso.org/ittf/PubliclyAvailableStandards/c040833_ISO_IEC_19757-3_2006(E).zip"
+                  > ISO 19757-3:2006</a>
+              </li>
+            </ol>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </body>
+</html>

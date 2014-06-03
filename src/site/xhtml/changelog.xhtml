@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+  <head>
+    <title>Release Notes</title>
+  </head>
+  <body>
+    <h1>Release Notes</h1>
+
+    <h2>3.2.1-r16-SNAPSHOT (2014-MM-DD)</h2>
+    <p>This release includes the following changes:</p>
+    <ul>
+      <li style="list-style:square">Add timeout (60 s) to compileXMLSchema test.</li>
+      <li style="list-style:square">Remove assertion requiring metadata property value in application namespace.</li>
+      <li style="list-style:square">Modify POM for GitHub.</li>
+      <li style="list-style:square">Add site content.</li>
+      <li style="list-style:square">Change license to Apache License, Version 2.0.</li>
+    </ul>
+
+    <h2>3.2.1-r15 (2014-04-15)</h2>
+    <p>This maintenance release includes the following updates:</p>
+    <ul>
+      <li style="list-style:square;">Add missing assertion regarding metadata property value (must be declared in application namespace).</li>
+      <li style="list-style:square;">Add support for dereferencing shorthand pointers in GML properties (&#64;xlink:href attributes).</li>
+      <li style="list-style:square;">Update documentation.</li>
+      <li style="list-style:square;">Update dependencies (schema-utils, geomatics-geotk).</li>
+    </ul>
+
+    <h2>3.2.1-r14 (2014-03-04)</h2>
+    <p>This release includes the following changes:</p>
+    <ul>
+      <li style="list-style:square">Modify unit tests to run without a network connection.</li>
+    </ul>
+
+    <h2>3.2.1-r13 (2014-01-30)</h2>
+    <p>This release includes the following enhancements:</p>
+    <ul>
+      <li style="list-style:square">Added tests for gml:Polygon and gml:Surface geometries containing the following types of 
+      surface patch: PolygonPatch, Triangle, Rectangle (in org.opengis.cite.iso19136.data.spatial.SurfaceTests).</li>
+      <li style="list-style:square">Updated dependency: geomatics-geotk-1.5.</li>
+    </ul>
+
+    <h2>3.2.1-r12 (2013-12-04)</h2>
+    <p>This release includes the following enhancements:</p>
+    <ul>
+      <li style="list-style:square">Added tests for gml:Curve geometries containing the following types of 
+      curve segment: GeodesicString/Geodesic, ArcString/Arc/Circle, ArcByCenterPoint/CircleByCenterPoint.</li>
+      <li style="list-style:square">Added tests for gml:CompositeCurve, gml:OrientableCurve.</li>
+      <li style="list-style:square">Updated dependency: geomatics-geotk-1.4.</li>
+    </ul>
+
+    <h2>3.2.1-r11 (2013-11-14)</h2>
+    <p>This release includes the following changes:</p>
+    <ul>
+      <li style="list-style:square">Updated dependency: geomatics-geotk.</li>
+    </ul>
+
+    <h2>3.2.1-r10 (2013-11-01)</h2>
+    <p>This release includes the following enhancements:</p>
+    <ul>
+      <li style="list-style:square">Added CurveTests to validate essential aspects 
+      of gml:Curve elements (containing LineStringSegment only).</li>
+      <li style="list-style:square">Added PointTests to validate gml:Point elements 
+      (including geometry elements in its substitution group).</li>
+      <li style="list-style:square">Added EnvelopeTests to validate gml:Envelope elements.</li>
+      <li style="list-style:square">Allow posting of GML document (form interface).</li>
+    </ul>
+
+    <h2>3.2.1-r9 (2013-09-19)</h2>
+    <p>This is a maintenance release; it includes the following changes:</p>
+    <ul>
+      <li style="list-style:square">Write reporter output to test session directory when invoked via CTL script.</li>
+    </ul>
+
+    <h2>3.2.1-r8 (2013-08-23)</h2>
+    <p>This is a maintenance release; it includes the following fixes:</p>
+    <ul>
+      <li style="list-style:square;">CITE-839: validateMembersOfObjectCollection().</li>
+      <li style="list-style:square;">Updated documentation.</li>
+    </ul>
+
+    <h2>3.2.1-r7 (2013-07-24)</h2>
+    <p>This is a maintenance release; it includes the following fixes:</p>
+    <ul>
+      <li style="list-style:square;">CITE-840 (findGeometryComponents misses geometry
+        properties).</li>
+    </ul>
+
+    <h2>3.2.1-r6 (2013-07-19)</h2>
+    <p>This is a maintenance release; it includes the following fixes:</p>
+    <ul>
+      <li style="list-style:square;">CITE-845 (Anonymous feature type definition not detected).</li>
+    </ul>
+
+    <h2>3.2.1-r5 (2013-07-15)</h2>
+    <p>This is a maintenance release; it includes the following changes:</p>
+    <ul>
+      <li style="list-style:square;">CITE-826: Disable tests for lexical conventions</li>
+      <li style="list-style:square;">CITE-825: Some schemas referenced in @xsi:schemaLocation are
+        ignored</li>
+      <li style="list-style:square;">Use XLink 1.1 schema (internal catalog resolver)</li>
+      <li style="list-style:square;">Updated dependencies: schema-utils-1.2</li>
+    </ul>
+
+    <h2>3.2.1-r4 (2013-07-04)</h2>
+    <p>This maintenance release includes the following changes:</p>
+    <ul>
+      <li style="list-style:square;">Updated dependencies: teamengine-spi-4.0,
+        jersey-client-1.17.1</li>
+      <li style="list-style:square;">Don't clear reporter output in
+        SuiteFixtureListener#onFinish()</li>
+    </ul>
+  </body>
+</html>
