@@ -41,6 +41,7 @@ public class SuiteFixtureListener implements ISuiteListener {
 
     @Override
     public void onStart(ISuite suite) {
+        Reporter.clear(); // clear output from previous test runs
         processIUTParameter(suite);
         processRequiredSuiteParameters(suite);
         processSchematronSchema(suite);
@@ -52,7 +53,6 @@ public class SuiteFixtureListener implements ISuiteListener {
 
     @Override
     public void onFinish(ISuite suite) {
-        Reporter.log("Success? " + !suite.getSuiteState().isFailed());
         String reportDir = suite.getOutputDirectory();
         String msg = String.format(
                 "Test run directory: %s",
@@ -127,7 +127,9 @@ public class SuiteFixtureListener implements ISuiteListener {
             String xsdParam = params.get(TestRunArg.XSD.toString());
             schemaURIs.add(URI.create(xsdParam));
         } else {
-            throw new IllegalArgumentException("Required parameters not found");
+            String msg = "Missing required test run parameters: 'gml' or 'xsd' not found";
+            TestSuiteLogger.log(Level.SEVERE, msg);
+            Reporter.log(msg);
         }
         if (null != dataFile && dataFile.exists()) {
             suite.setAttribute(SuiteAttribute.GML.getName(), dataFile);

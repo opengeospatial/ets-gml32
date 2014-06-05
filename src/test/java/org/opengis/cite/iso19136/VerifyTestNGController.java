@@ -36,6 +36,10 @@ public class VerifyTestNGController {
     public static void initParser() throws ParserConfigurationException {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware(true);
+        dbf.setValidating(false);
+        dbf.setFeature(
+                "http://apache.org/xml/features/nonvalidating/load-external-dtd",
+                false);        
         docBuilder = dbf.newDocumentBuilder();
     }
 
