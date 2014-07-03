@@ -14,29 +14,39 @@ import org.xml.sax.SAXException;
  */
 public class VerifyComplexPropertyTests extends BasicFixture {
 
-    private static final String TARGET_NS = "http://www.deegree.org/app";
+	private static final String TARGET_NS = "http://www.deegree.org/app";
 
-    public VerifyComplexPropertyTests() {
-    }
+	public VerifyComplexPropertyTests() {
+	}
 
-    @Test
-    public void validateCurveMember() throws IOException, SAXException {
-        URL url = this.getClass().getResource("/xsd/anon-types.xsd");
-        XSModel model = createXSModel(url, URI.create(TARGET_NS));
-        ComplexPropertyTests iut = new ComplexPropertyTests();
-        iut.setSchemaModel(model);
-        iut.validateMembersOfGmlObjectCollection();
-    }
+	@Test
+	public void validateCurveMember() throws IOException, SAXException {
+		URL url = this.getClass().getResource("/xsd/anon-types.xsd");
+		XSModel model = createXSModel(url, URI.create(TARGET_NS));
+		ComplexPropertyTests iut = new ComplexPropertyTests();
+		iut.setSchemaModel(model);
+		iut.validateMembersOfGmlObjectCollection();
+	}
 
-    @Test
-    public void validateRingMember() throws IOException, SAXException {
-        thrown.expect(AssertionError.class);
-        thrown.expectMessage("LinearRing cannot substitute for \"http://www.opengis.net/gml/3.2\":AbstractGML");
-        URL url = this.getClass().getResource("/xsd/collection-invalid.xsd");
-        XSModel model = createXSModel(url, URI.create(TARGET_NS));
-        ComplexPropertyTests iut = new ComplexPropertyTests();
-        iut.setSchemaModel(model);
-        iut.validateMembersOfGmlObjectCollection();
-    }
+	@Test
+	public void validateRingMember() throws IOException, SAXException {
+		thrown.expect(AssertionError.class);
+		thrown.expectMessage("LinearRing cannot substitute for \"http://www.opengis.net/gml/3.2\":AbstractGML");
+		URL url = this.getClass().getResource("/xsd/collection-invalid.xsd");
+		XSModel model = createXSModel(url, URI.create(TARGET_NS));
+		ComplexPropertyTests iut = new ComplexPropertyTests();
+		iut.setSchemaModel(model);
+		iut.validateMembersOfGmlObjectCollection();
+	}
+
+	@Test
+	public void anonymousMetadataPropertyType() throws IOException,
+			SAXException {
+		URL url = this.getClass().getResource("/xsd/anon-types.xsd");
+		XSModel model = createXSModel(url, URI.create(TARGET_NS));
+		ComplexPropertyTests iut = new ComplexPropertyTests();
+		iut.setSchemaModel(model);
+		iut.validateMetadataProperties();
+	}
 
 }

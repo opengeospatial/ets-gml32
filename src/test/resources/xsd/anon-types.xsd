@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2"
-	xmlns:app="http://www.deegree.org/app" targetNamespace="http://www.deegree.org/app"
-	elementFormDefault="qualified" attributeFormDefault="unqualified">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.deegree.org/app"
+	xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:app="http://www.deegree.org/app"
+	xmlns:gmd="http://www.isotc211.org/2005/gmd" elementFormDefault="qualified"
+	attributeFormDefault="unqualified">
 	<import namespace="http://www.opengis.net/gml/3.2"
 		schemaLocation="http://schemas.opengis.net/gml/3.2.1/gml.xsd" />
 	<element name="Streams" substitutionGroup="gml:AbstractFeature">
@@ -27,11 +28,41 @@
 						<element name="NAME" minOccurs="0" type="string" />
 						<element name="geometry" minOccurs="0"
 							type="gml:MultiCurvePropertyType" />
+					    <element name="metadata1" minOccurs="0" type="app:EmptyMetadataPropertyType" />
+						<element name="metadata1a" minOccurs="0">
+							<complexType>
+								<complexContent>
+									<extension base="gml:AbstractMetadataPropertyType">
+										<sequence />
+										<attributeGroup ref="gml:AssociationAttributeGroup" />
+									</extension>
+								</complexContent>
+							</complexType>
+						</element>
+						<element ref="app:metadata2" minOccurs="0" />
 					</sequence>
 				</extension>
 			</complexContent>
 		</complexType>
 	</element>
+	<element name="metadata2">
+		<complexType>
+			<complexContent>
+				<extension base="gml:AbstractMetadataPropertyType">
+					<sequence />
+					<attributeGroup ref="gml:AssociationAttributeGroup" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	<complexType name="EmptyMetadataPropertyType">
+		<complexContent>
+			<extension base="gml:AbstractMetadataPropertyType">
+				<sequence />
+				<attributeGroup ref="gml:AssociationAttributeGroup" />
+			</extension>
+		</complexContent>
+	</complexType>
 	<element name="Autos" substitutionGroup="gml:AbstractFeature">
 		<complexType>
 			<complexContent>
