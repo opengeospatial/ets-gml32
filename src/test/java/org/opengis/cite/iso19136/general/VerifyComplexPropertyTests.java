@@ -40,8 +40,9 @@ public class VerifyComplexPropertyTests extends BasicFixture {
 	}
 
 	@Test
-	public void anonymousMetadataPropertyType() throws IOException,
-			SAXException {
+	public void unspecifiedMetadataProperty() throws IOException, SAXException {
+		thrown.expect(AssertionError.class);
+		thrown.expectMessage("Metadata property value is unspecified");
 		URL url = this.getClass().getResource("/xsd/anon-types.xsd");
 		XSModel model = createXSModel(url, URI.create(TARGET_NS));
 		ComplexPropertyTests iut = new ComplexPropertyTests();

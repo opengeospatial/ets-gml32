@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://example.org/ns1"
+	xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:gmd="http://www.isotc211.org/2005/gmd"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://example.org/ns1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	elementFormDefault="qualified">
+
+	<xsd:import namespace="http://www.opengis.net/gml/3.2"
+		schemaLocation="http://schemas.opengis.net/gml/3.2.1/gml.xsd" />
+	<xsd:import namespace="http://www.isotc211.org/2005/gmd"
+		schemaLocation="http://schemas.opengis.net/iso/19139/20070417/gmd/gmd.xsd" />
+	<xsd:include schemaLocation="simple.xsd" />
+
+	<xsd:element name="SimpleFeature2" type="tns:SimpleFeatureType"
+		substitutionGroup="gml:AbstractFeature" />
+
+	<xsd:element name="SimpleFeatureCollection" type="tns:SimpleFeatureCollectionType" />
+	<xsd:complexType name="SimpleFeatureCollectionType">
+		<xsd:complexContent>
+			<xsd:extension base="tns:ComplexFeatureType">
+				<xsd:sequence>
+					<xsd:element name="simpleFeatureMember">
+						<xsd:complexType>
+							<xsd:complexContent>
+								<xsd:extension base="gml:AbstractFeatureMemberType">
+									<xsd:sequence>
+										<xsd:element ref="tns:SimpleFeature2" />
+									</xsd:sequence>
+								</xsd:extension>
+							</xsd:complexContent>
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:element name="FeatureCollection2" type="tns:FeatureCollection2Type"
+		substitutionGroup="gml:AbstractFeature" />
+	<xsd:complexType name="FeatureCollection2Type">
+		<xsd:complexContent>
+			<xsd:extension base="gml:AbstractFeatureType">
+				<xsd:sequence>
+					<xsd:element ref="tns:genericFeatureMember" minOccurs="0"
+						maxOccurs="unbounded" />
+				</xsd:sequence>
+				<xsd:attributeGroup ref="gml:AggregationAttributeGroup" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:element name="genericFeatureMember" type="tns:GenericFeatureMemberType" />
+	<xsd:complexType name="GenericFeatureMemberType">
+		<xsd:complexContent>
+			<xsd:extension base="gml:AbstractFeatureMemberType">
+				<xsd:sequence>
+					<xsd:element ref="gml:AbstractFeature" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+</xsd:schema>

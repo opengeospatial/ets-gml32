@@ -6,6 +6,8 @@ import org.apache.xerces.xs.XSComplexTypeDefinition;
 import org.apache.xerces.xs.XSElementDeclaration;
 import org.apache.xerces.xs.XSTypeDefinition;
 import org.opengis.cite.iso19136.ETSAssert;
+import org.opengis.cite.iso19136.ErrorMessage;
+import org.opengis.cite.iso19136.ErrorMessageKeys;
 import org.opengis.cite.iso19136.util.GMLObjectTypeFilter;
 import org.opengis.cite.iso19136.util.XMLSchemaModelUtils;
 import org.testng.annotations.Test;
@@ -34,27 +36,31 @@ public class ComplexPropertyTests extends SchemaModelFixture {
 	 * property type must be derived by extension from
 	 * gml:AbstractMetadataPropertyType; it shall follow one of the patterns
 	 * specified for GML property types in clause 7.2.3, and cannot contain a
-	 * wildcard particle.
+	 * wildcard particle. A property value must be specified--an empty content
+	 * model is not permitted even if a reference is allowed.
 	 * 
 	 * <h6 style="margin-bottom: 0.5em">Sources</h6>
 	 * <ul>
 	 * <li>ISO 19136:2007, cl. A.1.1.9: Metadata and data quality properties</li>
-	 * <li>ISO 19136:2007, cl. 7.2.6.1: AbstractMetadataPropertyType</li>
+	 * <li>ISO 19136:2007, cl. 7.2.6: Metadata</li>
 	 * </ul>
 	 */
 	@Test
 	public void validateMetadataProperties() {
 		XSTypeDefinition metadataPropType = this.model.getTypeDefinition(
 				GML32.MD_PROP_TYPE, GML32.NS_NAME);
-		List<XSElementDeclaration> metaPropTypes = XMLSchemaModelUtils
+		List<XSElementDeclaration> metadataProps = XMLSchemaModelUtils
 				.getGlobalElementsByType(this.model, metadataPropType);
-		metaPropTypes.addAll(XMLSchemaModelUtils.getLocalElementsByType(
+		metadataProps.addAll(XMLSchemaModelUtils.getLocalElementsByType(
 				this.model, metadataPropType, new GMLObjectTypeFilter()));
-		System.out.println(metaPropTypes);
-		for (XSElementDeclaration metaDataProp : metaPropTypes) {
-			XSComplexTypeDefinition typeDef = (XSComplexTypeDefinition) metaDataProp
+		for (XSElementDeclaration metaDataProp : metadataProps) {
+			ETSAssert.assertValidPropertyType(model, metaDataProp, null);
+			XSComplexTypeDefinition propTypeDef = (XSComplexTypeDefinition) metaDataProp
 					.getTypeDefinition();
-			ETSAssert.assertValidPropertyType(model, typeDef, null);
+			if (propTypeDef.getContentType() == XSComplexTypeDefinition.CONTENTTYPE_EMPTY) {
+				throw new AssertionError(ErrorMessage.format(
+						ErrorMessageKeys.MD_PROP_UNSPECIFIED, metaDataProp));
+			}
 		}
 	}
 
@@ -85,9 +91,7 @@ public class ComplexPropertyTests extends SchemaModelFixture {
 		XSElementDeclaration gmlObj = this.model.getElementDeclaration(
 				GML32.ABSTRACT_GML, GML32.NS_NAME);
 		for (XSElementDeclaration memberProp : memberProps) {
-			XSComplexTypeDefinition typeDef = (XSComplexTypeDefinition) memberProp
-					.getTypeDefinition();
-			ETSAssert.assertValidPropertyType(model, typeDef, gmlObj);
+			ETSAssert.assertValidPropertyType(model, memberProp, gmlObj);
 		}
 	}
 }

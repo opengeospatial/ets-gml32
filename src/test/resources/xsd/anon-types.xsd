@@ -19,47 +19,28 @@
 			</complexContent>
 		</complexType>
 	</element>
-	<element name="RoadSegments" substitutionGroup="gml:AbstractFeature">
-		<complexType>
-			<complexContent>
-				<extension base="gml:AbstractFeatureType">
-					<sequence>
-						<element name="FID" minOccurs="0" type="string" />
-						<element name="NAME" minOccurs="0" type="string" />
-						<element name="geometry" minOccurs="0"
-							type="gml:MultiCurvePropertyType" />
-					    <element name="metadata1" minOccurs="0" type="app:EmptyMetadataPropertyType" />
-						<element name="metadata1a" minOccurs="0">
-							<complexType>
-								<complexContent>
-									<extension base="gml:AbstractMetadataPropertyType">
-										<sequence />
-										<attributeGroup ref="gml:AssociationAttributeGroup" />
-									</extension>
-								</complexContent>
-							</complexType>
-						</element>
-						<element ref="app:metadata2" minOccurs="0" />
-					</sequence>
-				</extension>
-			</complexContent>
-		</complexType>
-	</element>
-	<element name="metadata2">
-		<complexType>
-			<complexContent>
-				<extension base="gml:AbstractMetadataPropertyType">
-					<sequence />
-					<attributeGroup ref="gml:AssociationAttributeGroup" />
-				</extension>
-			</complexContent>
-		</complexType>
-	</element>
-	<complexType name="EmptyMetadataPropertyType">
+	<element name="RoadSegments" type="app:RoadSegmentsType"
+		substitutionGroup="gml:AbstractFeature" />
+	<complexType name="RoadSegmentsType">
 		<complexContent>
-			<extension base="gml:AbstractMetadataPropertyType">
-				<sequence />
-				<attributeGroup ref="gml:AssociationAttributeGroup" />
+			<extension base="gml:AbstractFeatureType">
+				<sequence>
+					<element name="FID" minOccurs="0" type="string" />
+					<element name="NAME" minOccurs="0" type="string" />
+					<element name="geometry" minOccurs="0"
+						type="gml:MultiCurvePropertyType" />
+					<element name="metadata" minOccurs="0">
+						<complexType>
+							<complexContent>
+								<extension base="gml:AbstractMetadataPropertyType">
+								    <!-- ERROR: Unspecified value -->
+									<sequence />
+									<attributeGroup ref="gml:AssociationAttributeGroup" />
+								</extension>
+							</complexContent>
+						</complexType>
+					</element>
+				</sequence>
 			</extension>
 		</complexContent>
 	</complexType>
