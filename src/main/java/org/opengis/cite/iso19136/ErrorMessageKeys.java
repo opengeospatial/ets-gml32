@@ -42,6 +42,7 @@ public class ErrorMessageKeys {
     public static final String EXT_BOUNDARY_ORIENT = "ExteriorBoundaryOrientation";
     public static final String INT_BOUNDARY_ORIENT = "InteriorBoundaryOrientation";
     public static final String MD_PROP_UNSPECIFIED = "MetadataPropertyUnspecified";
+    public static final String COORD_DIM_ERR = "CoordinateDimensionErr";
 
     private ErrorMessageKeys() {
     }
