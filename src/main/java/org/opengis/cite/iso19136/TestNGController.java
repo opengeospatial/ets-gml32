@@ -1,26 +1,27 @@
 package org.opengis.cite.iso19136;
 
-import com.occamlab.te.spi.executors.TestRunExecutor;
-import com.occamlab.te.spi.executors.testng.TestNGExecutor;
-import com.occamlab.te.spi.jaxrs.TestSuiteController;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Source;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathFactory;
 
 import org.opengis.cite.iso19136.util.TestSuiteLogger;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
+import com.occamlab.te.spi.executors.TestRunExecutor;
+import com.occamlab.te.spi.executors.testng.TestNGExecutor;
+import com.occamlab.te.spi.jaxrs.TestSuiteController;
 
 /**
  * Main test run controller that executes TestNG test suites.
@@ -124,38 +125,40 @@ public class TestNGController implements TestSuiteController {
      * any of the checks fail.
      * 
      * At least one of the test run arguments
-     * {@link org.opengis.cite.iso19136.TestRunArg#XSD} or
-     * {@link org.opengis.cite.iso19136.TestRunArg#GML} must be present.
+     * {@link org.opengis.cite.iso19136.TestRunArg#GML} or
+     * {@link org.opengis.cite.iso19136.TestRunArg#IUT} must be present.
      * 
      * @param testRunArgs
      *            A DOM Document containing a set of XML properties (key-value
      *            pairs).
-     * @throws Exception
+     * @throws IllegalArgumentException
      *             If any arguments are missing or deemed to be invalid for some
      *             reason.
-     * 
+     *
      * @see java.util.Properties#loadFromXML(java.io.InputStream) loadFromXML
      */
     void validateTestRunArgs(Document testRunArgs) throws Exception {
         if (null == testRunArgs
-                || testRunArgs.getElementsByTagName("entry").getLength() == 0) {
-            throw new Exception("No test run arguments were supplied.");
+                || !testRunArgs.getDocumentElement().getLocalName()
+                        .equals("properties")) {
+            throw new IllegalArgumentException(
+                    "Input is not an XML properties document.");
         }
-        XPath xpath = XPathFactory.newInstance().newXPath();
-        Boolean hasIUTKey = (Boolean) xpath.evaluate(
-                String.format("//entry[@key='%s']", TestRunArg.IUT),
-                testRunArgs, XPathConstants.BOOLEAN);
-        Boolean hasSchemaKey = (Boolean) xpath.evaluate(
-                String.format("//entry[@key='%s']", TestRunArg.XSD),
-                testRunArgs, XPathConstants.BOOLEAN);
-        Boolean hasDataKey = (Boolean) xpath.evaluate(
-                String.format("//entry[@key='%s']", TestRunArg.GML),
-                testRunArgs, XPathConstants.BOOLEAN);
-        if (!(hasSchemaKey || hasDataKey || hasIUTKey)) {
-            throw new Exception(
-                    String.format(
-                            "Missing argument: At least one of '%s', '%s', or '%s' must be present.",
-                            TestRunArg.XSD, TestRunArg.GML, TestRunArg.IUT));
+        NodeList entries = testRunArgs.getDocumentElement()
+                .getElementsByTagName("entry");
+        if (entries.getLength() == 0) {
+            throw new IllegalArgumentException("No test run arguments found.");
+        }
+        Map<String, String> args = new HashMap<String, String>();
+        for (int i = 0; i < entries.getLength(); i++) {
+            Element entry = (Element) entries.item(i);
+            args.put(entry.getAttribute("key"), entry.getTextContent());
+        }
+        if (!args.containsKey(TestRunArg.IUT.toString())
+                && !args.containsKey(TestRunArg.GML.toString())) {
+            throw new IllegalArgumentException(String.format(
+                    "Missing argument: '%s' or '%s' must be present.",
+                    TestRunArg.IUT, TestRunArg.GML));
         }
     }
 
