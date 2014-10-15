@@ -58,7 +58,7 @@ public class PropertyValueTests extends DataFixture {
      * @throws MalformedURLException
      *             If the codeSpace value is a malformed URL.
      */
-    @Test
+    @Test(description = "See ISO 19136: 9.4.2")
     public void validateLocationName() throws FileNotFoundException,
             MalformedURLException {
         Source source = new StreamSource(this.dataFile);
@@ -92,7 +92,7 @@ public class PropertyValueTests extends DataFixture {
      *             If a location reference is a malformed URL.
      * @throws URISyntaxException
      */
-    @Test
+    @Test(description = "See ISO 19136: 9.4.2")
     public void validateLocationReference() throws FileNotFoundException,
             MalformedURLException {
         InputStream inStream = new FileInputStream(this.dataFile);

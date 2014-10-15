@@ -35,7 +35,7 @@ public class LexicalConventionTests extends SchemaModelFixture {
      * 
      * @see "ISO 19136:2007, 7.1.2: Lexical conventions"
      */
-    @Test
+    @Test(description = "See ISO 19136: 7.1.2 (Object name)")
     public void verifyObjectNameIsUpperCamelCase() {
         ValidationErrorHandler errCollector = new ValidationErrorHandler();
         for (XSElementDeclaration gmlObject : gmlObjects) {
@@ -57,7 +57,7 @@ public class LexicalConventionTests extends SchemaModelFixture {
      * 
      * @see "ISO 19136:2007, 7.1.2: Lexical conventions"
      */
-    @Test
+    @Test(description = "See ISO 19136: 7.1.2 (Property name)")
     public void verifyObjectPropertyNameIsLowerCamelCase() {
         ValidationErrorHandler errCollector = new ValidationErrorHandler();
         for (XSElementDeclaration gmlObject : gmlObjects) {
@@ -93,7 +93,7 @@ public class LexicalConventionTests extends SchemaModelFixture {
      * 
      * @see "ISO 19136:2007, 7.1.2: Lexical conventions"
      */
-    @Test
+    @Test(description = "See ISO 19136: 7.1.2 (Abstract object)")
     public void verifyAbstractObjectName() {
         ValidationErrorHandler errCollector = new ValidationErrorHandler();
         for (XSElementDeclaration gmlObject : gmlObjects) {
@@ -115,7 +115,7 @@ public class LexicalConventionTests extends SchemaModelFixture {
      * 
      * @see "ISO 19136:2007, 7.1.2: Lexical conventions"
      */
-    @Test
+    @Test(description = "See ISO 19136: 7.1.2 (Complex type name)")
     public void verifyComplexTypeName() {
         ValidationErrorHandler errCollector = new ValidationErrorHandler();
         Set<XSComplexTypeDefinition> typeDefs = XMLSchemaModelUtils

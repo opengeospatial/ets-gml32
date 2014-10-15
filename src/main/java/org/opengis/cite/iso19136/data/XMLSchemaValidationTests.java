@@ -57,7 +57,7 @@ public class XMLSchemaValidationTests extends DataFixture {
      * @throws SAXException
      *             If a fatal error occurs (e.g. instance is not well-formed).
      */
-    @Test
+    @Test(description = "See ISO 19136: A.3.4")
     public void isXMLSchemaValid() throws SAXException {
         Validator validator = this.appSchema.newValidator();
         ValidationErrorHandler errHandler = new ValidationErrorHandler();

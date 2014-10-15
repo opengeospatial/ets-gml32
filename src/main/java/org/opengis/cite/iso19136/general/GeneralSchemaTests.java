@@ -88,7 +88,7 @@ public class GeneralSchemaTests {
      * <li>ISO 19136:2007, cl. A.1.1.1 (Use of XML Namespaces)</li>
      * </ul>
      */
-    @Test
+    @Test(description = "See ISO 19136: 21.2.2, A.1.1.1")
     public void declareTargetNamespace() {
         Assert.assertTrue(targetNamespace.isAbsolute(), ErrorMessage.format(
                 ErrorMessageKeys.RELATIVE_NS, targetNamespace.toString()));
@@ -107,7 +107,7 @@ public class GeneralSchemaTests {
      * <li>ISO 19136:2007, cl. A.1.1.3 (Import of GML schema components)</li>
      * </ul>
      */
-    @Test
+    @Test(description = "See ISO 19136: 21.2.3, A.1.1.3")
     public void importFullGMLSchema() {
         XSNamedMap gmlElemDecls = model.getComponentsByNamespace(
                 XSConstants.ELEMENT_DECLARATION, GML32.NS_NAME);
@@ -139,7 +139,7 @@ public class GeneralSchemaTests {
      * </ul>
      * 
      */
-    @Test
+    @Test(description = "See ISO 19136: 21.2.1, A.1.1.2")
     public void declaresGMLObjects() {
         schemaInfo.setFeatureTypes(XMLSchemaModelUtils
                 .getFeatureDeclarations(model));

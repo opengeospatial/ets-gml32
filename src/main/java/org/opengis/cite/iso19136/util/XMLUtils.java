@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
-
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -28,6 +27,8 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import net.sf.saxon.Configuration;
+import net.sf.saxon.dom.NodeOverNodeInfo;
 import net.sf.saxon.s9api.DOMDestination;
 import net.sf.saxon.s9api.DocumentBuilder;
 import net.sf.saxon.s9api.Processor;
@@ -39,6 +40,7 @@ import net.sf.saxon.s9api.XdmValue;
 import net.sf.saxon.s9api.XsltCompiler;
 import net.sf.saxon.s9api.XsltExecutable;
 import net.sf.saxon.s9api.XsltTransformer;
+import net.sf.saxon.xpath.XPathFactoryImpl;
 
 import org.opengis.cite.iso19136.Namespaces;
 import org.w3c.dom.Document;
@@ -53,6 +55,13 @@ import org.xml.sax.SAXException;
  * representations.
  */
 public class XMLUtils {
+
+    private static final XPathFactory XPATH_FACTORY = initXPathFactory();
+
+    private static XPathFactory initXPathFactory() {
+        XPathFactory factory = XPathFactory.newInstance();
+        return factory;
+    }
 
     /**
      * Writes the content of a DOM Node to a String. An XML declaration is
@@ -132,13 +141,24 @@ public class XMLUtils {
     public static NodeList evaluateXPath(Node context, String expr,
             Map<String, String> namespaceBindings)
             throws XPathExpressionException {
-        return (NodeList) evaluateXPath(context, expr, namespaceBindings,
+        Object result = evaluateXPath(context, expr, namespaceBindings,
                 XPathConstants.NODESET);
+        if (!NodeList.class.isInstance(result)) {
+            throw new XPathExpressionException(
+                    "Expression does not evaluate to a NodeList: " + expr);
+        }
+        return (NodeList) result;
     }
 
     /**
-     * Evaluates an XPath 1.0 expression using the given context and returns the
+     * Evaluates an XPath expression using the given context and returns the
      * result as the specified type.
+     * 
+     * <p>
+     * <strong>Note:</strong> The Saxon implementation supports XPath 2.0
+     * expressions when using the JAXP XPath APIs (the default implementation
+     * will throw an exception).
+     * </p>
      * 
      * @param context
      *            The context node.
@@ -161,9 +181,19 @@ public class XMLUtils {
             throws XPathExpressionException {
         NamespaceBindings bindings = NamespaceBindings.withStandardBindings();
         bindings.addAllBindings(namespaceBindings);
-        XPath xpath = XPathFactory.newInstance().newXPath();
+        XPathFactory factory = XPATH_FACTORY;
+        if (NodeOverNodeInfo.class.isInstance(context)
+                && XPathFactoryImpl.class.isInstance(factory)) {
+            // Use same configuration to prevent IllegalArgumentException
+            NodeOverNodeInfo doc = NodeOverNodeInfo.class.cast(context);
+            Configuration config = doc.getUnderlyingNodeInfo()
+                    .getConfiguration();
+            factory = new XPathFactoryImpl(config);
+        }
+        XPath xpath = factory.newXPath();
         xpath.setNamespaceContext(bindings);
-        return xpath.evaluate(expr, context, returnType);
+        Object result = xpath.evaluate(expr, context, returnType);
+        return result;
     }
 
     /**
@@ -210,7 +240,7 @@ public class XMLUtils {
         }
         NamespaceBindings bindings = NamespaceBindings.withStandardBindings();
         bindings.addAllBindings(namespaceBindings);
-        XPath xpath = XPathFactory.newInstance().newXPath();
+        XPath xpath = XPATH_FACTORY.newXPath();
         xpath.setNamespaceContext(bindings);
         return xpath.evaluate(expr, xmlSource, returnType);
     }

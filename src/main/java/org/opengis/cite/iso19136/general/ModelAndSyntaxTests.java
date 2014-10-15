@@ -44,7 +44,7 @@ public class ModelAndSyntaxTests extends SchemaModelFixture {
      * <li>ISO 19136:2007, A.1.1.7: Property elements are not object elements</li>
      * </ul>
      */
-    @Test
+    @Test(description = "See ISO 19136: 7.1.3, A.1.1.7")
     public void verifyGMLObjectPropertyPattern() {
         ValidationErrorHandler errCollector = new ValidationErrorHandler();
         for (XSElementDeclaration gmlObject : gmlObjects) {

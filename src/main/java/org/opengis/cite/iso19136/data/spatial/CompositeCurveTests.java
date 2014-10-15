@@ -65,7 +65,7 @@ public class CompositeCurveTests extends DataFixture {
      * <li>ISO 19136, 11.2.2.2: CompositeCurveType, CompositeCurve</li>
      * </ul>
      */
-    @Test(description = "urn:iso:std:iso:19136:clause:11.2.2.2")
+    @Test(description = "See ISO 19136: 11.2.2.2")
     public void compositeCurveComponentsAreConnected() {
         for (int i = 0; i < this.curveNodes.getLength(); i++) {
             Element curveElem = (Element) this.curveNodes.item(i);

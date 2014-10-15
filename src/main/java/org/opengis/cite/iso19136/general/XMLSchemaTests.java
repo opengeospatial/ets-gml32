@@ -87,7 +87,7 @@ public class XMLSchemaTests {
      * @throws IOException
      *             If a schema resource cannot be accessed for any reason.
      */
-    @Test(timeOut = COMPILE_TIMEOUT)
+    @Test(description = "See ISO 19136: A.1.1.4", timeOut = COMPILE_TIMEOUT)
     public void compileXMLSchema(ITestContext testContext) throws SAXException,
             IOException {
         logr.log(Level.INFO, "Compiling schemas...\n" + xsdLocations);

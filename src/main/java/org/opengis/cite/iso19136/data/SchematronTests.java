@@ -130,7 +130,7 @@ public class SchematronTests extends DataFixture {
      * Schematron constraints for ISO 19136</a></li>
      * </ul>
      */
-    @Test
+    @Test(description = "Checks general Schematron rules specified in ISO 19136")
     public void checkGMLSchematronConstraints() {
         URL schRef = this.getClass().getResource(
                 "/org/opengis/cite/iso19136/sch/gml-3.2.1.sch");
@@ -144,7 +144,7 @@ public class SchematronTests extends DataFixture {
      * 
      * @see "ISO 19136, Annex I: Backwards compatibility with earlier versions of GML"
      */
-    @Test
+    @Test(description = "See ISO 19136: Annex I")
     public void checkForDeprecatedGMLElements() {
         URL schRef = this.getClass().getResource(
                 "/org/opengis/cite/iso19136/sch/gml-deprecated-3.2.1.sch");
@@ -157,7 +157,7 @@ public class SchematronTests extends DataFixture {
      * constraints associated with it using either the {@code xml-model}
      * processing instruction or the {@code sch} test run argument.
      */
-    @Test
+    @Test(description = "Checks application-specific Schematron rules")
     public void checkSchematronConstraints() {
         if (null == this.dataValidator) {
             throw new SkipException("Schematron schema reference not found.");

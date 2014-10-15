@@ -113,7 +113,7 @@ public class EnvelopeTests extends DataFixture {
      * @see <a href="http://portal.opengeospatial.org/files/?artifact_id=37802"
      *      target="_blank">OGC 09-048r3</a>
      */
-    @Test(description = "urn:iso:std:iso:19136:clause:10.1.3.2")
+    @Test(description = "See ISO 19136: 10.1.3.2")
     public void envelopeHasCRSReference() {
         for (int i = 0; i < this.envelopes.size(); i++) {
             CoordinateReferenceSystem crs = this.envelopes.get(i)
@@ -131,7 +131,7 @@ public class EnvelopeTests extends DataFixture {
      * 
      * @see "ISO 19107: cl. 6.4.3.2, 6.4.3.3"
      */
-    @Test(description = "urn:iso:std:iso:19107:clause:6.4.3.2,6.4.3.3")
+    @Test(description = "See ISO 19107: 6.4.3.2, 6.4.3.3")
     public void checkEnvelopePositions() {
         for (int i = 0; i < this.envelopes.size(); i++) {
             EnvelopeType env = this.envelopes.get(i);

@@ -77,7 +77,8 @@ public class SurfaceTests extends DataFixture {
             throw new RuntimeException(xpe);
         }
         if (this.surfaceNodes.getLength() == 0) {
-            throw new SkipException("No surface elements (that substitute for gml:Surface) were found.");
+            throw new SkipException(
+                    "No surface elements (that substitute for gml:Surface) were found.");
         }
     }
 
@@ -91,7 +92,7 @@ public class SurfaceTests extends DataFixture {
      * <li>ISO 19107, cl. 6.2.2.17 (Coordinate Reference System association)</li>
      * </ul>
      */
-    @Test(description = "urn:iso:std:iso:19136:clause:9.10,10.1.3.2")
+    @Test(description = "See ISO 19136: 9.10, 10.1.3.2; ISO 19107: 6.2.2.17")
     public void surfaceHasValidCRS() {
         for (int i = 0; i < this.surfaceNodes.getLength(); i++) {
             Element geom = (Element) this.surfaceNodes.item(i);
@@ -116,7 +117,7 @@ public class SurfaceTests extends DataFixture {
      * <li>ISO 19107:2003, cl. 6.3.7.2: exterior, interior</li>
      * </ul>
      */
-    @Test(description = "urn:iso:std:iso:19136:clause:10.5.5,10.5.11.1")
+    @Test(description = "See ISO 19136: 10.5.5, 10.5.11.1; ISO 19107: 6.3.6, 6.3.7.2")
     public void validSurfaceBoundary() {
         for (int i = 0; i < this.surfaceNodes.getLength(); i++) {
             Element surface = (Element) this.surfaceNodes.item(i);
@@ -137,7 +138,7 @@ public class SurfaceTests extends DataFixture {
      * <li>ISO 19107:2003, cl. 6.4.34: GM_SurfacePatch</li>
      * </ul>
      */
-    @Test(description = "urn:iso:std:iso:19136:clause:10.5.10")
+    @Test(description = "See ISO 19136: 10.5.10; ISO 19107: 6.3.17, 6.4.34")
     public void validSurfaceOrientation() {
         for (int i = 0; i < this.surfaceNodes.getLength(); i++) {
             Element surface = (Element) this.surfaceNodes.item(i);

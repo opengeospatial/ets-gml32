@@ -44,86 +44,86 @@ import org.testng.annotations.Test;
  */
 public class TemporalComponentTests extends SchemaModelFixture {
 
-	private XSTypeDefinition timeBaseType;
+    private XSTypeDefinition timeBaseType;
 
-	public TemporalComponentTests() {
-		super();
-	}
+    public TemporalComponentTests() {
+        super();
+    }
 
-	/**
-	 * Determines if the application schema contains any temporal components
-	 * (elements or type definitions). If not, all tests in this group are
-	 * skipped.
-	 * 
-	 * @param testContext
-	 *            The test (set) context.
-	 */
-	@BeforeTest
-	public void hasTemporalComponents(ITestContext testContext) {
-		if (null == this.model) {
-			this.model = (XSModel) testContext.getSuite().getAttribute(
-					SuiteAttribute.XSMODEL.getName());
-		}
-		timeBaseType = this.model.getTypeDefinition(GML32.ABSTRACT_TIME_TYPE,
-				GML32.NS_NAME);
-		// types derived by extension from gml:AbstractTimeObjectType
-		List<XSElementDeclaration> timeElements = XMLSchemaModelUtils
-				.getGlobalElementsByType(this.model, timeBaseType);
-		XSElementDeclaration abstractTime = this.model.getElementDeclaration(
-				GML32.ABSTRACT_TIME, GML32.NS_NAME);
-		// implicit temporal property types
-		List<XSElementDeclaration> timeProps = XMLSchemaModelUtils
-				.getImplicitProperties(this.model, abstractTime);
-		Assert.assertFalse(timeElements.isEmpty() && timeProps.isEmpty(),
-				"No temporal (property) components found in schema.");
-	}
+    /**
+     * Determines if the application schema contains any temporal components
+     * (elements or type definitions). If not, all tests in this group are
+     * skipped.
+     * 
+     * @param testContext
+     *            The test (set) context.
+     */
+    @BeforeTest
+    public void hasTemporalComponents(ITestContext testContext) {
+        if (null == this.model) {
+            this.model = (XSModel) testContext.getSuite().getAttribute(
+                    SuiteAttribute.XSMODEL.getName());
+        }
+        timeBaseType = this.model.getTypeDefinition(GML32.ABSTRACT_TIME_TYPE,
+                GML32.NS_NAME);
+        // types derived by extension from gml:AbstractTimeObjectType
+        List<XSElementDeclaration> timeElements = XMLSchemaModelUtils
+                .getGlobalElementsByType(this.model, timeBaseType);
+        XSElementDeclaration abstractTime = this.model.getElementDeclaration(
+                GML32.ABSTRACT_TIME, GML32.NS_NAME);
+        // implicit temporal property types
+        List<XSElementDeclaration> timeProps = XMLSchemaModelUtils
+                .getImplicitProperties(this.model, abstractTime);
+        Assert.assertFalse(timeElements.isEmpty() && timeProps.isEmpty(),
+                "No temporal (property) components found in schema.");
+    }
 
-	/**
-	 * [{@code Test}] All temporal types (elements) declared in an application
-	 * schema must substitute for {@code gml:AbstractTimeObject}.
-	 * 
-	 * @see "ISO 19136:2007, cl. 21.6.2.1: User-defined Temporal Types"
-	 */
-	@Test
-	public void substitutesForAbstractTimeObject() {
-		List<XSElementDeclaration> timeElems = XMLSchemaModelUtils
-				.getTimeObjectDeclarations(this.model);
-		Set<XSTypeDefinition> timeTypeDefs = XMLSchemaModelUtils
-				.getDerivedTypeDefinitions(this.model, timeBaseType,
-						XSConstants.DERIVATION_EXTENSION);
-		for (XSTypeDefinition typeDef : timeTypeDefs) {
-			List<XSElementDeclaration> timeDecls = XMLSchemaModelUtils
-					.getGlobalElementsByType(this.model, typeDef);
-			for (XSElementDeclaration timeDecl : timeDecls) {
-				Assert.assertTrue(timeElems.contains(timeDecl), ErrorMessage
-						.format(ErrorMessageKeys.SUBSTITUTION_ERROR, new QName(
-								timeDecl.getNamespace(), timeDecl.getName()),
-								"gml:AbstractTimeObject"));
-			}
-		}
-	}
+    /**
+     * [{@code Test}] All temporal types (elements) declared in an application
+     * schema must substitute for {@code gml:AbstractTimeObject}.
+     * 
+     * @see "ISO 19136:2007, cl. 21.6.2.1: User-defined Temporal Types"
+     */
+    @Test(description = "See ISO 19136: 21.6.2.1")
+    public void substitutesForAbstractTimeObject() {
+        List<XSElementDeclaration> timeElems = XMLSchemaModelUtils
+                .getTimeObjectDeclarations(this.model);
+        Set<XSTypeDefinition> timeTypeDefs = XMLSchemaModelUtils
+                .getDerivedTypeDefinitions(this.model, timeBaseType,
+                        XSConstants.DERIVATION_EXTENSION);
+        for (XSTypeDefinition typeDef : timeTypeDefs) {
+            List<XSElementDeclaration> timeDecls = XMLSchemaModelUtils
+                    .getGlobalElementsByType(this.model, typeDef);
+            for (XSElementDeclaration timeDecl : timeDecls) {
+                Assert.assertTrue(timeElems.contains(timeDecl), ErrorMessage
+                        .format(ErrorMessageKeys.SUBSTITUTION_ERROR, new QName(
+                                timeDecl.getNamespace(), timeDecl.getName()),
+                                "gml:AbstractTimeObject"));
+            }
+        }
+    }
 
-	/**
-	 * [{@code Test}] The value of a temporal property is an element
-	 * substitutable for gml:AbstractTimeObject. Temporal properties may be
-	 * defined explicitly (based on a pre-defined GML temporal property type) or
-	 * implicitly by mimicking the standard GML property type content model.
-	 * 
-	 * <h6 style="margin-bottom: 0.5em">Sources</h6>
-	 * <ul>
-	 * <li>ISO 19136:2007, cl. 9.7: Temporal Properties</li>
-	 * <li>ISO 19136:2007, cl. A.1.1.12: Temporal properties</li>
-	 * <li>ISO 19136:2007, cl. 21.6.2.2: User-defined Temporal Property Types</li>
-	 * </ul>
-	 */
-	@Test
-	public void validateImplicitTemporalProperty() {
-		XSElementDeclaration temporal = this.model.getElementDeclaration(
-				GML32.ABSTRACT_TIME, GML32.NS_NAME);
-		List<XSElementDeclaration> timeProps = XMLSchemaModelUtils
-				.getImplicitProperties(model, temporal);
-		for (XSElementDeclaration prop : timeProps) {
-			ETSAssert.assertValidPropertyType(this.model, prop, null);
-		}
-	}
+    /**
+     * [{@code Test}] The value of a temporal property is an element
+     * substitutable for gml:AbstractTimeObject. Temporal properties may be
+     * defined explicitly (based on a pre-defined GML temporal property type) or
+     * implicitly by mimicking the standard GML property type content model.
+     * 
+     * <h6 style="margin-bottom: 0.5em">Sources</h6>
+     * <ul>
+     * <li>ISO 19136:2007, cl. 9.7: Temporal Properties</li>
+     * <li>ISO 19136:2007, cl. A.1.1.12: Temporal properties</li>
+     * <li>ISO 19136:2007, cl. 21.6.2.2: User-defined Temporal Property Types</li>
+     * </ul>
+     */
+    @Test(description = "See ISO 19136: 9.7, 21.6.2.2, A.1.1.12")
+    public void validateImplicitTemporalProperty() {
+        XSElementDeclaration temporal = this.model.getElementDeclaration(
+                GML32.ABSTRACT_TIME, GML32.NS_NAME);
+        List<XSElementDeclaration> timeProps = XMLSchemaModelUtils
+                .getImplicitProperties(model, temporal);
+        for (XSElementDeclaration prop : timeProps) {
+            ETSAssert.assertValidPropertyType(this.model, prop, null);
+        }
+    }
 }
