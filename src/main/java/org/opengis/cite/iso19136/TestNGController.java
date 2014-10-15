@@ -47,19 +47,19 @@ public class TestNGController implements TestSuiteController {
     public static void main(String[] args) throws Exception {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
-        File xmlArgs = null;
+        File testArgs = null;
         if (args.length > 0) {
-            xmlArgs = (args[0].startsWith("file:")) ? new File(
+            testArgs = (args[0].startsWith("file:")) ? new File(
                     URI.create(args[0])) : new File(args[0]);
         } else {
             String homeDir = System.getProperty("user.home");
-            xmlArgs = new File(homeDir, "test-run-props.xml");
+            testArgs = new File(homeDir, "test-run-props.xml");
         }
-        if (!xmlArgs.exists()) {
+        if (!testArgs.exists()) {
             throw new IllegalArgumentException(
-                    "Test run arguments not found at " + xmlArgs);
+                    "Test run arguments not found at " + testArgs);
         }
-        Document testRunArgs = db.parse(xmlArgs);
+        Document testRunArgs = db.parse(testArgs);
         TestNGController controller = new TestNGController();
         Source testResults = controller.doTestRun(testRunArgs);
         System.out.println("Test results: " + testResults.getSystemId());
@@ -137,9 +137,9 @@ public class TestNGController implements TestSuiteController {
      *
      * @see java.util.Properties#loadFromXML(java.io.InputStream) loadFromXML
      */
-    void validateTestRunArgs(Document testRunArgs) throws Exception {
+    void validateTestRunArgs(Document testRunArgs) {
         if (null == testRunArgs
-                || !testRunArgs.getDocumentElement().getLocalName()
+                || !testRunArgs.getDocumentElement().getNodeName()
                         .equals("properties")) {
             throw new IllegalArgumentException(
                     "Input is not an XML properties document.");

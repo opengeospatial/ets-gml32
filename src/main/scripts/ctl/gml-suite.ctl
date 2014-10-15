@@ -46,26 +46,20 @@
 			   background-color:#F0F8FF; border-style: solid; border-width: medium; padding:4px">
 			   GML resource (application schema or data set)</legend>
             <p>
-              <label for="xsd-uri">
-                <h4 style="margin-bottom: 0.5em">Location of GML application schema (http: or file: URI)</h4>
-              </label>
-              <input id="xsd-uri" name="xsd-uri" size="128" type="text" value="" />
-            </p>
-            <p>
               <label for="gml-uri">
-                <h4 style="margin-bottom: 0.5em">Location of GML document (http: or file: URI)</h4>
+                <h4 style="margin-bottom: 0.5em">Location of GML resource (http: or file: URI)</h4>
               </label>
               <input id="gml-uri" name="gml-uri" size="128" type="text" value="" />
             </p>
             <p>
               <label for="gml-doc">
-                <h4 style="margin-bottom: 0.5em">Upload GML document</h4>
+                <h4 style="margin-bottom: 0.5em">Upload GML resource</h4>
               </label>
               <input name="gml-doc" size="128" type="file" />
             </p>
             <p>
               <label class="form-label" for="sch-uri">
-                <h4 style="margin-bottom: 0.5em">Location of Schematron schema defining supplementary constraints 
+                <h4 style="margin-bottom: 0.5em">Location of Schematron schema defining supplementary data constraints 
                 (http: or file: URI)</h4>
               </label>
               <input id="sch-uri" name="sch-uri" size="128" type="text" value="" />
@@ -80,7 +74,6 @@
       <xsl:variable name="gml-file" select="$form-data//value[@key='gml-doc']/ctl:file-entry/@full-path" />
       <xsl:variable name="test-run-props">
         <properties version="1.0">
-          <entry key="xsd"><xsl:value-of select="$form-data/values/value[@key='xsd-uri']"/></entry>
           <entry key="gml">
             <xsl:choose>
               <xsl:when test="empty($gml-file)">

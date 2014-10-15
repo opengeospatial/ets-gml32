@@ -33,26 +33,20 @@ public class VerifySuiteFixtureListener {
         when(suite.getXmlSuite()).thenReturn(xmlSuite);
     }
 
-    @Test
-    @SuppressWarnings("rawtypes")
+    @Test(expected = IllegalArgumentException.class)
     public void noSuiteParameters() {
         Map<String, String> params = new HashMap<String, String>();
         when(xmlSuite.getParameters()).thenReturn(params);
-        ArgumentCaptor<Set> uriSet = ArgumentCaptor.forClass(Set.class);
         SuiteFixtureListener iut = new SuiteFixtureListener();
         iut.onStart(suite);
-        verify(suite).setAttribute(
-                Matchers.eq(SuiteAttribute.SCHEMA_LOC_SET.getName()),
-                uriSet.capture());
-        assertTrue("Expected empty set of URIs.", uriSet.getValue().isEmpty());
     }
 
     @Test
     @SuppressWarnings("rawtypes")
-    public void processSchemaParameter() throws URISyntaxException {
+    public void processIUTParameter() throws URISyntaxException {
         URL url = this.getClass().getResource("/xsd/gamma.xsd");
         Map<String, String> params = new HashMap<String, String>();
-        params.put(TestRunArg.XSD.toString(), url.toURI().toString());
+        params.put(TestRunArg.IUT.toString(), url.toURI().toString());
         when(xmlSuite.getParameters()).thenReturn(params);
         ArgumentCaptor<Set> uriSet = ArgumentCaptor.forClass(Set.class);
         SuiteFixtureListener iut = new SuiteFixtureListener();

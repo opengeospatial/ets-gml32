@@ -17,6 +17,7 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.StartElement;
 import javax.xml.transform.stream.StreamSource;
+
 import org.opengis.cite.iso19136.util.TestSuiteLogger;
 import org.opengis.cite.iso19136.util.URIUtils;
 import org.opengis.cite.iso19136.util.ValidationUtils;
@@ -43,7 +44,7 @@ public class SuiteFixtureListener implements ISuiteListener {
     public void onStart(ISuite suite) {
         Reporter.clear(); // clear output from previous test runs
         processIUTParameter(suite);
-        processRequiredSuiteParameters(suite);
+        processSchemaReferences(suite);
         processSchematronSchema(suite);
         StringBuilder str = new StringBuilder("Initial test run parameters: ");
         str.append(suite.getXmlSuite().getAllParameters().toString());
@@ -66,7 +67,7 @@ public class SuiteFixtureListener implements ISuiteListener {
      * parameter. Its value is a URI referring to either an application schema
      * or a GML document. If the resource is an XML Schema the
      * {@link org.opengis.cite.iso19136.TestRunArg#XSD} parameter is set;
-     * otherwise it is assumed to be a data resource.
+     * otherwise it is assumed to be a GML data resource.
      * 
      * @param suite
      *            An ISuite object representing a TestNG test suite.
@@ -74,67 +75,75 @@ public class SuiteFixtureListener implements ISuiteListener {
     void processIUTParameter(ISuite suite) {
         Map<String, String> params = suite.getXmlSuite().getParameters();
         String iutRef = params.get(TestRunArg.IUT.toString());
-        if ((iutRef != null) && !iutRef.isEmpty()) {
-            try {
-                File iutFile = URIUtils.resolveURIAsFile(URI.create(iutRef));
-                if (isXMLSchema(iutFile)) {
-                    params.put(TestRunArg.XSD.toString(), iutRef);
-                } else {
-                    params.put(TestRunArg.GML.toString(), iutRef);
-                }
-            } catch (Exception x) {
-                throw new RuntimeException("Failed to read resource from "
-                        + iutRef, x);
-            }
-            params.remove(TestRunArg.IUT.toString());
+        if (null == iutRef || iutRef.isEmpty()) {
+            return;
         }
+        try {
+            File iutFile = URIUtils.resolveURIAsFile(URI.create(iutRef));
+            if (isXMLSchema(iutFile)) {
+                params.put(TestRunArg.XSD.toString(), iutRef);
+            } else {
+                params.put(TestRunArg.GML.toString(), iutRef);
+            }
+        } catch (Exception x) {
+            throw new RuntimeException(
+                    "Failed to read resource from " + iutRef, x);
+        }
+        params.remove(TestRunArg.IUT.toString());
     }
 
     /**
-     * Processes test suite parameters and sets suite attributes accordingly.
-     * For example, adding the URI given by the "xsd" parameter to the
-     * {@link SuiteAttribute#SCHEMA_LOC_SET} attribute ({@code Set<URI>}).
-     * 
-     * If both arguments are present, the schema(s) referenced by the
-     * xsi:schemaLocation attribute in the GML instance document takes
-     * precedence over the value of the
-     * {@link org.opengis.cite.iso19136.TestRunArg#XSD} parameter.
+     * Extracts schema references from the GML resource identified by the
+     * supplied test run argument. If this is a GML instance document, the value
+     * of the standard xsi:schemaLocation attribute is used to locate the
+     * application schema(s). The schema references are added as the suite
+     * attribute {@link SuiteAttribute#SCHEMA_LOC_SET SCHEMA_LOC_SET} (of type
+     * Set&lt;URI&gt;).
      * 
      * @param suite
      *            An ISuite object representing a TestNG test suite.
      */
-    void processRequiredSuiteParameters(ISuite suite) {
+    void processSchemaReferences(ISuite suite) {
         Map<String, String> params = suite.getXmlSuite().getParameters();
         TestSuiteLogger.log(Level.CONFIG,
                 "Suite parameters\n" + params.toString());
-        String dataURI = params.get(TestRunArg.GML.toString());
-        File dataFile = null;
         Set<URI> schemaURIs = new HashSet<URI>();
-        if ((dataURI != null) && !dataURI.isEmpty()) {
-            try {
-                dataFile = URIUtils.resolveURIAsFile(URI.create(dataURI));
-                schemaURIs.addAll(ValidationUtils.extractSchemaReferences(
-                        new StreamSource(dataFile), dataURI));
-            } catch (IOException iox) {
-                throw new RuntimeException("Failed to obtain data from "
-                        + dataURI, iox);
-            } catch (XMLStreamException xse) {
-                throw new RuntimeException(
-                        "Failed to get schema reference from source: "
-                                + dataFile.getAbsolutePath(), xse);
-            }
-        } else if (null != params.get(TestRunArg.XSD.toString())) {
-            String xsdParam = params.get(TestRunArg.XSD.toString());
-            schemaURIs.add(URI.create(xsdParam));
-        } else {
-            String msg = "Missing required test run parameters: 'gml' or 'xsd' not found";
-            TestSuiteLogger.log(Level.SEVERE, msg);
-            Reporter.log(msg);
+        String xsdURI = params.get(TestRunArg.XSD.toString());
+        if (null != xsdURI && !xsdURI.isEmpty()) {
+            schemaURIs.add(URI.create(xsdURI));
+            suite.setAttribute(SuiteAttribute.SCHEMA_LOC_SET.getName(),
+                    schemaURIs);
+            return;
         }
-        if (null != dataFile && dataFile.exists()) {
-            suite.setAttribute(SuiteAttribute.GML.getName(), dataFile);
-            TestSuiteLogger.log(Level.FINE,
-                    "GML data file: " + dataFile.getAbsolutePath());
+        String gmlURI = params.get(TestRunArg.GML.toString());
+        if (null == gmlURI || gmlURI.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Missing reference to GML document or application schema.");
+        }
+        File gmlFile = null;
+        try {
+            gmlFile = URIUtils.resolveURIAsFile(URI.create(gmlURI));
+            if (null == gmlFile || !gmlFile.exists()) {
+                throw new IllegalArgumentException(
+                        "Failed to dereference URI: " + gmlURI);
+            }
+            if (isXMLSchema(gmlFile)) {
+                params.put(TestRunArg.XSD.toString(), gmlURI);
+                schemaURIs.add(URI.create(gmlURI));
+            } else {
+                schemaURIs.addAll(ValidationUtils.extractSchemaReferences(
+                        new StreamSource(gmlFile), gmlURI));
+                suite.setAttribute(SuiteAttribute.GML.getName(), gmlFile);
+                TestSuiteLogger.log(Level.FINE,
+                        "GML document: " + gmlFile.getAbsolutePath());
+            }
+        } catch (IOException iox) {
+            throw new RuntimeException("Failed to read resource obtained from "
+                    + gmlURI, iox);
+        } catch (XMLStreamException xse) {
+            throw new RuntimeException(
+                    "Failed to find schema reference in source: "
+                            + gmlFile.getAbsolutePath(), xse);
         }
         suite.setAttribute(SuiteAttribute.SCHEMA_LOC_SET.getName(), schemaURIs);
         if (TestSuiteLogger.isLoggable(Level.FINE)) {
@@ -160,7 +169,8 @@ public class SuiteFixtureListener implements ISuiteListener {
     }
 
     /**
-     * Determines if the content of the given file represents an XML Schema.
+     * Determines if the content of the given file represents an XML Schema. The
+     * document element must be {"http://www.w3.org/2001/XMLSchema"}schema.
      * 
      * @param file
      *            A File object.
