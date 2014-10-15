@@ -311,14 +311,13 @@ schema may be validated by itself without a referring document.</p>
       <td>URI</td>
       <td>M</td>
       <td>An absolute URI that refers to either a representation of a GML data instance or an 
-      application schema <sup>1</sup>.</td>
+      application schema<sup>1</sup>.</td>
     </tr>
     <tr>
       <td>sch</td>
       <td>URI</td>
       <td>O</td>
-      <td>A URI referring to a Schematron schema that defines supplementary data constraints
-        <sup>2</sup>.</td>
+      <td>A URI referring to a Schematron schema that defines supplementary data constraints<sup>2</sup>.</td>
     </tr>
     <tr>
       <td colspan="4">

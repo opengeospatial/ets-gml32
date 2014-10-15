@@ -57,11 +57,10 @@
     <p>This executable test suite (ETS) verifies the conformance of GML data and application schemas
       with respect to ISO 19136:2007 (GML 3.2.1). It can be used to validate a GML <strong>application
       schema</strong> or an <strong>instance document</strong>; both types of resources are referenced 
-      by URI. A GML instance document can also refer to a Schematron schema that defines additional 
-      constraints; this is done by including a schema reference using the <code>xml-model</code> 
-      processing instruction (PI) as described in the W3C group note <em><a target="_blank" 
-      href="http://www.w3.org/TR/xml-model/">Associating Schemas with XML documents 1.0 (Third Edition)</a>
-      </em>.</p>
+      by URI. A GML instance document may refer to a Schematron schema that defines application-specific 
+      constraints; this is accomplished using the <code>xml-model</code> processing instruction (PI) as 
+      described in <a href="http://standards.iso.org/ittf/PubliclyAvailableStandards/c054793_ISO_IEC_19757-11_2011.zip" 
+      target="_blank">ISO 19757-11</a>.</p>
 
     <p>The test run arguments are summarized in the following table. The <em>Obligation</em> descriptor 
     can have the following values: M (mandatory), O (optional), or C (conditional). A GML application 
@@ -83,14 +82,13 @@
           <td>URI</td>
           <td>M</td>
           <td>An absolute URI that refers to either a representation of a GML data instance or an 
-      application schema <sup>1</sup>.</td>
+      application schema<sup>1</sup>.</td>
         </tr>
         <tr>
           <td>sch</td>
           <td>URI</td>
           <td>O</td>
-          <td>A URI referring to a Schematron schema that defines supplementary data constraints
-            <sup>2</sup>.</td>
+          <td>A URI referring to a Schematron schema that defines supplementary data constraints<sup>2</sup>.</td>
         </tr>
         <tr>
           <td colspan="4">
