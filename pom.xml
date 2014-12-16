@@ -1,16 +1,18 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.opengis.cite</groupId>
     <artifactId>ets-common</artifactId>
-    <version>2</version>
+    <version>3</version>
   </parent>
   <artifactId>ets-gml32</artifactId>
-  <version>3.2.1-r19-SNAPSHOT</version>
+  <version>19-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>GML 3.2 (ISO 19136:2007) Conformance Test Suite</name>
+  <name>GML (ISO 19136:2007) Conformance Test Suite, Version 3.2.1</name>
   <description>
   Checks GML application schemas or data sets for conformance to ISO 19136:2007.
   </description>
@@ -39,7 +41,7 @@
     <developer>
       <name>R. Martell</name>
       <url>https://github.com/rjmartell</url>
-      <timezone>America/Vancouver</timezone>
+      <timezone>Canada/Pacific</timezone>
     </developer>
   </developers>
 

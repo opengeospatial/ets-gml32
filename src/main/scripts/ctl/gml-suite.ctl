@@ -77,7 +77,7 @@
           <entry key="gml">
             <xsl:choose>
               <xsl:when test="empty($gml-file)">
-                <xsl:value-of select="$form-data/values/value[@key='gml-uri']"/>
+                <xsl:value-of select="normalize-space($form-data/values/value[@key='gml-uri'])"/>
               </xsl:when>
               <xsl:otherwise>
                 <xsl:copy-of select="concat('file:///', $gml-file)" />
