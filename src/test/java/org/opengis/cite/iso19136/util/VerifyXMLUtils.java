@@ -1,5 +1,7 @@
 package org.opengis.cite.iso19136.util;
 
+import static org.junit.Assert.*;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
@@ -9,8 +11,6 @@ import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPathExpressionException;
-
-import static junit.framework.Assert.*;
 
 import org.junit.BeforeClass;
 import org.junit.Test;

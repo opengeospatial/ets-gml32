@@ -22,46 +22,46 @@ import org.xml.sax.SAXException;
  */
 public class VerifyFeatureTypeFilter {
 
-    private static final String APP_NS = "http://www.deegree.org/app";
-    private static XmlSchemaCompiler xsdCompiler;
+	private static final String APP_NS = "http://www.deegree.org/app";
+	private static XmlSchemaCompiler xsdCompiler;
 
-    public VerifyFeatureTypeFilter() {
-    }
+	public VerifyFeatureTypeFilter() {
+	}
 
-    @BeforeClass
-    public static void initSchemaCompiler() {
-        URL schemaCatalog = VerifyXMLSchemaModelUtils.class
-                .getResource("/schema-catalog.xml");
-        xsdCompiler = new XmlSchemaCompiler(schemaCatalog);
-    }
+	@BeforeClass
+	public static void initSchemaCompiler() {
+		URL schemaCatalog = VerifyXMLSchemaModelUtils.class
+				.getResource("/schema-catalog.xml");
+		xsdCompiler = new XmlSchemaCompiler(schemaCatalog);
+	}
 
-    @Test
-    public void filterAnonFeatureType() throws SAXException, IOException {
-        URL url = this.getClass().getResource("/xsd/autos-anon.xsd");
-        Schema xsd = xsdCompiler.compileXmlSchema(new StreamSource(url
-                .openStream(), url.toString()));
-        XSModel model = XSModelBuilder.buildXMLSchemaModel(xsd, APP_NS);
-        Set<XSComplexTypeDefinition> complexTypes = XMLSchemaModelUtils
-                .getReferencedComplexTypeDefinitions(model);
-        FeatureTypeFilter iut = new FeatureTypeFilter();
-        iut.filterSet(complexTypes);
-        assertEquals("Unexpected number of feature types remain in set.", 1,
-                complexTypes.size());
-        assertTrue("Expected anonymous type definition.", complexTypes
-                .iterator().next().getAnonymous());
-    }
+	@Test
+	public void filterAnonFeatureType() throws SAXException, IOException {
+		URL url = this.getClass().getResource("/xsd/autos-anon.xsd");
+		Schema xsd = xsdCompiler.compileXmlSchema(new StreamSource(url
+				.openStream(), url.toString()));
+		XSModel model = XSModelBuilder.buildXMLSchemaModel(xsd, APP_NS);
+		Set<XSComplexTypeDefinition> complexTypes = XMLSchemaModelUtils
+				.getReferencedComplexTypeDefinitions(model);
+		FeatureTypeFilter iut = new FeatureTypeFilter();
+		iut.filterSet(complexTypes);
+		assertEquals("Unexpected number of feature types remain in set.", 1,
+				complexTypes.size());
+		assertTrue("Expected anonymous type definition.", complexTypes
+				.iterator().next().getAnonymous());
+	}
 
-    @Test
-    public void filterGlobalFeatureType() throws SAXException, IOException {
-        URL url = this.getClass().getResource("/xsd/autos.xsd");
-        Schema xsd = xsdCompiler.compileXmlSchema(new StreamSource(url
-                .openStream(), url.toString()));
-        XSModel model = XSModelBuilder.buildXMLSchemaModel(xsd, APP_NS);
-        Set<XSComplexTypeDefinition> complexTypes = XMLSchemaModelUtils
-                .getReferencedComplexTypeDefinitions(model);
-        FeatureTypeFilter iut = new FeatureTypeFilter();
-        iut.filterSet(complexTypes);
-        assertEquals("Unexpected number of feature types remain in set.", 1,
-                complexTypes.size());
-    }
+	@Test
+	public void filterGlobalFeatureType() throws SAXException, IOException {
+		URL url = this.getClass().getResource("/xsd/autos.xsd");
+		Schema xsd = xsdCompiler.compileXmlSchema(new StreamSource(url
+				.openStream(), url.toString()));
+		XSModel model = XSModelBuilder.buildXMLSchemaModel(xsd, APP_NS);
+		Set<XSComplexTypeDefinition> complexTypes = XMLSchemaModelUtils
+				.getReferencedComplexTypeDefinitions(model);
+		FeatureTypeFilter iut = new FeatureTypeFilter();
+		iut.filterSet(complexTypes);
+		assertEquals("Unexpected number of feature types remain in set.", 2,
+				complexTypes.size());
+	}
 }

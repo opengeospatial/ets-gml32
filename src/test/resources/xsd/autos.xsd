@@ -23,4 +23,29 @@
       </extension>
     </complexContent>
   </complexType>
+  
+  <element name="Fleet" substitutionGroup="gml:AbstractFeature" type="app:FleetType"/>
+  <complexType name="FleetType">
+    <complexContent>
+      <extension base="gml:AbstractFeatureType">
+        <sequence minOccurs="0" maxOccurs="unbounded">
+          <element name="fleetMember" type="app:IllegalFeaturePropertyType" />
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+
+  <complexType name="IllegalFeaturePropertyType">
+  <!-- Only feature allowed as value -->
+    <complexContent>
+      <extension base="gml:AbstractFeatureMemberType">
+        <sequence>
+          <choice>
+            <element ref="app:Autos"/>
+            <element ref="gml:Envelope"/>
+          </choice>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
 </schema>
