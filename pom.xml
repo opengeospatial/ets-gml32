@@ -9,7 +9,7 @@
     <version>3</version>
   </parent>
   <artifactId>ets-gml32</artifactId>
-  <version>1.19-SNAPSHOT</version>
+  <version>1.19</version>
   <packaging>jar</packaging>
 
   <name>GML (ISO 19136:2007) Conformance Test Suite, Version 3.2.1</name>
