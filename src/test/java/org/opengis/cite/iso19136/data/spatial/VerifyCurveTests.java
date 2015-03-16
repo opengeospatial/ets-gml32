@@ -1,5 +1,7 @@
 package org.opengis.cite.iso19136.data.spatial;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -9,10 +11,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.opengis.cite.iso19136.BasicFixture;
 import org.opengis.util.FactoryException;
-import org.testng.SkipException;
 import org.w3c.dom.DOMException;
-
-import static org.junit.Assert.*;
 
 /**
  * Verifies the behavior of the CurveTests class.
@@ -115,15 +114,4 @@ public class VerifyCurveTests extends BasicFixture {
 		iut.validCurveSegments();
 	}
 
-	@Test(expected = SkipException.class)
-	public void validate3DLineString() throws URISyntaxException, DOMException,
-			FactoryException {
-		// LineString not yet supported
-		URL url = this.getClass().getResource("/geom/LineString.xml");
-		File dataFile = new File(url.toURI());
-		CurveTests iut = new CurveTests();
-		iut.setDataFile(dataFile);
-		iut.findCurves();
-		iut.curveHasValidCRS();
-	}
 }

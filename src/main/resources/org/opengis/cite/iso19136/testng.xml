@@ -46,6 +46,7 @@
       <class name="org.opengis.cite.iso19136.data.spatial.EnvelopeTests" />
       <class name="org.opengis.cite.iso19136.data.spatial.SurfaceTests" />
       <class name="org.opengis.cite.iso19136.data.spatial.CurveTests" />
+      <class name="org.opengis.cite.iso19136.data.spatial.LineStringTests" />
       <class name="org.opengis.cite.iso19136.data.spatial.CompositeCurveTests" />
     </classes>
   </test>

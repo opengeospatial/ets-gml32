@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- CRS: OSGB 1936 / British National Grid + ODN height -->
+<!-- CRS: OSGB 1936 / British National Grid -->
 <gml:LineString xmlns:gml="http://www.opengis.net/gml/3.2"
-	srsName="urn:ogc:def:crs:EPSG::7405" gml:id="LINE-1">
-	<gml:posList srsDimension="3" count="2">317617.238 208187.956 0 317478.44 207384.466 0</gml:posList>
+	srsName="urn:ogc:def:crs:EPSG::27700" gml:id="LINE-1">
+	<gml:posList srsDimension="2" count="2">359758.7 490667.6 359858.7 490767.6</gml:posList>
 </gml:LineString>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- coords not within valid area of CRS (OSGB 1936 / British National Grid) -->
+<gml:LineString xmlns:gml="http://www.opengis.net/gml/3.2"
+	srsName="urn:ogc:def:crs:EPSG::27700" gml:id="LINE-2">
+	<gml:posList srsDimension="2" count="2">51.507 -0.128 53.467, -2.233</gml:posList>
+</gml:LineString>
