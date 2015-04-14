@@ -1,6 +1,6 @@
 package org.opengis.cite.iso19136;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -29,43 +29,43 @@ import org.w3c.dom.Document;
  */
 public class VerifyTestNGController {
 
-    private static DocumentBuilder docBuilder;
-    private Properties testRunProps;
+	private static DocumentBuilder docBuilder;
+	private Properties testRunProps;
 
-    @BeforeClass
-    public static void initParser() throws ParserConfigurationException {
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        dbf.setNamespaceAware(true);
-        dbf.setValidating(false);
-        dbf.setFeature(
-                "http://apache.org/xml/features/nonvalidating/load-external-dtd",
-                false);        
-        docBuilder = dbf.newDocumentBuilder();
-    }
+	@BeforeClass
+	public static void initParser() throws ParserConfigurationException {
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		dbf.setNamespaceAware(true);
+		dbf.setValidating(false);
+		dbf.setFeature(
+				"http://apache.org/xml/features/nonvalidating/load-external-dtd",
+				false);
+		docBuilder = dbf.newDocumentBuilder();
+	}
 
-    @Before
-    public void loadDefaultTestRunProperties()
-            throws InvalidPropertiesFormatException, IOException {
-        this.testRunProps = new Properties();
-        this.testRunProps.loadFromXML(getClass().getResourceAsStream(
-                "/test-run-props.xml"));
-    }
+	@Before
+	public void loadDefaultTestRunProperties()
+			throws InvalidPropertiesFormatException, IOException {
+		this.testRunProps = new Properties();
+		this.testRunProps.loadFromXML(getClass().getResourceAsStream(
+				"/test-run-props.xml"));
+	}
 
-    @Test
-    public void validateAixmDocument() throws Exception {
-        URL testSubject = getClass().getResource("/aixm/AirportHeliport.xml");
-        this.testRunProps.setProperty(TestRunArg.GML.toString(), testSubject
-                .toURI().toString());
-        ByteArrayOutputStream outStream = new ByteArrayOutputStream(1024);
-        this.testRunProps.storeToXML(outStream, "Integration test");
-        Document testRunArgs = docBuilder.parse(new ByteArrayInputStream(
-                outStream.toByteArray()));
-        TestNGController controller = new TestNGController();
-        Source results = controller.doTestRun(testRunArgs);
-        String xpath = "/testng-results/@failed";
-        XdmValue failed = XMLUtils.evaluateXPath2(results, xpath, null);
-        int numFailed = Integer.parseInt(failed.getUnderlyingValue()
-                .getStringValue());
-        assertEquals("Unexpected number of fail verdicts.", 0, numFailed);
-    }
+	@Test
+	public void validateAixmDocument() throws Exception {
+		URL testSubject = getClass().getResource("/aixm/AirportHeliport.xml");
+		this.testRunProps.setProperty(TestRunArg.GML.toString(), testSubject
+				.toURI().toString());
+		ByteArrayOutputStream outStream = new ByteArrayOutputStream(1024);
+		this.testRunProps.storeToXML(outStream, "Integration test");
+		Document testRunArgs = docBuilder.parse(new ByteArrayInputStream(
+				outStream.toByteArray()));
+		TestNGController controller = new TestNGController();
+		Source results = controller.doTestRun(testRunArgs);
+		String xpath = "/testng-results/@failed";
+		XdmValue failed = XMLUtils.evaluateXPath2(results, xpath, null);
+		int numFailed = Integer.parseInt(failed.getUnderlyingValue()
+				.getStringValue());
+		assertEquals("Unexpected number of fail verdicts.", 0, numFailed);
+	}
 }

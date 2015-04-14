@@ -29,14 +29,14 @@
     <complexContent>
       <extension base="gml:AbstractFeatureType">
         <sequence minOccurs="0" maxOccurs="unbounded">
-          <element name="fleetMember" type="app:IllegalFeaturePropertyType" />
+          <element name="fleetMember" type="app:FleetMemberType" />
         </sequence>
       </extension>
     </complexContent>
   </complexType>
 
-  <complexType name="IllegalFeaturePropertyType">
-  <!-- Only feature allowed as value -->
+  <complexType name="FleetMemberType">
+  <!-- ERROR: gml:Envelope is not a feature -->
     <complexContent>
       <extension base="gml:AbstractFeatureMemberType">
         <sequence>

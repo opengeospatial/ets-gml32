@@ -8,7 +8,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import javax.xml.namespace.QName;
+
 import org.apache.xerces.xs.StringList;
 import org.apache.xerces.xs.XSComplexTypeDefinition;
 import org.apache.xerces.xs.XSConstants;
@@ -681,6 +683,20 @@ public class XMLSchemaModelUtils {
 		elemDecls.addAll(getLocalElementsByType(model, baseType,
 				new FeatureTypeFilter()));
 		return elemDecls;
+	}
+
+	/**
+	 * Gets the name of the given XML Schema component.
+	 * 
+	 * @param xsObject
+	 *            An XSObject representing a schema component.
+	 * @return A QName indicating the qualified name of the schema component. If
+	 *         it is anonymous its localName is an empty string.
+	 */
+	public static QName getQName(XSObject xsObject) {
+		String localName = (null != xsObject.getName()) ? xsObject.getName()
+				: new String();
+		return new QName(xsObject.getNamespace(), localName);
 	}
 
 	/**

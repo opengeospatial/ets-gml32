@@ -77,7 +77,8 @@ public class SurfaceTests extends DataFixture {
 			throw new RuntimeException(xpe);
 		}
 		if (this.surfaceNodes.getLength() == 0) {
-			throw new SkipException("No surface elements found in GML data.");
+			throw new SkipException(
+					"No surface elements (substitute for gml:AbstractSurface) found in GML data.");
 		}
 	}
 

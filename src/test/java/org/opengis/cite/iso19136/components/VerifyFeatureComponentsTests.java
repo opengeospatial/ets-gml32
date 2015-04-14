@@ -1,5 +1,8 @@
 package org.opengis.cite.iso19136.components;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -11,14 +14,9 @@ import javax.xml.validation.Schema;
 
 import org.apache.xerces.xs.XSModel;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 import org.opengis.cite.validation.XSModelBuilder;
 import org.opengis.cite.validation.XmlSchemaCompiler;
 import org.testng.ISuite;
@@ -58,9 +56,8 @@ public class VerifyFeatureComponentsTests {
 		iut.verifyFeatureMemberProperties();
 	}
 
-	@Ignore("Fix https://github.com/opengeospatial/ets-gml32/issues/9")
 	@Test
-	public void invalidFleetMemberPropertyAllowsEnvelope()
+	public void invalidFleetMemberTypeAllowsEnvelope()
 			throws URISyntaxException, SAXException, IOException {
 		thrown.expect(AssertionError.class);
 		thrown.expectMessage("Envelope cannot substitute");

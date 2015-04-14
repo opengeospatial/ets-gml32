@@ -3,6 +3,7 @@ package org.opengis.cite.iso19136;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -20,6 +21,7 @@ import javax.xml.xpath.XPathFactory;
 import org.apache.xerces.xs.XSAttributeDeclaration;
 import org.apache.xerces.xs.XSAttributeUse;
 import org.apache.xerces.xs.XSComplexTypeDefinition;
+import org.apache.xerces.xs.XSConstants;
 import org.apache.xerces.xs.XSElementDeclaration;
 import org.apache.xerces.xs.XSModel;
 import org.apache.xerces.xs.XSModelGroup;
@@ -27,11 +29,9 @@ import org.apache.xerces.xs.XSObjectList;
 import org.apache.xerces.xs.XSParticle;
 import org.apache.xerces.xs.XSTerm;
 import org.opengis.cite.iso19136.util.NamespaceBindings;
+import org.opengis.cite.iso19136.util.TestSuiteLogger;
 import org.opengis.cite.iso19136.util.XMLSchemaModelUtils;
 import org.opengis.cite.iso19136.util.XMLUtils;
-import org.opengis.cite.iso19136.ErrorMessage;
-import org.opengis.cite.iso19136.ErrorMessageKeys;
-import org.opengis.cite.iso19136.util.TestSuiteLogger;
 import org.opengis.cite.validation.SchematronValidator;
 import org.opengis.cite.validation.ValidationErrorHandler;
 import org.testng.Assert;
@@ -196,17 +196,25 @@ public class ETSAssert {
 	 * Asserts that the content model of the given type definition mimics a GML
 	 * property type. The type is presumably not derived (by restriction) from
 	 * some base GML property type (gml:AssociationRoleType, gml:ReferenceType,
-	 * gml:InlinePropertyType). The following constraints apply:
+	 * gml:InlinePropertyType). The following constraints apply to the content
+	 * model:
 	 * 
 	 * <ul>
-	 * <li>if not empty, includes only one element declaration (the value
-	 * object, which may occur more than once in an array property type)</li>
-	 * <li>if empty (or possibly empty), includes the attribute group
-	 * gml:AssociationAttributeGroup</li>
-	 * <li>includes the attribute group gml:OwnershipAttributeGroup</li>
-	 * <li>does not contain a wildcard schema component</li>
-	 * <li>the property value may substitute for the designated head element (if
-	 * specified)</li>
+	 * <li>if the content model is not empty, one of the following cases must be
+	 * true:
+	 * <ol>
+	 * <li>it contains only one element declaration (the property value), which
+	 * may occur more than once in an array property type;</li>
+	 * <li>it contains a choice compositor that allows at most one element (an
+	 * allowable substitution) to occur.</li>
+	 * </ol>
+	 * </li>
+	 * <li>if it is empty (or possibly empty), it includes the attribute group
+	 * gml:AssociationAttributeGroup.</li>
+	 * <li>includes the attribute group gml:OwnershipAttributeGroup.</li>
+	 * <li>does not contain a wildcard schema component.</li>
+	 * <li>the property value must substitute for the designated head element
+	 * (if specified).</li>
 	 * </ul>
 	 * 
 	 * <h6 style="margin-bottom: 0.5em">Sources</h6>
@@ -276,23 +284,75 @@ public class ETSAssert {
 			Assert.assertTrue(group.getParticles().size() == 1, ErrorMessage
 					.format(ErrorMessageKeys.TOO_MANY_PARTS,
 							propTypeDef.getNamespace(), localName));
-
 			XSParticle particle = (XSParticle) group.getParticles().item(0);
-			Assert.assertTrue(XSElementDeclaration.class.isInstance(particle
-					.getTerm()), ErrorMessage.format(
-					ErrorMessageKeys.ELEM_DECL_REQUIRED,
-					propTypeDef.getNamespace(), localName));
-			XSElementDeclaration propValue = (XSElementDeclaration) particle
-					.getTerm();
-			if (null != head) {
-				Assert.assertTrue(
-						XMLSchemaModelUtils.getElementsByAffiliation(model,
-								head).contains(propValue), ErrorMessage.format(
+			switch (particle.getTerm().getType()) {
+			case XSConstants.ELEMENT_DECLARATION:
+				if (null != head) {
+					XSElementDeclaration propDecl = (XSElementDeclaration) particle
+							.getTerm();
+					Assert.assertTrue(
+							XMLSchemaModelUtils.getElementsByAffiliation(model,
+									head).contains(propDecl),
+							ErrorMessage.format(
+									ErrorMessageKeys.DISALLOWED_SUBSTITUTION,
+									propDecl, head,
+									XMLSchemaModelUtils.getQName(propTypeDef)));
+				}
+				break;
+			case XSConstants.MODEL_GROUP:
+				XSModelGroup modelGroup = XSModelGroup.class.cast(particle
+						.getTerm());
+				if (modelGroup.getCompositor() != XSModelGroup.COMPOSITOR_CHOICE) {
+					throw new AssertionError(
+							"Only a choice compositor is allowed. Found "
+									+ particle.getTerm().getClass().getName());
+				}
+				@SuppressWarnings("unchecked")
+				ListIterator<XSParticle> itr = modelGroup.getParticles()
+						.listIterator();
+				while (itr.hasNext()) {
+					XSParticle xsParticle = itr.next();
+					if (xsParticle.getTerm().getType() != XSConstants.ELEMENT_DECLARATION) {
+						throw new AssertionError(
+								"Only element declarations are allowed in choice compositor.");
+					}
+					if (null != head) {
+						XSElementDeclaration elemDecl = (XSElementDeclaration) xsParticle
+								.getTerm();
+						Assert.assertTrue(XMLSchemaModelUtils
+								.getElementsByAffiliation(model, head)
+								.contains(elemDecl), ErrorMessage.format(
 								ErrorMessageKeys.DISALLOWED_SUBSTITUTION,
-								propValue, head, propTypeDef.getNamespace(),
-								localName));
+								elemDecl, head,
+								XMLSchemaModelUtils.getQName(propTypeDef)));
+					}
+				}
+				break;
+			default:
+				throw new AssertionError(
+						"Wildcard component not permitted in property type: "
+								+ XMLSchemaModelUtils.getQName(propTypeDef));
 			}
 		}
+	}
+
+	/**
+	 * Asserts that the given XML entity contains the expected number of
+	 * descendant elements having the specified name.
+	 * 
+	 * @param xmlEntity
+	 *            A Document representing an XML entity.
+	 * @param elementName
+	 *            The qualified name of the element.
+	 * @param expectedCount
+	 *            The expected number of occurrences.
+	 */
+	public static void assertDescendantElementCount(Document xmlEntity,
+			QName elementName, int expectedCount) {
+		NodeList features = xmlEntity.getElementsByTagNameNS(
+				elementName.getNamespaceURI(), elementName.getLocalPart());
+		Assert.assertEquals(features.getLength(), expectedCount, String.format(
+				"Unexpected number of %s descendant elements.", elementName));
 	}
 
 	/**
@@ -325,24 +385,5 @@ public class ETSAssert {
 			}
 		}
 		return attrUse;
-	}
-
-	/**
-	 * Asserts that the given XML entity contains the expected number of
-	 * descendant elements having the specified name.
-	 * 
-	 * @param xmlEntity
-	 *            A Document representing an XML entity.
-	 * @param elementName
-	 *            The qualified name of the element.
-	 * @param expectedCount
-	 *            The expected number of occurrences.
-	 */
-	public static void assertDescendantElementCount(Document xmlEntity,
-			QName elementName, int expectedCount) {
-		NodeList features = xmlEntity.getElementsByTagNameNS(
-				elementName.getNamespaceURI(), elementName.getLocalPart());
-		Assert.assertEquals(features.getLength(), expectedCount, String.format(
-				"Unexpected number of %s descendant elements.", elementName));
 	}
 }
