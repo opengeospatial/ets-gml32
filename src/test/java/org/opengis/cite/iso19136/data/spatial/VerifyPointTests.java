@@ -91,4 +91,16 @@ public class VerifyPointTests extends BasicFixture {
 		iut.findPoints();
 		iut.pointHasValidPosition();
 	}
+
+	@Test
+	public void invalidPointInEPSG3045AsHttpURI() throws URISyntaxException {
+		thrown.expect(AssertionError.class);
+		thrown.expectMessage("not within CRS area of use");
+		URL url = this.getClass().getResource("/geom/Point-epsg3045.xml");
+		File dataFile = new File(url.toURI());
+		PointTests iut = new PointTests();
+		iut.setDataFile(dataFile);
+		iut.findPoints();
+		iut.pointHasValidPosition();
+	}
 }
