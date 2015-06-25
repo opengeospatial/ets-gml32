@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- patches do not share an edge -->
-<gml:Surface gml:id="id_5ccb6c80" 
-  srsName="urn:ogc:def:crs:EPSG::32610"
+<!-- ERROR: patches do not share an edge -->
+<gml:Surface gml:id="id_5ccb6c80" srsName="http://www.opengis.net/def/crs/EPSG/0/32610"
   xmlns:gml="http://www.opengis.net/gml/3.2">
   <gml:patches>
     <gml:Rectangle>

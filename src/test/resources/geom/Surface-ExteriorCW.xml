@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ERROR: Exterior ring has CW orientation -->
-<gml:Surface gml:id="Surface-ExteriorCW" srsName="urn:ogc:def:crs:EPSG::4326"
+<gml:Surface gml:id="Surface-ExteriorCW" srsName="http://www.opengis.net/def/crs/EPSG/0/4326"
   xmlns:gml="http://www.opengis.net/gml/3.2">
   <gml:patches>
     <gml:PolygonPatch>
