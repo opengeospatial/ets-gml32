@@ -31,7 +31,9 @@ import org.testng.annotations.Test;
  * gml:GeometryPropertyType or reflect the content model of
  * gml:AssociationRoleType.
  * 
- * <h6 style="margin-bottom: 0.5em">Sources</h6>
+ * <p style="margin-bottom: 0.5em">
+ * <strong>Sources</strong>
+ * </p>
  * <ul>
  * <li>ISO 19136:2007, cl. 10: GML schema - geometric primitives</li>
  * <li>ISO 19136:2007, cl. 11: GML schema - geometric complex, geometric
@@ -120,7 +122,9 @@ public class GeometryComponentTests extends SchemaModelFixture {
 	 * defined explicitly (based on a pre-defined GML geometry property type) or
 	 * implicitly by mimicking the property type content model.
 	 * 
-	 * <h6 style="margin-bottom: 0.5em">Sources</h6>
+	 * <p style="margin-bottom: 0.5em">
+	 * <strong>Sources</strong>
+	 * </p>
 	 * <ul>
 	 * <li>ISO 19136:2007, A.1.1.10: Spatial geometry properties</li>
 	 * <li>ISO 19136:2007, cl. 9.5: Geometry Properties</li>

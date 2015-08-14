@@ -40,7 +40,9 @@ import org.w3c.dom.NodeList;
  * substitution group), which implements the GM_Point class from ISO 19107. A
  * point is defined by a single coordinate tuple.
  * 
- * <h6 style="margin-bottom: 0.5em">Sources</h6>
+ * <p style="margin-bottom: 0.5em">
+ * <strong>Sources</strong>
+ * </p>
  * <ul>
  * <li>ISO 19136:2007, cl. 10.3.1: PointType, Point</li>
  * <li>ISO 19107:2003, cl. 6.3.11: GM_Point</li>
@@ -87,7 +89,9 @@ public class PointTests extends DataFixture {
 	 * [{@code Test}] Verifies that a gml:Point element has a valid CRS
 	 * reference.
 	 * 
-	 * <h6 style="margin-bottom: 0.5em">Sources</h6>
+	 * <p style="margin-bottom: 0.5em">
+	 * <strong>Sources</strong>
+	 * </p>
 	 * <ul>
 	 * <li>ISO 19136, cl. 9.10, 10.1.3.2</li>
 	 * <li>ISO 19107, cl. 6.2.2.17 (Coordinate Reference System association)</li>
@@ -115,7 +119,9 @@ public class PointTests extends DataFixture {
 	 * 50.55).
 	 * </p>
 	 * 
-	 * <h6 style="margin-bottom: 0.5em">Sources</h6>
+	 * <p style="margin-bottom: 0.5em">
+	 * <strong>Sources</strong>
+	 * </p>
 	 * <ul>
 	 * <li>ISO 19107:2003, cl. 6.2.2.10 (coordinateDimension)</li>
 	 * </ul>

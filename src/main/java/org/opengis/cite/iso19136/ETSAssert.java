@@ -217,7 +217,9 @@ public class ETSAssert {
 	 * (if specified).</li>
 	 * </ul>
 	 * 
-	 * <h6 style="margin-bottom: 0.5em">Sources</h6>
+	 * <p style="margin-bottom: 0.5em">
+	 * <strong>Sources</strong>
+	 * </p>
 	 * <ul>
 	 * <li>ISO 19136:2007, cl. 7.2.3.3: abstractAssociationRole,
 	 * AssociationRoleType</li>

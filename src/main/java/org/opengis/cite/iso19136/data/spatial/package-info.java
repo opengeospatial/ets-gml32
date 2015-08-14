@@ -14,7 +14,7 @@
  *   <li>the gml:boundedBy/gml:Envelope element in the containing feature instance.</li>
  * </ol>
  * 
- * <h6 style="margin-bottom: 0.5em">Sources</h6>
+ * <p style="margin-bottom: 0.5em"><strong>Sources</strong></p>
  * <ul>
  *   <li>ISO 19136, cl. 10.1.3: Abstract geometry</li>
  *   <li>ISO 19136, cl. 9.10: Spatial reference system used in a feature or

@@ -34,10 +34,12 @@ import org.w3c.dom.NodeList;
  * direction is usually outward.
  * </p>
  * <p style="text-align: center">
- * <img src="./doc-files/surface.png" alt="Surface upNormal" />
+ * <img src="./doc-files/surface.png" alt="Surface upNormal">
  * </p>
  * 
- * <h6 style="margin-bottom: 0.5em">Sources</h6>
+ * <p style="margin-bottom: 0.5em">
+ * <strong>Sources</strong>
+ * </p>
  * <ul>
  * <li>ISO 19136:2007, cl. 10.5.10 SurfaceType, Surface</li>
  * <li>ISO 19107:2003, cl. 6.3.17 GM_Surface</li>
@@ -86,7 +88,9 @@ public class SurfaceTests extends DataFixture {
 	 * [{@code Test}] Verifies that a gml:Surface element has a valid CRS
 	 * reference.
 	 * 
-	 * <h6 style="margin-bottom: 0.5em">Sources</h6>
+	 * <p style="margin-bottom: 0.5em">
+	 * <strong>Sources</strong>
+	 * </p>
 	 * <ul>
 	 * <li>ISO 19136, cl. 9.10, 10.1.3.2</li>
 	 * <li>ISO 19107, cl. 6.2.2.17 (Coordinate Reference System association)</li>
@@ -109,7 +113,9 @@ public class SurfaceTests extends DataFixture {
 	 * Furthermore, each interior ring must be covered by the surface delimited
 	 * by the exterior boundary (the rings may touch at a tangent point).
 	 * 
-	 * <h6 style="margin-bottom: 0.5em">Sources</h6>
+	 * <p style="margin-bottom: 0.5em">
+	 * <strong>Sources</strong>
+	 * </p>
 	 * <ul>
 	 * <li>ISO 19136:2007, cl. 10.5.11.1: Ring, RingType, curveMember</li>
 	 * <li>ISO 19136:2007, cl. 10.5.5: exterior, interior</li>
@@ -131,7 +137,9 @@ public class SurfaceTests extends DataFixture {
 	 * the left of a boundary curve. All patches must be oriented in the same
 	 * manner.
 	 * 
-	 * <h6 style="margin-bottom: 0.5em">Sources</h6>
+	 * <p style="margin-bottom: 0.5em">
+	 * <strong>Sources</strong>
+	 * </p>
 	 * <ul>
 	 * <li>ISO 19136:2007, cl. 10.5.10: SurfaceType, Surface</li>
 	 * <li>ISO 19107:2003, cl. 6.3.17: GM_Surface</li>

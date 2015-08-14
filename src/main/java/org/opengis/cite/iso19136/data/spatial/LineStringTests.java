@@ -24,11 +24,9 @@ import org.opengis.cite.iso19136.general.GML32;
 import org.opengis.cite.iso19136.util.TestSuiteLogger;
 import org.opengis.cite.iso19136.util.XMLSchemaModelUtils;
 import org.opengis.cite.iso19136.util.XMLUtils;
-import org.opengis.util.FactoryException;
 import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -39,7 +37,9 @@ import org.w3c.dom.NodeList;
  * must have two or more coordinate tuples. Note that in ISO 19107 a
  * GM_LineString is treated as a curve segment, not as a geometry type.
  * 
- * <h6 style="margin-bottom: 0.5em">Sources</h6>
+ * <p style="margin-bottom: 0.5em">
+ * <strong>Sources</strong>
+ * </p>
  * <ul>
  * <li>ISO 19136:2007, cl. 10.4.4: LineStringType, LineString</li>
  * <li>ISO 19107:2003, cl. 6.4.10: GM_LineString</li>
@@ -87,7 +87,9 @@ public class LineStringTests extends DataFixture {
 	 * [{@code Test}] Verifies that a gml:LineString element has a valid CRS
 	 * reference.
 	 * 
-	 * <h6 style="margin-bottom: 0.5em">Sources</h6>
+	 * <p style="margin-bottom: 0.5em">
+	 * <strong>Sources</strong>
+	 * </p>
 	 * <ul>
 	 * <li>ISO 19136, cl. 9.10, 10.1.3.2</li>
 	 * <li>ISO 19107, cl. 6.2.2.17 (Coordinate Reference System association)</li>
@@ -105,13 +107,15 @@ public class LineStringTests extends DataFixture {
 	 * [{@code Test}] Verifies that a gml:LineString element contains at least
 	 * two coordinate tuples and that it lies within the valid area of the CRS.
 	 * 
-	 * <h6 style="margin-bottom: 0.5em">Sources</h6>
+	 * <p style="margin-bottom: 0.5em">
+	 * <strong>Sources</strong>
+	 * </p>
 	 * <ul>
 	 * <li>ISO 19136, 10.4.4: LineStringType, LineString</li>
 	 * </ul>
 	 */
 	@Test(description = "See ISO 19136: 10.4.4")
-	public void validLineString() throws DOMException, FactoryException {
+	public void validLineString() {
 		Unmarshaller gmlUnmarshaller;
 		try {
 			MarshallerPool pool = new MarshallerPool(
