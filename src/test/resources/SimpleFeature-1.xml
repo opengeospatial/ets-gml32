@@ -4,9 +4,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://example.org/ns1 xsd/simple.xsd">
 	<gml:boundedBy>
-		<gml:Envelope>
-		    <!-- deprecated elements -->
-			<gml:pos>514432 5451619</gml:pos>
+		<gml:Envelope srsName="urn:ogc:def:crs:EPSG::32610">
+		    <gml:pos>514432 5451619</gml:pos>
 			<gml:pos>529130 5429689</gml:pos>
 		</gml:Envelope>
 	</gml:boundedBy>

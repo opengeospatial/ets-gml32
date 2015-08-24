@@ -12,11 +12,15 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamReader;
 
-import org.geotoolkit.gml.xml.DirectPosition;
+import org.geotoolkit.geometry.GeneralEnvelope;
 import org.geotoolkit.gml.xml.v321.EnvelopeType;
+import org.geotoolkit.referencing.CRS;
 import org.geotoolkit.xml.MarshallerPool;
+import org.opengis.cite.geomatics.GeodesyUtils;
 import org.opengis.cite.iso19136.data.DataFixture;
 import org.opengis.cite.iso19136.general.GML32;
+import org.opengis.geometry.DirectPosition;
+import org.opengis.geometry.Envelope;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -46,17 +50,16 @@ import org.testng.annotations.Test;
 public class EnvelopeTests extends DataFixture {
 
 	private static final QName GML_ENV = new QName(GML32.NS_NAME, "Envelope");
-	List<EnvelopeType> envelopes;
+	List<Envelope> envelopes;
 
 	/**
-	 * A configuration method ({@code BeforeClass}) that looks for gml:Envelope
+	 * A configuration method ({@code BeforeClass}) that finds gml:Envelope
 	 * elements in the GML document under test. If none are found all test
 	 * methods defined in the class will be skipped.
 	 */
-	@BeforeClass(alwaysRun = true)
-	@SuppressWarnings("unchecked")
+	@BeforeClass()
 	public void findEnvelopes() {
-		this.envelopes = new ArrayList<EnvelopeType>();
+		this.envelopes = new ArrayList<Envelope>();
 		Unmarshaller unmarshaller;
 		try {
 			MarshallerPool pool = new MarshallerPool(
@@ -74,9 +77,32 @@ public class EnvelopeTests extends DataFixture {
 				int eventType = reader.next();
 				if (eventType == XMLStreamConstants.START_ELEMENT
 						&& reader.getName().equals(GML_ENV)) {
+					@SuppressWarnings("unchecked")
 					JAXBElement<EnvelopeType> result = (JAXBElement<EnvelopeType>) unmarshaller
 							.unmarshal(reader);
-					this.envelopes.add(result.getValue());
+					EnvelopeType env = result.getValue();
+					if (null != env.getSrsName()
+							&& env.getSrsName().startsWith("http")) {
+						// Geotk 3.x does not support 'http' CRS naming scheme
+						String crsRef = GeodesyUtils
+								.getAbbreviatedCRSIdentifier(env.getSrsName());
+						GeneralEnvelope genEnv = new GeneralEnvelope(
+								CRS.decode(crsRef));
+						double[] lowerPos = env.getLowerCorner()
+								.getCoordinate();
+						double[] upperPos = env.getUpperCorner()
+								.getCoordinate();
+						double[] coords = new double[lowerPos.length
+								+ upperPos.length];
+						System.arraycopy(lowerPos, 0, coords, 0,
+								lowerPos.length);
+						System.arraycopy(upperPos, 0, coords, lowerPos.length,
+								upperPos.length);
+						genEnv.setEnvelope(coords);
+						this.envelopes.add(genEnv);
+					} else {
+						this.envelopes.add(env);
+					}
 				}
 			}
 			reader.close();
@@ -116,12 +142,18 @@ public class EnvelopeTests extends DataFixture {
 	 *      target="_blank">OGC 09-048r3</a>
 	 */
 	@Test(description = "See ISO 19136: 10.1.3.2")
-	public void envelopeHasCRSReference() {
+	public void envelopeHasValidCRS() {
 		for (int i = 0; i < this.envelopes.size(); i++) {
-			CoordinateReferenceSystem crs = this.envelopes.get(i)
-					.getCoordinateReferenceSystem();
+			Envelope env = this.envelopes.get(i);
+			CoordinateReferenceSystem crs = env.getCoordinateReferenceSystem();
+			String srsName = "unknown";
+			if (EnvelopeType.class.isInstance(env)) {
+				EnvelopeType gmlEnv = EnvelopeType.class.cast(env);
+				srsName = gmlEnv.getSrsName();
+			}
 			Assert.assertNotNull(crs, String.format(
-					"//gml:Envelope[%d] has no CRS reference.", i + 1));
+					"//gml:Envelope[%d] has unknown CRS (srsName: %s)", i + 1,
+					srsName));
 		}
 	}
 
@@ -136,7 +168,7 @@ public class EnvelopeTests extends DataFixture {
 	@Test(description = "See ISO 19107: 6.4.3.2, 6.4.3.3")
 	public void checkEnvelopePositions() {
 		for (int i = 0; i < this.envelopes.size(); i++) {
-			EnvelopeType env = this.envelopes.get(i);
+			Envelope env = this.envelopes.get(i);
 			DirectPosition lowerCorner = env.getLowerCorner();
 			Assert.assertNotNull(lowerCorner, String.format(
 					"//gml:Envelope[%d] has no lowerCorner.", i + 1));
