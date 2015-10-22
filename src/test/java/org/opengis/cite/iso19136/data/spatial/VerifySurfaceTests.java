@@ -228,4 +228,14 @@ public class VerifySurfaceTests extends BasicFixture {
         iut.validSurfaceBoundary();
     }
 
+    @Test
+    public void surfaceWithExtraneousBoundaryPoint() throws URISyntaxException {
+        URL url = this.getClass().getResource("/geom/Surface-PolygonPatch-3.xml");
+        File dataFile = new File(url.toURI());
+        SurfaceTests iut = new SurfaceTests();
+        iut.setDataFile(dataFile);
+        iut.setSchemaModel(model);
+        iut.findSurfaces();
+        iut.validSurfaceBoundary();
+    }
 }
