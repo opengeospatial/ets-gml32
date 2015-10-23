@@ -32,7 +32,7 @@ for more information about test suite coverage, including the API documentation.
 
 ### Eligible test subjects
 
-Any spatial data set or application schema that purports to be based on GML 3.2 
+Any spatial data set or application schema that is purportedly based on GML 3.2 
 can be subject to a conformity assessment. All WFS 2.0 implementation must produce 
 and consume GML (v3.2) feature representations. The OGC maintains a list of 
 [reference implementations](https://github.com/opengeospatial/cite/wiki/Reference-Implementations).
