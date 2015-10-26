@@ -5,7 +5,7 @@
   <gml:boundedBy>
     <gml:Null>missing</gml:Null>
   </gml:boundedBy>
-  <gml:locationName codeSpace="http://codespace.nowhere.info/">Vancouver</gml:locationName>
+  <gml:locationName codeSpace="http://localhost:64999/nothing/here">Vancouver</gml:locationName>
   <gml:locationReference xlink:type="simple" />
   <pointProperty>
     <gml:Point gml:id="g-1">

@@ -20,11 +20,11 @@ schemas. Five of these are currently covered by the test suite:
 * A.1.6: GML application schemas defining spatial topologies
 * A.1.7: GML application schemas defining time
 
-While an instance document is checked for schema validity, the suite also includes 
-tests that validate fundamental GML geometry elements against various constraints 
-that cannot be expressed in an XML Schema grammar (e.g. surface boundary orientation); 
-these tests also apply to any application-defined geometries that can substitute 
-for the base GML geometry.
+While an instance document is always checked for schema validity, the suite also 
+includes tests that validate fundamental GML geometry elements against various 
+constraints that cannot be expressed in an XML Schema grammar (e.g. surface boundary 
+orientation); these tests also apply to any application-defined geometries that 
+can substitute for the base GML geometry.
 
 Visit the [project documentation website](http://opengeospatial.github.io/ets-gml32/) 
 for more information about test suite coverage, including the API documentation.

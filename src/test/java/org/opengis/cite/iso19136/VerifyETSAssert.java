@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import javax.ws.rs.core.MediaType;
 import javax.xml.XMLConstants;
@@ -91,11 +92,13 @@ public class VerifyETSAssert {
 	}
 
 	@Test
-	public void assertURLIsResolvable_unknownHost()
+	public void assertURLIsResolvable_cannotConnect()
 			throws MalformedURLException {
 		thrown.expect(AssertionError.class);
 		thrown.expectMessage("Failed to connect to URL");
-		URL url = new URL(WADL_NS);
+		Random random = new Random();
+		int portNum = random.nextInt(4000) + 60000;
+		URL url = new URL("http", "localhost", portNum, "/nothing/here");
 		ETSAssert.assertURLIsResolvable(url, null);
 	}
 

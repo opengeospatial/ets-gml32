@@ -64,10 +64,10 @@ public class VerifyPropertyValueTests {
 	}
 
 	@Test
-	public void locationName_unknownHost() throws URISyntaxException,
+	public void locationName_noCodeList() throws URISyntaxException,
 			FileNotFoundException, MalformedURLException {
 		thrown.expect(AssertionError.class);
-		thrown.expectMessage("Failed to connect to URL");
+		thrown.expectMessage("Failed to connect");
 		URL url = this.getClass().getResource("/SimpleFeature-2.xml");
 		File dataFile = new File(url.toURI());
 		PropertyValueTests iut = new PropertyValueTests();
