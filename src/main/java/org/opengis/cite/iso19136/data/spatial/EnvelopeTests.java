@@ -107,7 +107,9 @@ public class EnvelopeTests extends DataFixture {
 			}
 			reader.close();
 		} catch (Exception x) {
-			throw new RuntimeException(x);
+			// Remove non-ASCII chars from (Geotk) exception message
+			String errMsg = x.getMessage().replaceAll("[^\\x00-\\x7F]", "");
+			throw new RuntimeException(errMsg);
 		}
 		Assert.assertFalse(this.envelopes.isEmpty(),
 				"gml:Envelope elements not found.");

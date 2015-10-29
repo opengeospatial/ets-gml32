@@ -56,7 +56,7 @@ public class VerifyTestNGController {
 		URL testSubject = getClass().getResource("/aixm/AirportHeliport.xml");
 		this.testRunProps.setProperty(TestRunArg.GML.toString(), testSubject
 				.toURI().toString());
-		ByteArrayOutputStream outStream = new ByteArrayOutputStream(1024);
+		ByteArrayOutputStream outStream = new ByteArrayOutputStream(2048);
 		this.testRunProps.storeToXML(outStream, "Integration test");
 		Document testRunArgs = docBuilder.parse(new ByteArrayInputStream(
 				outStream.toByteArray()));
