@@ -118,7 +118,7 @@ public class SuiteFixtureListener implements ISuiteListener {
 		String gmlURI = params.get(TestRunArg.GML.toString());
 		if (null == gmlURI || gmlURI.isEmpty()) {
 			throw new IllegalArgumentException(
-					"Missing reference to GML document or application schema.");
+					"Missing GML resource (document or application schema).");
 		}
 		File gmlFile = null;
 		try {
@@ -134,8 +134,8 @@ public class SuiteFixtureListener implements ISuiteListener {
 				schemaURIs.addAll(ValidationUtils.extractSchemaReferences(
 						new StreamSource(gmlFile), gmlURI));
 				suite.setAttribute(SuiteAttribute.GML.getName(), gmlFile);
-				TestSuiteLogger.log(Level.FINE,
-						"GML document: " + gmlFile.getAbsolutePath());
+				TestSuiteLogger.log(Level.FINE, "Wrote GML document to "
+						+ gmlFile.getAbsolutePath());
 			}
 		} catch (IOException iox) {
 			throw new RuntimeException("Failed to read resource obtained from "
