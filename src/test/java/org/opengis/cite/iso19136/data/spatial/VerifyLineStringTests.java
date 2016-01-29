@@ -54,6 +54,18 @@ public class VerifyLineStringTests extends BasicFixture {
 	}
 
 	@Test
+	public void srsNameIsHttpId() throws URISyntaxException, DOMException,
+			FactoryException {
+		URL url = this.getClass().getResource(
+				"/geom/LineString-srsName-http.xml");
+		File dataFile = new File(url.toURI());
+		LineStringTests iut = new LineStringTests();
+		iut.setDataFile(dataFile);
+		iut.findLineStrings();
+		iut.validLineString();
+	}
+
+	@Test
 	public void invalidLineStringCoords() throws URISyntaxException,
 			DOMException, FactoryException {
 		thrown.expect(AssertionError.class);

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- CRS: ETRS89 / ETRS-TM32 (srsName reference per OGC 09-048r3) -->
+<!-- NOTE Defined axis order is N,E -->
+<gml:LineString xmlns:gml="http://www.opengis.net/gml/3.2"
+	gml:id="LineString-srsName-http" srsName="http://www.opengis.net/def/crs/EPSG/0/3044">
+	<gml:posList>4889943.440 557434.439
+		4889939.736 557416.844
+		4889951.774 557404.806
+		4889961.034 557402.028
+		4889969.369 557400.176
+		4889977.330 557400.176
+		4889943.526 557434.869
+	</gml:posList>
+</gml:LineString>

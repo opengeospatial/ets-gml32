@@ -105,6 +105,9 @@ public class GeometryAssert {
 	 */
 	public static void assertGeometryCoveredByValidArea(
 			AbstractGeometryType gmlGeom) {
+		String srsName = gmlGeom.getSrsName();
+		// Geotk v3 does not recognize 'http' CRS identifiers
+		gmlGeom.setSrsName(GeodesyUtils.convertSRSNameToURN(srsName));
 		Envelope crsDomain = Envelopes.getDomainOfValidity(gmlGeom
 				.getCoordinateReferenceSystem());
 		Polygon validArea = Extents.envelopeAsPolygon(crsDomain);
@@ -113,8 +116,9 @@ public class GeometryAssert {
 			return; // ignore unsupported geometry
 		}
 		Assert.assertTrue(validArea.covers(geom), String.format(
-				"%s[@gml:id='%s'] is not covered by valid area of CRS.",
-				gmlGeom.getClass().getName(), gmlGeom.getId()));
+				"%s[@gml:id='%s'] is not covered by valid area of CRS: %s",
+				gmlGeom.getClass().getName(), gmlGeom.getId(),
+				crsDomain.toString()));
 	}
 
 	/**
@@ -145,6 +149,8 @@ public class GeometryAssert {
 			return;
 		int crsDim = 2;
 		String srsName = gmlCurve.getAttribute("srsName");
+		// Geotk v3 does not recognize 'http' CRS identifiers
+		srsName = GeodesyUtils.convertSRSNameToURN(srsName);
 		try {
 			CoordinateReferenceSystem crs = CRS.decode(srsName);
 			crsDim = crs.getCoordinateSystem().getDimension();
