@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Exterior ring has incorrect axis order (should be N,E) -->
+<gml:Surface xmlns:gml="http://www.opengis.net/gml/3.2"
+	gml:id="_77073d46-7578-4d9b-b031-ab587b75d30a" 
+	srsName="http://www.opengis.net/def/crs/EPSG/0/EPSG:3044">
+	<gml:patches>
+		<gml:PolygonPatch>
+			<gml:exterior>
+				<gml:LinearRing>
+					<gml:posList>526923.0335361051 4913412.229461599 526923.9417987193
+						4913414.642637175 526923.768382421 4913413.515429392
+						526923.0335361051 4913412.229461599</gml:posList>
+				</gml:LinearRing>
+			</gml:exterior>
+		</gml:PolygonPatch>
+	</gml:patches>
+</gml:Surface>

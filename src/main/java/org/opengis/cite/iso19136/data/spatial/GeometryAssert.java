@@ -367,6 +367,9 @@ public class GeometryAssert {
 			// probably an application-defined extension
 			extCoordList = coordFactory.createCoordinateList(surfaceElem);
 		}
+		if (null != surfaceType) { // ignore non-GML geometry
+			GeometryAssert.assertGeometryCoveredByValidArea(surfaceType);
+		}
 		GeodesyUtils.removeConsecutiveDuplicates(extCoordList, 1);
 		GeometryFactory geomFactory = new GeometryFactory();
 		LineString exteriorCurve = geomFactory.createLineString(extCoordList
