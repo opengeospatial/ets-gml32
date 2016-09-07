@@ -8,6 +8,7 @@ import org.apache.xerces.xs.XSTypeDefinition;
 import org.opengis.cite.iso19136.ETSAssert;
 import org.opengis.cite.iso19136.ErrorMessage;
 import org.opengis.cite.iso19136.ErrorMessageKeys;
+import org.opengis.cite.iso19136.GML32;
 import org.opengis.cite.iso19136.util.GMLObjectTypeFilter;
 import org.opengis.cite.iso19136.util.XMLSchemaModelUtils;
 import org.testng.annotations.Test;

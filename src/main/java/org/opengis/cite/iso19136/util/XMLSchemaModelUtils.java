@@ -23,8 +23,8 @@ import org.apache.xerces.xs.XSObjectList;
 import org.apache.xerces.xs.XSParticle;
 import org.apache.xerces.xs.XSTerm;
 import org.apache.xerces.xs.XSTypeDefinition;
+import org.opengis.cite.iso19136.GML32;
 import org.opengis.cite.iso19136.SchemaComponentFilter;
-import org.opengis.cite.iso19136.general.GML32;
 
 /**
  * Provides utility methods for accessing components of XML Schema models.
@@ -701,7 +701,7 @@ public class XMLSchemaModelUtils {
 
 	/**
 	 * Removes elements declared in the standard GML namespace (
-	 * {@value org.opengis.cite.iso19136.general.GML32#NS_NAME}), leaving only
+	 * {@value org.opengis.cite.iso19136.GML32#NS_NAME}), leaving only
 	 * those residing in an application namespace.
 	 * 
 	 * @param elemDecls

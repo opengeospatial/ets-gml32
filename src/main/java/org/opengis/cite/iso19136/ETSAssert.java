@@ -71,7 +71,7 @@ public class ETSAssert {
 	 * <ul>
 	 * <li>ows: {@value org.opengis.cite.iso19136.Namespaces#OWS}</li>
 	 * <li>xlink: {@value org.opengis.cite.iso19136.Namespaces#XLINK}</li>
-	 * <li>gml: {@value org.opengis.cite.iso19136.general.GML32#NS_NAME}</li>
+	 * <li>gml: {@value org.opengis.cite.iso19136.GML32#NS_NAME}</li>
 	 * </ul>
 	 * 
 	 * @param expr

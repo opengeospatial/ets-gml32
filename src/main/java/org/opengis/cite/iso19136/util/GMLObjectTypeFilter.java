@@ -6,8 +6,8 @@ import javax.xml.namespace.QName;
 import org.apache.xerces.xs.XSConstants;
 import org.apache.xerces.xs.XSObject;
 import org.apache.xerces.xs.XSTypeDefinition;
+import org.opengis.cite.iso19136.GML32;
 import org.opengis.cite.iso19136.SchemaComponentFilter;
-import org.opengis.cite.iso19136.general.GML32;
 
 /**
  * A schema component filter that accepts GML object types--types that derive

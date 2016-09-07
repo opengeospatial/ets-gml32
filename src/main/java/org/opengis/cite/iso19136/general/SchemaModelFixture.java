@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.xerces.xs.XSElementDeclaration;
 import org.apache.xerces.xs.XSModel;
+import org.opengis.cite.iso19136.GML32;
 import org.opengis.cite.iso19136.SuiteAttribute;
 import org.opengis.cite.iso19136.util.XMLSchemaModelUtils;
 import org.testng.ITestContext;

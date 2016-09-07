@@ -8,8 +8,8 @@ import java.util.Map;
 
 import javax.xml.namespace.NamespaceContext;
 
+import org.opengis.cite.iso19136.GML32;
 import org.opengis.cite.iso19136.Namespaces;
-import org.opengis.cite.iso19136.general.GML32;
 
 /**
  * Provides namespace bindings for evaluating XPath 1.0 expressions using the
@@ -87,7 +87,7 @@ public class NamespaceBindings implements NamespaceContext {
      * <ul>
      * <li>ows: {@value org.opengis.cite.iso19136.Namespaces#OWS}</li>
      * <li>xlink: {@value org.opengis.cite.iso19136.Namespaces#XLINK}</li>
-     * <li>gml: {@value org.opengis.cite.iso19136.general.GML32#NS_NAME}</li>
+     * <li>gml: {@value org.opengis.cite.iso19136.GML32#NS_NAME}</li>
      * </ul>
      * 
      * @return A NamespaceBindings object.

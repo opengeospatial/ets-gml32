@@ -18,6 +18,7 @@ import org.apache.xerces.xs.XSModel;
 import org.apache.xerces.xs.XSNamedMap;
 import org.opengis.cite.iso19136.ErrorMessage;
 import org.opengis.cite.iso19136.ErrorMessageKeys;
+import org.opengis.cite.iso19136.GML32;
 import org.opengis.cite.iso19136.SuiteAttribute;
 import org.opengis.cite.iso19136.util.TestSuiteLogger;
 import org.opengis.cite.iso19136.util.XMLSchemaModelUtils;

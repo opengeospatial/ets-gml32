@@ -10,6 +10,7 @@ import org.apache.xerces.xs.XSModel;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.opengis.cite.iso19136.GML32;
 import org.opengis.cite.iso19136.util.VerifyXMLSchemaModelUtils;
 import org.opengis.cite.validation.XSModelBuilder;
 import org.opengis.cite.validation.XmlSchemaCompiler;

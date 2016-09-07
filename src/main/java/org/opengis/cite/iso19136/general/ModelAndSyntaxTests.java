@@ -10,6 +10,7 @@ import org.apache.xerces.xs.XSSimpleTypeDefinition;
 import org.apache.xerces.xs.XSTypeDefinition;
 import org.opengis.cite.iso19136.ErrorMessage;
 import org.opengis.cite.iso19136.ErrorMessageKeys;
+import org.opengis.cite.iso19136.GML32;
 import org.opengis.cite.iso19136.util.XMLSchemaModelUtils;
 import org.opengis.cite.validation.ErrorSeverity;
 import org.opengis.cite.validation.ValidationErrorHandler;

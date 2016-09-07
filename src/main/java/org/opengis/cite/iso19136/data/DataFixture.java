@@ -8,8 +8,8 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 
 import org.apache.xerces.xs.XSModel;
+import org.opengis.cite.iso19136.GML32;
 import org.opengis.cite.iso19136.SuiteAttribute;
-import org.opengis.cite.iso19136.general.GML32;
 import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;

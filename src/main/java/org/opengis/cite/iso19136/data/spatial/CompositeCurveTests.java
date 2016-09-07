@@ -10,8 +10,8 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.opengis.cite.geomatics.gml.GmlUtils;
+import org.opengis.cite.iso19136.GML32;
 import org.opengis.cite.iso19136.data.DataFixture;
-import org.opengis.cite.iso19136.general.GML32;
 import org.opengis.cite.iso19136.util.XMLUtils;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;

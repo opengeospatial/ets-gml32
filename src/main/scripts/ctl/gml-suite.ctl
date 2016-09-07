@@ -10,7 +10,7 @@
     <ctl:param name="testRunArgs">A Document node containing test run arguments (as XML properties).</ctl:param>
     <ctl:param name="outputDir">The directory in which the test results will be written.</ctl:param>
     <ctl:return>The test results as a Source object (root node).</ctl:return>
-    <ctl:description>Runs the GML 3.2 (${version}) test suite.</ctl:description>
+    <ctl:description>Runs the GML 3.2 test suite for application schemas.</ctl:description>
     <ctl:code>
       <xsl:variable name="controller" select="tng:new($outputDir)" />
       <xsl:copy-of select="tng:doTestRun($controller, $testRunArgs)" />
@@ -18,7 +18,7 @@
   </ctl:function>
 
   <ctl:suite name="tns:ets-${ets-code}-${version}">
-    <ctl:title>GML 3.2 (ISO 19136:2007) Conformance Test Suite</ctl:title>
+    <ctl:title>GML 3.2 Conformance Test Suite - Application Schemas</ctl:title>
     <ctl:description>This executable test suite (ETS) validates GML application 
      schemas or data in accord with ISO 19136:2007.</ctl:description>
     <ctl:starting-test>tns:Main</ctl:starting-test>
@@ -30,7 +30,7 @@
     <ctl:code>
       <xsl:variable name="form-data">
         <ctl:form method="POST" width="800" height="600" xmlns="http://www.w3.org/1999/xhtml">
-          <h2>GML 3.2.1 (ISO 19136:2007) Conformance Test Suite</h2>
+          <h2>GML Conformance Test Suite - Application Schemas</h2>
           <div style="background:#F0F8FF" bgcolor="#F0F8FF">
             <p>The GML resource is checked against the following specifications:</p>
             <ul>
@@ -47,7 +47,7 @@
 			   GML resource (application schema or data set)</legend>
             <p>
               <label for="gml-uri">
-                <h4 style="margin-bottom: 0.5em">Location of GML resource (http: or file: URI)</h4>
+                <h4 style="margin-bottom: 0.5em">Location of application schema (http: or file: URI)</h4>
               </label>
               <input id="gml-uri" name="gml-uri" size="128" type="text" value="" />
             </p>
