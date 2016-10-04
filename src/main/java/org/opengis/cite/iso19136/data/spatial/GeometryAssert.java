@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.geotoolkit.geometry.Envelopes;
@@ -83,6 +84,14 @@ public class GeometryAssert {
      */
     public static void assertValidCRS(Element geom) {
         String srsName = GmlUtils.findCRSReference(geom);
+        if (srsName.isEmpty()) {
+            // look at child gml:posList, gml:pos elements
+            String expr = "(./gml:posList | ./gml:pos)[1]/@srsName";
+            try {
+                srsName = (String) XMLUtils.evaluateXPath(geom, expr, null, XPathConstants.STRING);
+            } catch (XPathExpressionException e) { // valid expression
+            }
+        }
         Assert.assertFalse(srsName.isEmpty(), String.format("%s[@gml:id='%s'] has no associated CRS.",
                 geom.getLocalName(), geom.getAttributeNS(GML32.NS_NAME, "id")));
     }

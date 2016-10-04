@@ -33,8 +33,7 @@ public class VerifyGeometryAssert extends BasicFixture {
     @SuppressWarnings("unchecked")
     public void assertCurveCoveredByValidArea() throws JAXBException {
         URL url = this.getClass().getResource("/geom/Curve-LineString.xml");
-        JAXBElement<CurveType> result = (JAXBElement<CurveType>) gmlUnmarshaller
-                .unmarshal(url);
+        JAXBElement<CurveType> result = (JAXBElement<CurveType>) gmlUnmarshaller.unmarshal(url);
         CurveType curve = result.getValue();
         GeometryAssert.assertGeometryCoveredByValidArea(curve);
     }
@@ -44,75 +43,59 @@ public class VerifyGeometryAssert extends BasicFixture {
     public void assertCurveCoveredByValidAreaFails() throws JAXBException {
         thrown.expect(AssertionError.class);
         thrown.expectMessage("[@gml:id='Curve-2'] is not covered by valid area of CRS");
-        URL url = this.getClass().getResource(
-                "/geom/Curve-LineString-axisOrder.xml");
-        JAXBElement<CurveType> result = (JAXBElement<CurveType>) gmlUnmarshaller
-                .unmarshal(url);
+        URL url = this.getClass().getResource("/geom/Curve-LineString-axisOrder.xml");
+        JAXBElement<CurveType> result = (JAXBElement<CurveType>) gmlUnmarshaller.unmarshal(url);
         CurveType curve = result.getValue();
         GeometryAssert.assertGeometryCoveredByValidArea(curve);
     }
 
     @Test
     public void assertCurveIsConnected() throws SAXException, IOException {
-        InputStream is = this.getClass().getResourceAsStream(
-                "/geom/Curve-GeodesicString.xml");
+        InputStream is = this.getClass().getResourceAsStream("/geom/Curve-GeodesicString.xml");
         Document curve = docBuilder.parse(is);
-        GeometryAssert.assertCurveSegmentsAreConnected(curve
-                .getDocumentElement());
+        GeometryAssert.assertCurveSegmentsAreConnected(curve.getDocumentElement());
     }
 
     @Test
     public void assertCurveIsConnectedFails() throws SAXException, IOException {
         thrown.expect(AssertionError.class);
         thrown.expectMessage("gml:id='Curve-disconnected'");
-        InputStream is = this.getClass().getResourceAsStream(
-                "/geom/Curve-disconnected.xml");
+        InputStream is = this.getClass().getResourceAsStream("/geom/Curve-disconnected.xml");
         Document curve = docBuilder.parse(is);
-        GeometryAssert.assertCurveSegmentsAreConnected(curve
-                .getDocumentElement());
+        GeometryAssert.assertCurveSegmentsAreConnected(curve.getDocumentElement());
     }
 
     @Test
-    public void assertCompositeCurveWithOrientableMemberIsConnected()
-            throws JAXBException, SAXException, IOException {
-        InputStream is = this.getClass().getResourceAsStream(
-                "/geom/CompositeCurve.xml");
+    public void assertCompositeCurveWithOrientableMemberIsConnected() throws JAXBException, SAXException, IOException {
+        InputStream is = this.getClass().getResourceAsStream("/geom/CompositeCurve.xml");
         Document curve = docBuilder.parse(is);
-        GeometryAssert.assertCurveComponentsAreConnected(curve
-                .getDocumentElement());
+        GeometryAssert.assertCurveComponentsAreConnected(curve.getDocumentElement());
     }
 
     @Test
-    public void assertTripartiteCurveIsConnected() throws SAXException,
-            IOException {
-        InputStream is = this.getClass().getResourceAsStream(
-                "/geom/Curve-tripartite.xml");
+    public void assertTripartiteCurveIsConnected() throws SAXException, IOException {
+        InputStream is = this.getClass().getResourceAsStream("/geom/Curve-tripartite.xml");
         Document curve = docBuilder.parse(is);
-        GeometryAssert.assertCurveSegmentsAreConnected(curve
-                .getDocumentElement());
+        GeometryAssert.assertCurveSegmentsAreConnected(curve.getDocumentElement());
     }
 
     @Test
     public void assertValidSurfaceBoundary() throws SAXException, IOException {
-        InputStream is = this.getClass().getResourceAsStream(
-                "/geom/Surface-PolygonPatch-1.xml");
+        InputStream is = this.getClass().getResourceAsStream("/geom/Surface-PolygonPatch-1.xml");
         Document surface = docBuilder.parse(is);
         GeometryAssert.assertValidSurfaceBoundary(surface.getDocumentElement());
     }
 
     @Test
-    public void assertValidSurfaceBoundaryAsTripartiteCurve()
-            throws SAXException, IOException {
-        InputStream is = this.getClass().getResourceAsStream(
-                "/geom/Surface-PolygonPatch-ExteriorCurve.xml");
+    public void assertValidSurfaceBoundaryAsTripartiteCurve() throws SAXException, IOException {
+        InputStream is = this.getClass().getResourceAsStream("/geom/Surface-PolygonPatch-ExteriorCurve.xml");
         Document surface = docBuilder.parse(is);
         GeometryAssert.assertValidSurfaceBoundary(surface.getDocumentElement());
     }
 
     @Test
     public void validAIXMSurfaceBoundary() throws SAXException, IOException {
-        InputStream is = this.getClass().getResourceAsStream(
-                "/geom/AIXMSurface.xml");
+        InputStream is = this.getClass().getResourceAsStream("/geom/AIXMSurface.xml");
         Document surface = docBuilder.parse(is);
         GeometryAssert.assertValidSurfaceBoundary(surface.getDocumentElement());
     }
@@ -121,77 +104,64 @@ public class VerifyGeometryAssert extends BasicFixture {
     public void invalidAIXMSurfaceBoundary() throws SAXException, IOException {
         thrown.expect(AssertionError.class);
         thrown.expectMessage("Interior boundary not covered by surface");
-        InputStream is = this.getClass().getResourceAsStream(
-                "/geom/AIXMSurface-InteriorCrossesExterior.xml");
+        InputStream is = this.getClass().getResourceAsStream("/geom/AIXMSurface-InteriorCrossesExterior.xml");
         Document surface = docBuilder.parse(is);
         GeometryAssert.assertValidSurfaceBoundary(surface.getDocumentElement());
     }
 
     @Test
-    public void assertValidSurfaceOrientation() throws SAXException,
-            IOException {
-        InputStream is = this.getClass().getResourceAsStream(
-                "/geom/Surface-PolygonPatch-2.xml");
+    public void assertValidSurfaceOrientation() throws SAXException, IOException {
+        InputStream is = this.getClass().getResourceAsStream("/geom/Surface-PolygonPatch-2.xml");
         Document surface = docBuilder.parse(is);
-        GeometryAssert.assertValidSurfaceOrientation(surface
-                .getDocumentElement());
+        GeometryAssert.assertValidSurfaceOrientation(surface.getDocumentElement());
     }
 
     @Test
-    public void assertValidSurfaceOrientation_PolygonUTM() throws SAXException,
-            IOException {
-        InputStream is = this.getClass().getResourceAsStream(
-                "/geom/Polygon-UTM.xml");
+    public void assertValidSurfaceOrientation_PolygonUTM() throws SAXException, IOException {
+        InputStream is = this.getClass().getResourceAsStream("/geom/Polygon-UTM.xml");
         Document surface = docBuilder.parse(is);
-        GeometryAssert.assertValidSurfaceOrientation(surface
-                .getDocumentElement());
+        GeometryAssert.assertValidSurfaceOrientation(surface.getDocumentElement());
     }
 
     @Test
-    public void assertValidSurfaceOrientation_exteriorHasCWOrientation()
-            throws SAXException, IOException {
+    public void assertValidSurfaceOrientation_exteriorHasCWOrientation() throws SAXException, IOException {
         thrown.expect(AssertionError.class);
         thrown.expectMessage("Exterior boundary of surface");
         thrown.expectMessage("is not oriented CCW");
-        InputStream is = this.getClass().getResourceAsStream(
-                "/geom/Surface-ExteriorCW.xml");
+        InputStream is = this.getClass().getResourceAsStream("/geom/Surface-ExteriorCW.xml");
         Document surface = docBuilder.parse(is);
-        GeometryAssert.assertValidSurfaceOrientation(surface
-                .getDocumentElement());
+        GeometryAssert.assertValidSurfaceOrientation(surface.getDocumentElement());
     }
 
     @Test
-    public void assertValidSurfaceOrientation_interiorHasCCWOrientation()
-            throws SAXException, IOException {
+    public void assertValidSurfaceOrientation_interiorHasCCWOrientation() throws SAXException, IOException {
         thrown.expect(AssertionError.class);
         thrown.expectMessage("is not oriented CW");
         thrown.expectMessage("gml:interior[1]");
-        InputStream is = this.getClass().getResourceAsStream(
-                "/geom/Surface-InteriorCCW.xml");
+        InputStream is = this.getClass().getResourceAsStream("/geom/Surface-InteriorCCW.xml");
         Document surface = docBuilder.parse(is);
-        GeometryAssert.assertValidSurfaceOrientation(surface
-                .getDocumentElement());
+        GeometryAssert.assertValidSurfaceOrientation(surface.getDocumentElement());
     }
 
     @Test
-    public void validSurfaceOrientation_AIXMSurface() throws SAXException,
-            IOException {
-        InputStream is = this.getClass().getResourceAsStream(
-                "/geom/AIXMSurface.xml");
+    public void validSurfaceOrientation_AIXMSurface() throws SAXException, IOException {
+        InputStream is = this.getClass().getResourceAsStream("/geom/AIXMSurface.xml");
         Document surface = docBuilder.parse(is);
-        GeometryAssert.assertValidSurfaceOrientation(surface
-                .getDocumentElement());
+        GeometryAssert.assertValidSurfaceOrientation(surface.getDocumentElement());
     }
 
     @Test
-    public void invalidSurfaceOrientation_AIXMSurface() throws SAXException,
-            IOException {
+    public void invalidSurfaceOrientation_AIXMSurface() throws SAXException, IOException {
         thrown.expect(AssertionError.class);
         thrown.expectMessage("Interior boundary of surface with @gml:id='SFIRAMSWELL' is not oriented CW");
-        InputStream is = this.getClass().getResourceAsStream(
-                "/geom/AIXMSurface-InteriorCCW.xml");
+        InputStream is = this.getClass().getResourceAsStream("/geom/AIXMSurface-InteriorCCW.xml");
         Document surface = docBuilder.parse(is);
-        GeometryAssert.assertValidSurfaceOrientation(surface
-                .getDocumentElement());
+        GeometryAssert.assertValidSurfaceOrientation(surface.getDocumentElement());
+    }
+
+    @Test
+    public void srsNameOnPosElement() throws SAXException, IOException {
+        Document doc = docBuilder.parse(getClass().getResourceAsStream("/geom/Point-srsNameOnPos.xml"));
+        GeometryAssert.assertValidCRS(doc.getDocumentElement());
     }
 }
