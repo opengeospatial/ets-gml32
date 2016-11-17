@@ -1,6 +1,7 @@
 package org.opengis.cite.iso19136.data.spatial;
 
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -333,7 +334,7 @@ public class GeometryAssert {
         if (null != surfaceType) { // ignore non-GML geometry
             GeometryAssert.assertGeometryCoveredByValidArea(surfaceType);
         }
-        GeodesyUtils.removeConsecutiveDuplicates(extCoordList, 1);
+        removeConsecutiveDuplicates(extCoordList, 0.5);
         GeometryFactory geomFactory = new GeometryFactory();
         LineString exteriorCurve = geomFactory
                 .createLineString(extCoordList.toArray(new Coordinate[extCoordList.size()]));
@@ -421,6 +422,30 @@ public class GeometryAssert {
             Coordinate[] interiorCoords = GeodesyUtils.transformRingToRightHandedCS(gmlRing);
             Assert.assertFalse(CGAlgorithms.isCCW(interiorCoords), ErrorMessage.format(
                     ErrorMessageKeys.INT_BOUNDARY_ORIENT, surfaceElem.getAttributeNS(GML32.NS_NAME, "id"), j + 1));
+        }
+    }
+
+    // NOTE: Use GeodesyUtils in geomatics-geotk after release 1.14
+    static void removeConsecutiveDuplicates(List<Coordinate> coordList, double tolerancePPM) {
+        if (coordList.size() < 2)
+            return;
+        double tolerance = tolerancePPM * 1E-06;
+        ListIterator<Coordinate> itr = coordList.listIterator();
+        Coordinate coord = itr.next();
+        while (itr.hasNext()) {
+            Coordinate nextCoord = itr.next();
+            double xDelta = Math.abs((nextCoord.x / coord.x) - 1.0);
+            double yDelta = Math.abs((nextCoord.y / coord.y) - 1.0);
+            if ((xDelta <= tolerance) && (yDelta <= tolerance)) {
+                if (!itr.hasNext()) {
+                    // remove next to last item
+                    coordList.remove(coordList.size() - 2);
+                    break;
+                }
+                itr.remove();
+                continue;
+            }
+            coord = nextCoord;
         }
     }
 
