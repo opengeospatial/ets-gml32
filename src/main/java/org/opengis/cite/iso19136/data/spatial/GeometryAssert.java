@@ -109,6 +109,8 @@ public class GeometryAssert {
      */
     public static void assertGeometryCoveredByValidArea(AbstractGeometryType gmlGeom) {
         String srsName = gmlGeom.getSrsName();
+        Assert.assertNotNull(srsName, String.format("CRS reference not found for %s with id = %s.",
+                gmlGeom.getClass().getSimpleName(), gmlGeom.getId()));
         // Geotk v3 does not recognize 'http' CRS identifiers
         gmlGeom.setSrsName(GeodesyUtils.convertSRSNameToURN(srsName));
         Envelope crsDomain = Envelopes.getDomainOfValidity(gmlGeom.getCoordinateReferenceSystem());
@@ -310,6 +312,10 @@ public class GeometryAssert {
         if (LOGR.isLoggable(Level.FINE)) {
             LOGR.log(Level.FINE, "Checking boundary of {0} with @gml:id=\"{1}\"",
                     new Object[] { surfaceElem.getNodeName(), surfaceElem.getAttributeNS(GML32.NS_NAME, "id") });
+        }
+        if (surfaceElem.getAttribute("srsName").isEmpty()) {
+            // Look for srsName on ancestor geometry
+            GmlUtils.findCRSReference(surfaceElem);
         }
         List<Coordinate> extCoordList;
         SurfaceCoordinateListFactory coordFactory = new SurfaceCoordinateListFactory();
