@@ -13,6 +13,12 @@
         <title>GML 3.2 (ISO 19136:2007) Conformance Test Suite</title>
         <description>Checks GML application schemas or data sets for conformance to ISO 19136:2007.</description>
       </suite>
+      <BasicConformanceClasses>
+        <conformanceClass>Preconditions</conformanceClass>
+        <conformanceClass>All GML application schemas</conformanceClass>
+        <conformanceClass>GML application schemas defining features</conformanceClass>
+        <conformanceClass>GML Documents</conformanceClass>
+      </BasicConformanceClasses>
       <revision>
         <name>${version}</name>
         <status>Final</status>
