@@ -18,6 +18,7 @@ import org.opengis.cite.iso19136.general.SchemaModelFixture;
 import org.opengis.cite.iso19136.util.XMLSchemaModelUtils;
 import org.testng.Assert;
 import org.testng.ITestContext;
+import org.testng.SkipException;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -85,9 +86,10 @@ public class GeometryComponentTests extends SchemaModelFixture {
 		// explicit geometry properties
 		geomProps.addAll(XMLSchemaModelUtils
 				.getExplicitGeometryProperties(this.model));
-		Assert.assertFalse(geomElements.isEmpty() && geomPropTypes.isEmpty()
-				&& geomProps.isEmpty(),
-				ErrorMessage.get(ErrorMessageKeys.NO_USERDEF_GEOM));
+		if (geomElements.isEmpty() && geomPropTypes.isEmpty()
+				&& geomProps.isEmpty()) {
+			throw new SkipException(ErrorMessage.get(ErrorMessageKeys.NO_USERDEF_GEOM));
+		}
 	}
 
 	/**

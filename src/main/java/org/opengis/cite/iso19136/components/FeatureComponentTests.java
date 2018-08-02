@@ -20,6 +20,7 @@ import org.opengis.cite.iso19136.util.FeatureTypeFilter;
 import org.opengis.cite.iso19136.util.XMLSchemaModelUtils;
 import org.testng.Assert;
 import org.testng.ITestContext;
+import org.testng.SkipException;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -64,8 +65,10 @@ public class FeatureComponentTests extends SchemaModelFixture {
 				.getReferencedComplexTypeDefinitions(this.model);
 		FeatureTypeFilter typeFilter = new FeatureTypeFilter();
 		typeFilter.filterSet(complexTypes);
-		Assert.assertFalse(complexTypes.isEmpty(),
-				"No GML feature type definitions found in schema.");
+		if (complexTypes.isEmpty()) {
+			throw new SkipException(
+					"No GML feature type definitions found in schema.");
+		}
 		if (null == this.schemaInfo) {
 			this.schemaInfo = (AppSchemaInfo) testContext.getSuite()
 					.getAttribute(SuiteAttribute.SCHEMA_INFO.getName());
