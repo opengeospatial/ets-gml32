@@ -46,7 +46,20 @@
   <properties>
     <ets-code>gml32</ets-code>
     <spec-version>3.2.1</spec-version>
+    <soapui.teamengine.endpoint>http://cite.opengeospatial.org/te2</soapui.teamengine.endpoint>
+    <soapui.ets.version>1.26</soapui.ets.version>
+    <soapui.iut>http://cite.deegree.org/deegree-webservices-3.4.0/services/gml321?service=WFS&amp;request=GetFeature&amp;Version=2.0.0&amp;typenames=app:Autos</soapui.iut>
+    <soapui.tests.passed>22</soapui.tests.passed>
+    <soapui.tests.skipped>11</soapui.tests.skipped>
+    <soapui.tests.failed>0</soapui.tests.failed>
   </properties>
+  
+  <pluginRepositories>
+    <pluginRepository>
+      <id>smartbear-sweden-plugin-repository</id>
+      <url>http://www.soapui.org/repository/maven2/</url>
+    </pluginRepository>
+  </pluginRepositories>
 
   <dependencies>
     <dependency>
@@ -154,6 +167,31 @@
         <version>1.1</version>
         <configuration>
           <scmBranch>gh-pages</scmBranch>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.smartbear.soapui</groupId>
+        <artifactId>soapui-maven-plugin</artifactId>
+        <version>5.4.0</version>
+        <dependencies>
+          <dependency>
+            <groupId>com.jgoodies</groupId>
+            <artifactId>forms</artifactId>
+            <version>1.0.7</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <projectFile>src/test/resources/soapui/ets-gml32-soapui-project.xml</projectFile>
+          <junitReport>true</junitReport>
+          <testFailIgnore>true</testFailIgnore>
+          <projectProperties>
+            <value>teamengine.endpoint=${soapui.teamengine.endpoint}</value>
+            <value>ets.version=${soapui.ets.version}</value>
+            <value>iut=${soapui.iut}</value>
+            <value>tests.passed=${soapui.tests.passed}</value>
+            <value>tests.skipped=${soapui.tests.skipped}</value>
+            <value>tests.failed=${soapui.tests.failed}</value>
+          </projectProperties>
         </configuration>
       </plugin>
     </plugins>
