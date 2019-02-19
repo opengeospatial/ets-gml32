@@ -12,7 +12,7 @@
   <dependencySets>
     <dependencySet>
       <includes>
-        <include>com.sun.jersey:jersey-client</include>
+        <include>org.glassfish.jersey.core:jersey-client</include>
         <include>org.opengis.cite:schema-utils</include>
       </includes>
       <outputDirectory>/</outputDirectory>
@@ -23,7 +23,7 @@
     <dependencySet>
       <excludes>
         <exclude>org.opengis.cite.teamengine:teamengine-spi</exclude>
-        <exclude>com.sun.jersey:jersey-client</exclude>
+        <exclude>org.glassfish.jersey.core:jersey-client</exclude>
         <exclude>org.opengis.cite:schema-utils</exclude>
       </excludes>
       <outputDirectory>/</outputDirectory>
