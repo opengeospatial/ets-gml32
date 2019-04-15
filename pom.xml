@@ -182,6 +182,7 @@
         </dependencies>
         <configuration>
           <projectFile>src/test/resources/soapui/ets-gml32-soapui-project.xml</projectFile>
+          <outputFolder>${project.build.directory}/soapui</outputFolder>
           <junitReport>true</junitReport>
           <testFailIgnore>true</testFailIgnore>
           <projectProperties>
