@@ -9,6 +9,7 @@ This executable test suite (ETS) verifies the conformance of GML data and applic
 **Figure 1** - GML schemas
 
 A Schematron schema (ISO 19757-3) may be used to define supplementary data constraints that lay beyond the reach of an XML Schema grammar. A GML instance document may include a schema reference using the `xml-model` processing instruction (PI) as described in [ISO 19757-11](http://standards.iso.org/ittf/PubliclyAvailableStandards/c054793_ISO_IEC_19757-11_2011.zip). The PI must appear before the document element as shown in the following listing.
+
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="http://example.org/data-constraints.sch" 
@@ -40,7 +41,8 @@ Table 1 in the GML specification defines the conformance classes related to GML 
 
 No specific conformance classes are defined for GML instance documents. However, clause A.3 (_Abstract test suite for GML documents_) includes a set of abstract test cases for validating GML documents. Of these, A.3.1-A.3.4 are implemented by this test suite. Clause A.3.5 is a very broad, catch-all constraint that is partly implemented: "Verify that the GML document complies with all other constraints specified by this International Standard." 
 
-Among the constraints implied by A.3.5 are those concerned with the validity of geometry representations. The suite includes tests that validate the geometry elements listed below; these tests also apply to any application-defined geometries that can substitute for the standard GML elements. 
+Among the constraints implied by A.3.5 are those concerned with the validity of geometry representations. The suite includes tests that validate the geometry elements listed below; these tests also apply to any application-defined geometries that can substitute for the standard GML elements.
+
 * gml:Point 
 * gml:Curve having the following curve segments: gml:ArcByCenterPoint, gml:CircleByCenterPoint, gml:Arc, gml;Circle, gml:GeodesicString, gml:Geodesic, gml: LineStringSegment 
 * gml:OrientableCurve 
@@ -65,9 +67,10 @@ The Javadoc documentation provides more detailed information about the test meth
 
 ## Test requirements 
 
-The documents listed below stipulate requirements that must be satisfied by a conforming application schema. 
-* [ISO-19136] [Geographic information -- Geography Markup Language (GML)](http://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=32554). Also published as [OGC 07-036](http://portal.opengeospatial.org/files/?artifact_id=20509). 
-* [XMLSchema] [XML Schema Part 1: Structures](http://www.w3.org/TR/xmlschema-1/), Second Edition 
+The documents listed below stipulate requirements that must be satisfied by a conforming application schema.
+
+* [ISO-19136 - Geographic information -- Geography Markup Language (GML)](http://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=32554). Also published as [OGC 07-036](http://portal.opengeospatial.org/files/?artifact_id=20509).
+* [XML Schema Part 1: Structures](http://www.w3.org/TR/xmlschema-1/), Second Edition
 
 A conforming GML application schema must satisfy all mandatory constraints _and_ define at least one type of GML object in accord with clauses 21.3 through 21.11. The applicable type-specific test cases are described in clauses A.1.4 through A.1.12. 
 
@@ -83,15 +86,16 @@ The test run arguments are summarized in Table 3\. The _Obligation_ descriptor c
 
 **Table 3 - Test run arguments**
 
-| Name | VAlue domain | Obligation | Description |
+| Name | Value domain | Obligation | Description |
 | ---- | ------------ | ---------- | ----------- |
 | gml | URI | M | An absolute URI that refers to either a representation of a GML data instance or an application schema1.|
 | sch | URI | O | A URI referring to a Schematron schema that defines supplementary data constraints2.| 
 
 
-**Notes:** 
-     <br /> 1.  Ampersand ('&') characters appearing within query parameter values must be percent-encoded as %26.
-     <br /> 2.  See ISO 19757-3:2006 |
+**Notes:**
+
+ 1.  Ampersand ('&') characters appearing within query parameter values must be percent-encoded as %26.
+ 1.  See ISO 19757-3:2006
 
 
 
