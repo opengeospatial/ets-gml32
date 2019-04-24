@@ -3,6 +3,7 @@ package org.opengis.cite.iso19136;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.logging.Level;
@@ -182,6 +183,55 @@ public class ETSAssert {
      * some base GML property type (gml:AssociationRoleType, gml:ReferenceType,
      * gml:InlinePropertyType). The following constraints apply to the content
      * model:
+     *
+     * <ul>
+     * <li>if the content model is not empty, one of the following cases must be
+     * true:
+     * <ol>
+     * <li>it contains only one element declaration (the property value), which
+     * may occur more than once in an array property type;</li>
+     * <li>it contains a choice compositor that allows at most one element (an
+     * allowable substitution) to occur.</li>
+     * </ol>
+     * </li>
+     * <li>if it is empty (or possibly empty), it includes the attribute group
+     * gml:AssociationAttributeGroup.</li>
+     * <li>includes the attribute group gml:OwnershipAttributeGroup.</li>
+     * <li>does not contain a wildcard schema component.</li>
+     * <li>the property value must substitute for the designated head element
+     * (if specified).</li>
+     * </ul>
+     *
+     * <p style="margin-bottom: 0.5em">
+     * <strong>Sources</strong>
+     * </p>
+     * <ul>
+     * <li>ISO 19136:2007, cl. 7.2.3.3: abstractAssociationRole,
+     * AssociationRoleType</li>
+     * <li>ISO 19136:2007, cl. 7.2.3.7: abstractReference, ReferenceType</li>
+     * <li>ISO 19136:2007, cl. 7.2.3.8: abstractInlineProperty,
+     * InlinePropertyType</li>
+     * </ul>
+     *
+     * @param model
+     *            An XSModel object representing an XML Schema resource.
+     * @param propertyDecl
+     *            An XSElementDeclaration object representing a property element
+     *            declaration.
+     * @param head
+     *            The head of the substitution group to which the property value
+     *            belongs (may be {@code null}).
+     */
+    public static void assertValidPropertyType(XSModel model, XSElementDeclaration propertyDecl,
+                                               XSElementDeclaration head) {
+        assertValidPropertyType(model, propertyDecl, head, false);
+    }
+    /**
+     * Asserts that the content model of the given type definition mimics a GML
+     * property type. The type is presumably not derived (by restriction) from
+     * some base GML property type (gml:AssociationRoleType, gml:ReferenceType,
+     * gml:InlinePropertyType). The following constraints apply to the content
+     * model:
      * 
      * <ul>
      * <li>if the content model is not empty, one of the following cases must be
@@ -220,9 +270,10 @@ public class ETSAssert {
      * @param head
      *            The head of the substitution group to which the property value
      *            belongs (may be {@code null}).
+     * @param includeHeadInSubstition <code>true</code> if the property value may belong to the head, <code>false</code> otherwise
      */
     public static void assertValidPropertyType(XSModel model, XSElementDeclaration propertyDecl,
-            XSElementDeclaration head) {
+            XSElementDeclaration head, boolean includeHeadInSubstition) {
         XSComplexTypeDefinition propTypeDef = (XSComplexTypeDefinition) propertyDecl.getTypeDefinition();
         String localName = (propTypeDef.getAnonymous()) ? propertyDecl.getName() : propTypeDef.getName();
         boolean isEmpty = (propTypeDef.getContentType() == XSComplexTypeDefinition.CONTENTTYPE_EMPTY);
@@ -255,12 +306,7 @@ public class ETSAssert {
             XSParticle particle = (XSParticle) group.getParticles().item(0);
             switch (particle.getTerm().getType()) {
             case XSConstants.ELEMENT_DECLARATION:
-                if (null != head) {
-                    XSElementDeclaration propDecl = (XSElementDeclaration) particle.getTerm();
-                    Assert.assertTrue(XMLSchemaModelUtils.getElementsByAffiliation(model, head).contains(propDecl),
-                            ErrorMessage.format(ErrorMessageKeys.DISALLOWED_SUBSTITUTION, propDecl, head,
-                                    XMLSchemaModelUtils.getQName(propTypeDef)));
-                }
+                assertSubstitition(model, head, propTypeDef, particle, includeHeadInSubstition);
                 break;
             case XSConstants.MODEL_GROUP:
                 XSModelGroup modelGroup = XSModelGroup.class.cast(particle.getTerm());
@@ -275,12 +321,7 @@ public class ETSAssert {
                     if (xsParticle.getTerm().getType() != XSConstants.ELEMENT_DECLARATION) {
                         throw new AssertionError("Only element declarations are allowed in choice compositor.");
                     }
-                    if (null != head) {
-                        XSElementDeclaration elemDecl = (XSElementDeclaration) xsParticle.getTerm();
-                        Assert.assertTrue(XMLSchemaModelUtils.getElementsByAffiliation(model, head).contains(elemDecl),
-                                ErrorMessage.format(ErrorMessageKeys.DISALLOWED_SUBSTITUTION, elemDecl, head,
-                                        XMLSchemaModelUtils.getQName(propTypeDef)));
-                    }
+                    assertSubstitition(model, head, propTypeDef, xsParticle, includeHeadInSubstition);
                 }
                 break;
             default:
@@ -335,4 +376,19 @@ public class ETSAssert {
         }
         return attrUse;
     }
+
+    private static void assertSubstitition(XSModel model, XSElementDeclaration head,
+                                           XSComplexTypeDefinition propTypeDef, XSParticle xsParticle,
+                                           boolean includeHead) {
+        if (null != head) {
+            XSElementDeclaration elemDecl = (XSElementDeclaration) xsParticle.getTerm();
+            List<XSElementDeclaration> elementsByAffiliation = XMLSchemaModelUtils.getElementsByAffiliation(model, head);
+            if(includeHead)
+                elementsByAffiliation.add(head);
+            Assert.assertTrue(elementsByAffiliation.contains(elemDecl),
+                    ErrorMessage.format(ErrorMessageKeys.DISALLOWED_SUBSTITUTION, elemDecl, head,
+                            XMLSchemaModelUtils.getQName(propTypeDef)));
+        }
+    }
+    
 }
