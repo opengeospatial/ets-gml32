@@ -23,6 +23,7 @@ import org.opengis.geometry.DirectPosition;
 import org.opengis.geometry.Envelope;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.testng.Assert;
+import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -111,8 +112,8 @@ public class EnvelopeTests extends DataFixture {
 			String errMsg = x.getMessage().replaceAll("[^\\x00-\\x7F]", "");
 			throw new RuntimeException(errMsg);
 		}
-		Assert.assertFalse(this.envelopes.isEmpty(),
-				"gml:Envelope elements not found.");
+		if(this.envelopes.isEmpty())
+				throw new SkipException("No gml:Envelope elements found.");
 	}
 
 	/**

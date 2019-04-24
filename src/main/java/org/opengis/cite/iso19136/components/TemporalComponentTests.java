@@ -18,6 +18,7 @@ import org.opengis.cite.iso19136.general.SchemaModelFixture;
 import org.opengis.cite.iso19136.util.XMLSchemaModelUtils;
 import org.testng.Assert;
 import org.testng.ITestContext;
+import org.testng.SkipException;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -76,8 +77,10 @@ public class TemporalComponentTests extends SchemaModelFixture {
 		// implicit temporal property types
 		List<XSElementDeclaration> timeProps = XMLSchemaModelUtils
 				.getImplicitProperties(this.model, abstractTime);
-		Assert.assertFalse(timeElements.isEmpty() && timeProps.isEmpty(),
-				"No temporal (property) components found in schema.");
+		if (timeElements.isEmpty() && timeProps.isEmpty()) {
+			throw new SkipException(
+					"No temporal (property) components found in schema.");
+		}
 	}
 
 	/**
