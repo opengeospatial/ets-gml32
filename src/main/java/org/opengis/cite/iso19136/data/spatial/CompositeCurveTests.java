@@ -14,6 +14,7 @@ import org.opengis.cite.iso19136.GML32;
 import org.opengis.cite.iso19136.data.DataFixture;
 import org.opengis.cite.iso19136.util.XMLUtils;
 import org.testng.Assert;
+import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.w3c.dom.Element;
@@ -54,8 +55,8 @@ public class CompositeCurveTests extends DataFixture {
 		} catch (XPathExpressionException xpe) { // won't happen
 			throw new RuntimeException(xpe);
 		}
-		Assert.assertFalse(this.curveNodes.getLength() == 0,
-				"No gml:CompositeCurve elements were found.");
+		if(this.curveNodes.getLength() == 0)
+				throw new SkipException("No gml:CompositeCurve elements found.");
 	}
 
 	/**
