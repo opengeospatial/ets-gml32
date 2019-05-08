@@ -18,6 +18,7 @@ import org.opengis.cite.iso19136.general.SchemaModelFixture;
 import org.opengis.cite.iso19136.util.XMLSchemaModelUtils;
 import org.testng.Assert;
 import org.testng.ITestContext;
+import org.testng.SkipException;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -73,8 +74,10 @@ public class TopologyComponentTests extends SchemaModelFixture {
 		// implicit topology property types
 		List<XSElementDeclaration> topoProps = XMLSchemaModelUtils
 				.getImplicitProperties(this.model, abstractTopo);
-		Assert.assertFalse(topoElements.isEmpty() && topoProps.isEmpty(),
-				"No GML topology (property) components found in schema.");
+		if (topoElements.isEmpty() && topoProps.isEmpty()) {
+			throw new SkipException(
+					"No GML topology (property) components found in schema.");
+		}
 	}
 
 	/**
