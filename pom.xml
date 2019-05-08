@@ -47,6 +47,7 @@
     <ets-code>gml32</ets-code>
     <spec-version>3.2.1</spec-version>
     <docker.teamengine.version>5.3</docker.teamengine.version>
+    <soapui.test.fail.ignore>false</soapui.test.fail.ignore>
   </properties>
 
   <pluginRepositories>
@@ -179,7 +180,7 @@
           <projectFile>src/test/resources/soapui/ets-gml32-soapui-project.xml</projectFile>
           <outputFolder>${project.build.directory}/soapui</outputFolder>
           <junitReport>true</junitReport>
-          <testFailIgnore>true</testFailIgnore>
+          <testFailIgnore>${soapui.test.fail.ignore}</testFailIgnore>
           <projectProperties>
             <value>teamengine.endpoint=${soapui.teamengine.endpoint}</value>
             <value>ets.version=${soapui.ets.version}</value>
