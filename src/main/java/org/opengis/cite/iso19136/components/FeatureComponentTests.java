@@ -123,7 +123,7 @@ public class FeatureComponentTests extends SchemaModelFixture {
 		XSElementDeclaration gmlFeature = this.model.getElementDeclaration(
 				GML32.ABSTRACT_FEATURE, GML32.NS_NAME);
 		for (XSElementDeclaration memberProp : memberProps) {
-			ETSAssert.assertValidPropertyType(model, memberProp, gmlFeature);
+			ETSAssert.assertValidPropertyType(model, memberProp, gmlFeature, true);
 		}
 	}
 
