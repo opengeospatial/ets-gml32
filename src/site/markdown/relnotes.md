@@ -1,5 +1,15 @@
 # Release Notes
 
+## 1.27 (2019-05-29)
+
+* [#43](https://github.com/opengeospatial/ets-gml32/issues/43): Update tests to use TEAM Engine 5.4 enhancement
+* [#40](https://github.com/opengeospatial/ets-gml32/issues/40): Enable Docker support and configure integration tests enhancement
+* [#28](https://github.com/opengeospatial/ets-gml32/issues/28): feature collection of "gml:AbstractFeature"s does not validate bug
+* [#17](https://github.com/opengeospatial/ets-gml32/issues/17): Colors in detailed test report are confusing or not correct enhancement question
+* [#24](https://github.com/opengeospatial/ets-gml32/issues/24): Move release notes from changelog to relnotes enhancement
+* [#36](https://github.com/opengeospatial/ets-gml32/issues/36): Introduce Dockerfile and Maven Docker plugin enhancement
+* [#31](https://github.com/opengeospatial/ets-gml32/issues/31): Create SoapUI tests and integrate them into Maven and Jenkinsfile enhancement
+
 ## 1.26 (2018-05-16)
 
 This maintenance release includes the following changes:
