@@ -49,8 +49,8 @@
     <soapui.test.fail.ignore>true</soapui.test.fail.ignore>
     <soapui.teamengine.endpoint>http://cite.opengeospatial.org/te2</soapui.teamengine.endpoint>
     <soapui.iut>http://cite.deegree.org/deegree-webservices-3.4.0/services/gml321?service=WFS&amp;request=GetFeature&amp;Version=2.0.0&amp;typenames=app:Autos</soapui.iut>
-    <soapui.tests.passed>207</soapui.tests.passed>
-    <soapui.tests.skipped>0</soapui.tests.skipped>
+    <soapui.tests.passed>22</soapui.tests.passed>
+    <soapui.tests.skipped>11</soapui.tests.skipped>
     <soapui.tests.failed>0</soapui.tests.failed>
     <docker.teamengine.version>5.4</docker.teamengine.version>
   </properties>
