@@ -178,8 +178,8 @@ public class GeneralSchemaTests {
 	/**
 	 * Determines the target namespace of a GML application schema, which is
 	 * assumed to be the first schema found to have a target namespace name that
-	 * is <strong>not</strong> in the opengis.net domain. If a URI cannot be
-	 * dereferenced it is skipped.
+	 * is <strong>not</strong> referring to http://www.opengis.net/gml/3.2.
+	 *  If a URI cannot be dereferenced it is skipped.
 	 * 
 	 * @param schemaLocations
 	 *            A {@literal Set<URI>} of schema references.
@@ -199,7 +199,7 @@ public class GeneralSchemaTests {
 				Attribute targetNS = docElem.getAttributeByName(new QName(
 						"targetNamespace"));
 				if (null != targetNS
-						&& !targetNS.getValue().contains("opengis.net")) {
+						&& !targetNS.equals("http://www.opengis.net/gml/3.2")) {
 					tns = targetNS.getValue();
 					break;
 				}
