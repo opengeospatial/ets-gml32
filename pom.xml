@@ -46,7 +46,7 @@
   <properties>
     <ets-code>gml32</ets-code>
     <spec-version>3.2.1</spec-version>
-    <soapui.test.fail.ignore>true</soapui.test.fail.ignore>
+    <soapui.test.fail.ignore>false</soapui.test.fail.ignore>
     <soapui.teamengine.endpoint>http://cite.opengeospatial.org/te2</soapui.teamengine.endpoint>
     <soapui.iut>http://cite.deegree.org/deegree-webservices-3.4.0/services/gml321?service=WFS&amp;request=GetFeature&amp;Version=2.0.0&amp;typenames=app:Autos</soapui.iut>
     <soapui.tests.passed>22</soapui.tests.passed>
