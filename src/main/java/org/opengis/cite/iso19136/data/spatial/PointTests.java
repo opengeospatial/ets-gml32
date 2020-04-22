@@ -131,8 +131,9 @@ public class PointTests extends DataFixture {
 		for (int i = 0; i < this.points.getLength(); i++) {
 			Element point = (Element) this.points.item(i);
 			DirectPosition dpos = null;
+			boolean ignoreThirdDimension = true;
 			try {
-				dpos = createDirectPosition(point);
+				dpos = createDirectPosition(point, ignoreThirdDimension);
 			} catch (IndexOutOfBoundsException x) {
 				// coordinate tuple length > CRS dim
 				throw new AssertionError(ErrorMessage.format(
@@ -166,12 +167,15 @@ public class PointTests extends DataFixture {
 	 * 
 	 * @param point
 	 *            A gml:Point element (or an element in its substitution group).
+	 * @param ignoreThirdDimension
+	 *            If this flag is true then it will ignore third dimension 
+	 *            else it will include all dimension.  
 	 * @throws IndexOutOfBoundsException
 	 *             If the length of the coordinate tuple exceeds the dimension
 	 *             of the associated CRS.
 	 * @return A DirectPosition holding the coordinates of the original point.
 	 */
-	DirectPosition createDirectPosition(Element point) {
+	DirectPosition createDirectPosition(Element point, boolean ignoreThirdDimension) {
 		NodeList posList = point.getElementsByTagNameNS(GML32.NS_NAME, "pos");
 		if (posList.getLength() != 1) {
 			throw new IllegalArgumentException(
@@ -191,7 +195,13 @@ public class PointTests extends DataFixture {
 		DirectPosition dpos = new GeneralDirectPosition(crs);
 		Element posElem = (Element) posList.item(0);
 		String[] coordTuple = posElem.getTextContent().trim().split("\\s+");
-		for (int i = 0; i < coordTuple.length; i++) {
+		int coordTupleLength;
+		if(ignoreThirdDimension) {
+		    coordTupleLength = 2;
+		} else {
+		    coordTupleLength = coordTuple.length;
+		}
+		for (int i = 0; i < coordTupleLength; i++) {
 			double val = Double.parseDouble(coordTuple[i]);
 			dpos.setOrdinate(i, val);
 		}
