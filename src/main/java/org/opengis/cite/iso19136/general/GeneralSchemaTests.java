@@ -199,7 +199,7 @@ public class GeneralSchemaTests {
 				Attribute targetNS = docElem.getAttributeByName(new QName(
 						"targetNamespace"));
 				if (null != targetNS
-						&& !targetNS.equals("http://www.opengis.net/gml/3.2")) {
+						&& !targetNS.getValue().contains("http://www.opengis.net/gml/3.2") && !targetNS.getValue().contains("http://www.opengis.net/wfs/2.0")) {
 					tns = targetNS.getValue();
 					break;
 				}

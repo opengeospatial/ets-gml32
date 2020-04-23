@@ -31,7 +31,7 @@
           </con:assertion>
           <con:assertion type="Simple Contains" id="22cf9feb-0c51-49a3-9966-0f65761e01b3" name="Contains test suite">
             <con:configuration>
-              <token>Conformance Test Suite - OGC Web Map Service 1.3.0</token>
+              <token>GML (ISO 19136:2007) Conformance Test Suite, Version 3.2.1</token>
               <ignoreCase>false</ignoreCase>
               <useRegEx>false</useRegEx>
             </con:configuration>
@@ -262,7 +262,7 @@ declare namespace cite="http://cite.opengeospatial.org/";
     </con:property>
     <con:property>
       <con:name>iut</con:name>
-      <con:value>http://cite.deegree.org/deegree-webservices-3.4.0/services/gml321?service=WFS&amp;request=GetFeature&amp;Version=2.0.0&amp;typenames=app:Autos</con:value>
+      <con:value>http://cite.deegree.org/deegree-webservices-3.4.5/services/gml321?service=WFS&amp;request=GetFeature&amp;Version=2.0.0&amp;typenames=app:Autos</con:value>
     </con:property>
     <con:property>
       <con:name>tests.passed</con:name>
