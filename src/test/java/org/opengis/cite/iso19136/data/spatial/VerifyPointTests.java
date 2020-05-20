@@ -91,18 +91,6 @@ public class VerifyPointTests extends BasicFixture {
 	}
 
 	@Test
-	public void point3DWith2DCRS() throws URISyntaxException {
-		thrown.expect(AssertionError.class);
-		thrown.expectMessage("Point[@gml:id='P1'] geometry has unexpected coordinate dimension");
-		URL url = this.getClass().getResource("/geom/Point-27700.xml");
-		File dataFile = new File(url.toURI());
-		PointTests iut = new PointTests();
-		iut.setDataFile(dataFile);
-		iut.findPoints();
-		iut.pointHasValidPosition();
-	}
-
-	@Test
 	public void invalidPointInEPSG3045AsHttpURI() throws URISyntaxException {
 		thrown.expect(AssertionError.class);
 		thrown.expectMessage("not within CRS area of use");
