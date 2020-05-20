@@ -185,7 +185,11 @@ public class PointTests extends DataFixture {
 		String srsName = GmlUtils.findCRSReference(point);
 		CoordinateReferenceSystem crs = null;
 		try {
-			crs = CRS.decode(GeodesyUtils.getAbbreviatedCRSIdentifier(srsName));
+                        crs = CRS.decode(GeodesyUtils.getAbbreviatedCRSIdentifier(srsName));
+                        // The only Projected CRS is returned if third dimension is ignored.
+                        if (ignoreThirdDimension) {
+                            crs = CRS.getHorizontalCRS(crs);
+                        }
 		} catch (FactoryException fex) {
 			TestSuiteLogger.log(Level.WARNING, String.format(
 					"Unknown srsName found in %s[@gml:id='%s']: %s",
