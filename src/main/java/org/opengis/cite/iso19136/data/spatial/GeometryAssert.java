@@ -404,7 +404,7 @@ public class GeometryAssert {
                 throw new RuntimeException(je);
             }
             // JTS algorithm assumes right-handed coordinates (e.g. lon,lat)
-            Coordinate[] exteriorCoords = GeodesyUtils.transformRingToRightHandedCS(gmlRing);
+            Coordinate[] exteriorCoords = GeodesyUtils.transformRingToRightHandedCSKeepAllCoords(gmlRing);
             Assert.assertTrue(CGAlgorithms.isCCW(exteriorCoords), ErrorMessage
                     .format(ErrorMessageKeys.EXT_BOUNDARY_ORIENT, surfaceElem.getAttributeNS(GML32.NS_NAME, "id")));
         }
@@ -419,7 +419,7 @@ public class GeometryAssert {
             } catch (JAXBException je) {
                 throw new RuntimeException(je);
             }
-            Coordinate[] interiorCoords = GeodesyUtils.transformRingToRightHandedCS(gmlRing);
+            Coordinate[] interiorCoords = GeodesyUtils.transformRingToRightHandedCSKeepAllCoords(gmlRing);
             Assert.assertFalse(CGAlgorithms.isCCW(interiorCoords), ErrorMessage.format(
                     ErrorMessageKeys.INT_BOUNDARY_ORIENT, surfaceElem.getAttributeNS(GML32.NS_NAME, "id"), j + 1));
         }
