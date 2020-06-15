@@ -133,6 +133,14 @@ public class LineStringTests extends DataFixture {
 				JAXBElement<LineStringType> result = gmlUnmarshaller.unmarshal(
 						lineElem, LineStringType.class);
 				line = result.getValue();
+				//Set srsDimension from data file if present.
+				NodeList posList = lineElem.getElementsByTagNameNS(GML32.NS_NAME, "posList");
+				if (posList.getLength() > 0) {
+				    Element pos = (Element) posList.item(0);
+				    if (null != pos && pos.getAttribute("srsDimension") != "") {
+				        line.setSrsDimension(Integer.valueOf(pos.getAttribute("srsDimension")));
+				    }
+				}
 			} catch (JAXBException e) {
 				TestSuiteLogger.log(Level.WARNING,
 						"Failed to unmarshal LineString geometry.", e);
