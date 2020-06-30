@@ -1,5 +1,11 @@
 # Release Notes
 
+## 1.28 (2020-06-30)
+
+* [#46](https://github.com/opengeospatial/ets-gml32/issues/46): application schema limitation
+* [#45](https://github.com/opengeospatial/ets-gml32/issues/45): 2.5D points
+* [#32](https://github.com/opengeospatial/ets-gml32/issues/32): ArrayIndexOutOfBoundsException thrown for MultiCurve with srsDimension=3
+
 ## 1.27 (2019-05-29)
 
 * [#43](https://github.com/opengeospatial/ets-gml32/issues/43): Update tests to use TEAM Engine 5.4 enhancement
