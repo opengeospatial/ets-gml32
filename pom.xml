@@ -88,6 +88,61 @@
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.vividsolutions</groupId>
+      <artifactId>jts</artifactId>
+      <version>1.13</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.ws.rs</groupId>
+      <artifactId>jsr311-api</artifactId>
+      <version>1.1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.geotoolkit</groupId>
+      <artifactId>geotk-referencing</artifactId>
+      <version>3.21</version>
+    </dependency>
+    <dependency>
+      <groupId>org.geotoolkit</groupId>
+      <artifactId>geotk-utility</artifactId>
+      <version>3.21</version>
+    </dependency>
+    <dependency>
+      <groupId>org.geotoolkit</groupId>
+      <artifactId>geotk-xml-base</artifactId>
+      <version>3.21</version>
+    </dependency>
+    <dependency>
+      <groupId>org.geotoolkit.pending</groupId>
+      <artifactId>geotk-xml-gml</artifactId>
+      <version>3.21</version>
+    </dependency>
+    <dependency>
+      <groupId>org.opengis</groupId>
+      <artifactId>geoapi-pending</artifactId>
+      <version>3.1-M04</version>
+    </dependency>
+    <dependency>
+      <groupId>org.opengis.cite.saxon</groupId>
+      <artifactId>saxon9</artifactId>
+      <version>9.0.0.8</version>
+    </dependency>
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>6.9.10</version>
+    </dependency>
+    <dependency>
+      <groupId>xerces</groupId>
+      <artifactId>xercesImpl</artifactId>
+      <version>2.11.0</version>
+    </dependency>
+    <dependency>
+      <groupId>xml-apis</groupId>
+      <artifactId>xml-apis</artifactId>
+      <version>1.4.01</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -407,4 +462,14 @@
       <url>scm:git:git@github.com:opengeospatial/ets-gml32.git</url>
     </site>
   </distributionManagement>
+
+  <repositories>
+    <!-- Geotk 3.21 not available in Central repository -->
+    <repository>
+      <id>geotoolkit</id>
+      <name>Geotk Modules</name>
+      <url>http://maven.geotoolkit.org/</url>
+      <layout>default</layout>
+    </repository>
+  </repositories>
 </project>
