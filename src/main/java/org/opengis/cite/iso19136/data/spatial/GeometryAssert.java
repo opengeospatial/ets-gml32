@@ -13,6 +13,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.geotoolkit.geometry.Envelopes;
+import org.geotoolkit.geometry.jts.JTS;
 import org.geotoolkit.gml.xml.AbstractRing;
 import org.geotoolkit.gml.xml.v321.AbstractCurveSegmentType;
 import org.geotoolkit.gml.xml.v321.AbstractCurveType;
@@ -34,6 +35,8 @@ import org.opengis.cite.iso19136.util.TestSuiteLogger;
 import org.opengis.cite.iso19136.util.XMLUtils;
 import org.opengis.geometry.Envelope;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
+import org.opengis.referencing.operation.MathTransform;
+import org.opengis.referencing.operation.TransformException;
 import org.opengis.util.FactoryException;
 import org.testng.Assert;
 import org.w3c.dom.Element;
@@ -404,7 +407,7 @@ public class GeometryAssert {
                 throw new RuntimeException(je);
             }
             // JTS algorithm assumes right-handed coordinates (e.g. lon,lat)
-            Coordinate[] exteriorCoords = GeodesyUtils.transformRingToRightHandedCS(gmlRing);
+            Coordinate[] exteriorCoords = transformRingToRightHandedCSKeepAllCoords(gmlRing); //return to using GeodesyUtils.transformRingToRightHandedCSKeepAllCoords(gmlRing); after geotk is updated on the Production TEAM Engine
             Assert.assertTrue(CGAlgorithms.isCCW(exteriorCoords), ErrorMessage
                     .format(ErrorMessageKeys.EXT_BOUNDARY_ORIENT, surfaceElem.getAttributeNS(GML32.NS_NAME, "id")));
         }
@@ -424,6 +427,86 @@ public class GeometryAssert {
                     ErrorMessageKeys.INT_BOUNDARY_ORIENT, surfaceElem.getAttributeNS(GML32.NS_NAME, "id"), j + 1));
         }
     }
+    
+    // Added temporarily in 2020-09. It will remain until the geomatics-geotk is updated with the same method in the Production TEAM Engine.
+    
+	 /**
+     * Transforms the given GML ring to a right-handed coordinate system (if it
+     * does not already use one) and returns the resulting coordinate sequence.
+     * Many computational geometry algorithms assume right-handed coordinates.
+     * In some cases this can be achieved simply by changing the axis order; for
+     * example, from (lat,lon) to (lon,lat).
+     * 
+     * @param gmlRing
+     *            A representation of a GML ring (simple closed curve).
+     * @return A Coordinate[] array, or {@code null} if the original CRS could
+     *         not be identified.
+     */
+    public static Coordinate[] transformRingToRightHandedCSKeepAllCoords(AbstractRing gmlRing) {
+            String srsName = gmlRing.getSrsName();
+            if (null == srsName || srsName.isEmpty()) {
+                    return null;
+            }
+            CurveCoordinateListFactory curveCoordFactory = new CurveCoordinateListFactory();
+            List<Coordinate> curveCoords = curveCoordFactory
+                            .createCoordinateList(gmlRing);
+            MathTransform crsTransform;
+            try {
+                    CoordinateReferenceSystem sourceCRS = CRS
+                                    .decode(getAbbreviatedCRSIdentifier(srsName));
+                    CoordinateReferenceSystem targetCRS = CRS.decode(
+                                    getAbbreviatedCRSIdentifier(srsName), true);
+                    crsTransform = CRS.findMathTransform(sourceCRS, targetCRS);
+            } catch (FactoryException fx) {
+                    throw new RuntimeException(
+                                    "Failed to create coordinate transformer.", fx);
+            }
+            for (Coordinate coord : curveCoords) {
+                    try {
+                            JTS.transform(coord, coord, crsTransform);
+                    } catch (TransformException tx) {
+                            throw new RuntimeException("Failed to transform coordinate: "
+                                            + coord, tx);
+                    }
+            }
+            return curveCoords.toArray(new Coordinate[curveCoords.size()]);
+    }   
+
+ // Added temporarily in 2020-09. It will remain until the geomatics-geotk is updated with the same method in the Production TEAM Engine.
+    
+    /**
+	 * Returns an abbreviated identifier for the given CRS reference. The result
+	 * contains the code space (authority) and code value extracted from the URI
+	 * reference.
+	 * 
+	 * @param srsName
+	 *            An absolute URI ('http' or 'urn' scheme) that identifies a CRS
+	 *            in accord with OGC 09-048r3.
+	 * @return A String of the form "{@code authority:code}".
+	 * 
+	 * @see <a target="_blank"
+	 *      href="http://portal.opengeospatial.org/files/?artifact_id=37802">OGC
+	 *      09-048r3, <em>Name type specification - definitions - part 1 - basic
+	 *      name</em></a>
+	 */
+	public static String getAbbreviatedCRSIdentifier(String srsName) {
+		StringBuilder crsId = new StringBuilder();
+		int crsIndex = srsName.indexOf("crs");
+		String separator;
+		if (srsName.startsWith("http://www.opengis.net")) {
+			separator = "/";
+		} else if (srsName.startsWith("urn:ogc")) {
+			separator = ":";
+		} else {
+			throw new IllegalArgumentException(
+					"Invalid CRS reference (see OGC 09-048r3): " + srsName);
+		}
+		String[] parts = srsName.substring(crsIndex + 4).split(separator);
+		if (parts.length == 3) {
+			crsId.append(parts[0]).append(':').append(parts[2]);
+		}
+		return crsId.toString();
+	}    
 
     // NOTE: Use GeodesyUtils in geomatics-geotk after release 1.14
     static void removeConsecutiveDuplicates(List<Coordinate> coordList, double tolerancePPM) {
