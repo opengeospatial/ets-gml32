@@ -13,6 +13,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.geotoolkit.geometry.Envelopes;
+import org.geotoolkit.geometry.jts.JTS;
 import org.geotoolkit.gml.xml.AbstractRing;
 import org.geotoolkit.gml.xml.v321.AbstractCurveSegmentType;
 import org.geotoolkit.gml.xml.v321.AbstractCurveType;
@@ -34,6 +35,8 @@ import org.opengis.cite.iso19136.util.TestSuiteLogger;
 import org.opengis.cite.iso19136.util.XMLUtils;
 import org.opengis.geometry.Envelope;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
+import org.opengis.referencing.operation.MathTransform;
+import org.opengis.referencing.operation.TransformException;
 import org.opengis.util.FactoryException;
 import org.testng.Assert;
 import org.w3c.dom.Element;
