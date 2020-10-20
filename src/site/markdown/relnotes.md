@@ -1,5 +1,12 @@
 # Release Notes
 
+## 1.29 (2020-10-20)
+
+* [#26](https://github.com/opengeospatial/ets-gml32/issues/26): Test method validSurfaceOrientation: Ring has fewer than 3 points
+* [#56](https://github.com/opengeospatial/ets-gml32/issues/56): Update dependency of geomatics-geotk to version 1.15
+* [#60](https://github.com/opengeospatial/ets-gml32/pull/60): Bump xercesImpl from 2.11.0 to 2.12.0
+* [#57](https://github.com/opengeospatial/ets-gml32/issues/57): Cleanup dependencies
+
 ## 1.28 (2020-06-30)
 
 * [#46](https://github.com/opengeospatial/ets-gml32/issues/46): application schema limitation
