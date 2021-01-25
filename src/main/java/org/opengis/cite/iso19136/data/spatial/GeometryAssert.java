@@ -31,6 +31,7 @@ import org.opengis.cite.geomatics.gml.SurfaceCoordinateListFactory;
 import org.opengis.cite.iso19136.ErrorMessage;
 import org.opengis.cite.iso19136.ErrorMessageKeys;
 import org.opengis.cite.iso19136.GML32;
+import org.opengis.cite.iso19136.util.ApacheSisUtils;
 import org.opengis.cite.iso19136.util.TestSuiteLogger;
 import org.opengis.cite.iso19136.util.XMLUtils;
 import org.opengis.geometry.Envelope;
@@ -117,7 +118,7 @@ public class GeometryAssert {
                 gmlGeom.getClass().getSimpleName(), gmlGeom.getId()));
         // Geotk v3 does not recognize 'http' CRS identifiers
         gmlGeom.setSrsName(GeodesyUtils.convertSRSNameToURN(srsName));
-        Envelope crsDomain = Envelopes.getDomainOfValidity(gmlGeom.getCoordinateReferenceSystem());
+        Envelope crsDomain = ApacheSisUtils.getDomainOfValidity(gmlGeom.getCoordinateReferenceSystem());
         Polygon validArea = Extents.envelopeAsPolygon(crsDomain);
         Geometry geom = GmlUtils.computeConvexHull(gmlGeom);
         if (geom.getClass().equals(GeometryCollection.class)) {
