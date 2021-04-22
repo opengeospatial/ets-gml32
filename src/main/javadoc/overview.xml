@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite>
+	<title>GML 3.2 (ISO 19136:2007) Conformance Test Suite</title>
+	<description>
+	    This executable test suite (ETS) verifies the conformance of GML data and application schemas
+		with respect to ISO 19136:2007 (GML 3.2.1). It can be used to validate a GML application schema or an
+		instance document; both types of resources are referenced by URI. A GML instance document may refer to 
+		a Schematron schema that defines application-specific constraints; this is accomplished using the
+		xml-model processing instruction (PI) as described in ISO 19757-11. The test run arguments are summarized 
+		in the following table. The obligation descriptor can have the following values: M (mandatory), O (optional), 
+		or C (conditional). A GML application schema may be validated by itself without a referring document.
+	</description>
+	<testrunarguments>
+		<testrunargument>
+			<name>gml</name>
+			<valuedomain>URI</valuedomain>
+			<obligation>M</obligation>
+			<description>An absolute URI that refers to either a representation
+				of a GML data instance or an application schema 1.</description>
+		</testrunargument>
+		<testrunargument>
+			<name>sch</name>
+			<valuedomain>URI</valuedomain>
+			<obligation>O</obligation>
+			<description>A URI referring to a Schematron schema that defines
+				supplementary data constraints 2.</description>
+		</testrunargument>
+	</testrunarguments>
+	<notes>
+		<note>Ampersand ('&amp;') characters appearing within query parameter values must be percent-encoded as %26.</note>
+		<note>See ISO 19757-3:2006</note>
+	</notes>
+</testsuite>
