@@ -1,5 +1,12 @@
 # Release Notes
 
+## 1.30 (2022-02-25)
+
+* [#61](https://github.com/opengeospatial/ets-gml32/issues/61): Add template to get an XML/JSON response via rest endpoint
+* [#67](https://github.com/opengeospatial/ets-gml32/pull/67): Bump xercesImpl from 2.12.0 to 2.12.2
+* [#64](https://github.com/opengeospatial/ets-gml32/pull/64): Set Docker TEAM Engine version to 5.4.1
+* [#63](https://github.com/opengeospatial/ets-gml32/pull/63): Added header for soapui test.
+
 ## 1.29 (2020-10-20)
 
 * [#26](https://github.com/opengeospatial/ets-gml32/issues/26): Test method validSurfaceOrientation: Ring has fewer than 3 points
