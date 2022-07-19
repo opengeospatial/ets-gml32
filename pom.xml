@@ -48,7 +48,9 @@
     <spec-version>3.2.1</spec-version>
     <soapui.test.fail.ignore>false</soapui.test.fail.ignore>
     <soapui.teamengine.endpoint>http://localhost:8081/teamengine</soapui.teamengine.endpoint>
-    <soapui.iut>http://cite.deegree.org/deegree-webservices-3.4.16/services/gml321?service=WFS&amp;request=GetFeature&amp;Version=2.0.0&amp;typenames=app:Autos</soapui.iut>
+    <soapui.teamengine.user>ogctest</soapui.teamengine.user>
+    <soapui.teamengine.password>ogctest</soapui.teamengine.password>
+    <soapui.iut>http://cite.deegree.org/deegree-webservices-3.4.30/services/gml321?service=WFS&amp;request=GetFeature&amp;Version=2.0.0&amp;typenames=app:Autos</soapui.iut>
     <soapui.tests.passed>22</soapui.tests.passed>
     <soapui.tests.skipped>11</soapui.tests.skipped>
     <soapui.tests.failed>0</soapui.tests.failed>
@@ -243,6 +245,8 @@
           <testFailIgnore>${soapui.test.fail.ignore}</testFailIgnore>
           <projectProperties>
             <value>teamengine.endpoint=${soapui.teamengine.endpoint}</value>
+            <value>teamengine.user=${soapui.teamengine.user}</value>
+            <value>teamengine.password=${soapui.teamengine.password}</value>
             <value>iut=${soapui.iut}</value>
             <value>tests.passed=${soapui.tests.passed}</value>
             <value>tests.skipped=${soapui.tests.skipped}</value>
