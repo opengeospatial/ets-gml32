@@ -11,6 +11,7 @@ import org.opengis.cite.iso19136.ErrorMessageKeys;
 import org.opengis.cite.iso19136.GML32;
 import org.opengis.cite.iso19136.util.GMLObjectTypeFilter;
 import org.opengis.cite.iso19136.util.XMLSchemaModelUtils;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
@@ -95,10 +96,8 @@ public class ComplexPropertyTests extends SchemaModelFixture {
 				.getGlobalElementsByType(this.model, memberPropType);
 		memberProps.addAll(XMLSchemaModelUtils.getLocalElementsByType(
 				this.model, memberPropType, null));
-		XSElementDeclaration gmlObj = this.model.getElementDeclaration(
-				GML32.ABSTRACT_GML, GML32.NS_NAME);
 		for (XSElementDeclaration memberProp : memberProps) {
-			ETSAssert.assertValidPropertyType(model, memberProp, gmlObj);
+			Assert.assertTrue(memberProp.getTypeDefinition().getBaseType().equals(memberPropType), String.format("Type %s not an AbstractMemberType.", memberProp.getName()));
 		}
 	}
 }
