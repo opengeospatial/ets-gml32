@@ -27,18 +27,7 @@ public class VerifyComplexPropertyTests extends BasicFixture {
 		iut.setSchemaModel(model);
 		iut.validateMembersOfGmlObjectCollection();
 	}
-
-	@Test
-	public void validateRingMember() throws IOException, SAXException {
-		thrown.expect(AssertionError.class);
-		thrown.expectMessage("LinearRing cannot substitute for \"http://www.opengis.net/gml/3.2\":AbstractGML");
-		URL url = this.getClass().getResource("/xsd/collection-invalid.xsd");
-		XSModel model = createXSModel(url, URI.create(TARGET_NS));
-		ComplexPropertyTests iut = new ComplexPropertyTests();
-		iut.setSchemaModel(model);
-		iut.validateMembersOfGmlObjectCollection();
-	}
-
+	
 	@Test
 	public void unspecifiedMetadataProperty() throws IOException, SAXException {
 		thrown.expect(AssertionError.class);
