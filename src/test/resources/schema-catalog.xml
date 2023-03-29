@@ -1,26 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
 
-  <system systemId="http://www.w3.org/2009/01/xml.xsd"
-          uri="./xsd/xml.xsd" />
-  <system systemId="http://www.w3.org/2001/xml.xsd"
-          uri="./xsd/xml.xsd" />
-  <system systemId="http://www.w3.org/XML/2008/06/xlink.xsd"
-          uri="./xsd/xlink.xsd" />
-  <system systemId="http://www.w3.org/1999/xlink.xsd"
-          uri="./xsd/xlink.xsd" />
-  <system systemId="http://schemas.opengis.net/gml/3.2.1/gml.xsd"
-          uri="./xsd/gml-3.2.1.xsd" />
-  <system systemId="http://schemas.opengis.net/iso/19139/20070417/gmd/gmd.xsd"
-          uri="./xsd/gmd-2007.xsd" />
-  <system systemId="http://schemas.opengis.net/iso/19139/20070417/gco/gco.xsd"
-          uri="./xsd/gco-2007.xsd" />
-  <system systemId="http://schemas.opengis.net/iso/19139/20070417/gts/gts.xsd"
-          uri="./xsd/gts-2007.xsd" />
-  <system systemId="http://schemas.opengis.net/iso/19139/20070417/gss/gss.xsd"
-          uri="./xsd/gss-2007.xsd" />
-  <system systemId="http://schemas.opengis.net/iso/19139/20070417/gsr/gsr.xsd"
-          uri="./xsd/gsr-2007.xsd" />
+  <group id="w3.org">
+    <system systemId="http://www.w3.org/2009/01/xml.xsd" uri="./xsd/opengis/gml/3.2.2/xml.xsd" />
+    <system systemId="http://www.w3.org/2001/xml.xsd" uri="./xsd/opengis/gml/3.2.2/xml.xsd" />
+    <system systemId="http://www.w3.org/XML/2008/06/xlink.xsd"
+      uri="./xsd/opengis/gml/3.2.2/xlink.xsd" />
+    <system systemId="http://www.w3.org/1999/xlink.xsd" uri="./xsd/opengis/gml/3.2.2/xlink.xsd" />
+    <uri name="http://www.w3.org/XML/1998/namespace" uri="./xsd/opengis/gml/3.2.2/xml.xsd" />
+    <uri name="http://www.w3.org/1999/xlink" uri="./xsd/opengis/gml/3.2.2/xlink.xsd" />
+  </group>
+  <group id="opengis.net">
+    <system systemId="http://schemas.opengis.net/gml/3.2.1/gml.xsd"
+      uri="./xsd/opengis/gml/3.2.2/gml.xsd" />
+    <uri name="http://www.opengis.net/gml/3.2" uri="./xsd/opengis/gml/3.2.2/gml.xsd" />
+  </group>
+  <group id="isotc211.org">
+    <system systemId="http://schemas.opengis.net/iso/19139/20070417/gmd/gmd.xsd"
+      uri="./xsd/opengis/gml/3.2.2/gmd.xsd" />
+    <system systemId="http://schemas.opengis.net/iso/19139/20070417/gco/gco.xsd"
+      uri="./xsd/opengis/gml/3.2.2/gco.xsd" />
+    <system systemId="http://schemas.opengis.net/iso/19139/20070417/gts/gts.xsd"
+      uri="./xsd/opengis/gml/3.2.2/gts.xsd" />
+    <system systemId="http://schemas.opengis.net/iso/19139/20070417/gss/gss.xsd"
+      uri="./xsd/opengis/gml/3.2.2/gss.xsd" />
+    <system systemId="http://schemas.opengis.net/iso/19139/20070417/gsr/gsr.xsd"
+      uri="./xsd/opengis/gml/3.2.2/gsr.xsd" />
+    <uri name="http://www.isotc211.org/2005/gmd" uri="./xsd/opengis/gml/3.2.2/gmd.xsd" />
+    <uri name="http://www.isotc211.org/2005/gco" uri="./xsd/opengis/gml/3.2.2/gco.xsd" />
+    <uri name="http://www.isotc211.org/2005/gts" uri="./xsd/opengis/gml/3.2.2/gts.xsd" />
+    <uri name="http://www.isotc211.org/2005/gss" uri="./xsd/opengis/gml/3.2.2/gss.xsd" />
+    <uri name="http://www.isotc211.org/2005/gsr" uri="./xsd/opengis/gml/3.2.2/gsr.xsd" />
+  </group>
 
   <!-- Map target namespace to schema resource -->
   <uri name="http://www.example.net/alpha"

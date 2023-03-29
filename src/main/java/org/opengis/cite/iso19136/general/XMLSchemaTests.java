@@ -13,6 +13,7 @@ import javax.xml.validation.Schema;
 import org.opengis.cite.iso19136.ErrorMessage;
 import org.opengis.cite.iso19136.ErrorMessageKeys;
 import org.opengis.cite.iso19136.SuiteAttribute;
+import org.opengis.cite.iso19136.util.GmlVersion;
 import org.opengis.cite.validation.ValidationErrorHandler;
 import org.opengis.cite.validation.XmlSchemaCompiler;
 import org.testng.Assert;
@@ -91,8 +92,28 @@ public class XMLSchemaTests {
     public void compileXMLSchema(ITestContext testContext) throws SAXException,
             IOException {
         logr.log(Level.INFO, "Compiling schemas...\n" + xsdLocations);
-        URL entityCatalog = this.getClass().getResource(
+        
+        String version = (String) testContext.getSuite().getAttribute(
+                SuiteAttribute.VERSION.getName());
+        
+        GmlVersion gmlVersion = GmlVersion.fromString(version);
+        
+        URL entityCatalog = null;
+        
+        switch (gmlVersion) {
+		case V321:
+			entityCatalog = this.getClass().getResource(
+                ETS_ROOT_PKG + "schema-catalog-gml-3.2.1.xml");
+			break;
+		case V322:
+			entityCatalog = this.getClass().getResource(
                 ETS_ROOT_PKG + "schema-catalog.xml");
+			break;
+		default:
+			break;
+		}
+        Assert.assertNotNull(entityCatalog, "Could not create EntityCatalog URI for Version: " + gmlVersion);
+        
         XmlSchemaCompiler xsdCompiler = new XmlSchemaCompiler(entityCatalog);
         Schema schema = xsdCompiler.compileXmlSchema(xsdLocations
                 .toArray(new URI[xsdLocations.size()]));

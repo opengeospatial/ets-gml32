@@ -40,7 +40,12 @@ public enum SuiteAttribute {
      * Provides information about the types of geographic content in an
      * application schema.
      */
-    SCHEMA_INFO("schema-info", AppSchemaInfo.class);
+    SCHEMA_INFO("schema-info", AppSchemaInfo.class),
+    /**
+     * Provides information about the types of geographic content in an
+     * application schema.
+     */
+    VERSION("version", String.class);
 
     private final Class attrType;
     private final String attrName;

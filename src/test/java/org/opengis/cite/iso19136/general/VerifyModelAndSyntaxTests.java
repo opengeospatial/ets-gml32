@@ -47,8 +47,17 @@ public class VerifyModelAndSyntaxTests {
                 + elemDecl.getName(), result);
     }
 
+    /**
+     * This test works only with GML 3.2.1
+     * 
+     * @throws IOException
+     * @throws SAXException
+     */
     @Test
     public void hasIDAttribute_LinearRing() throws IOException, SAXException {
+        URL schemaCatalog = VerifyXMLSchemaModelUtils.class
+                .getResource("/schema-catalog-gml-3.2.1.xml");
+        xsdCompiler = new XmlSchemaCompiler(schemaCatalog);
         URL url = this.getClass().getResource("/xsd/simple2.xsd");
         XSModel model = createXSModel(url, URI.create(EXAMPLE_NS));
         XSElementDeclaration elemDecl = model.getElementDeclaration(
