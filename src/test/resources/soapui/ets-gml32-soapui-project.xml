@@ -32,7 +32,7 @@
           </con:assertion>
           <con:assertion type="Simple Contains" id="22cf9feb-0c51-49a3-9966-0f65761e01b3" name="Contains test suite">
             <con:configuration>
-              <token>GML (ISO 19136:2007) Conformance Test Suite, Version 3.2.1</token>
+              <token>GML 3.2 (ISO 19136:2007) Conformance Test Suite</token>
               <ignoreCase>false</ignoreCase>
               <useRegEx>false</useRegEx>
             </con:configuration>

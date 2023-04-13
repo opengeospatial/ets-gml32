@@ -2,13 +2,13 @@
 
 ## Scope 
 
-This executable test suite (ETS) verifies the conformance of GML data and application schemas with respect to ISO 19136:2007 (GML 3.2.1). It can be used to check a GML **application schema** or an **instance document**; both types of resources are referenced by URI. The application schema could be accessed from a variety of sources, such as a WFS (DescribeFeatureType request using the GET method) or a catalogue service. As shown in Figure 1, a conforming GML data instance must refer to the relevant GML application schema, which in turn imports the complete GML schema.
+This executable test suite (ETS) verifies the conformance of GML data and application schemas with respect to ISO 19136:2007 (GML 3.2). It includes Version 3.2.1 and the corrigendum GML 3.2.2. It can be used to check a GML **application schema** or an **instance document**; both types of resources are referenced by URI. The application schema could be accessed from a variety of sources, such as a WFS (DescribeFeatureType request using the GET method) or a catalogue service. As shown in Figure 1, a conforming GML data instance must refer to the relevant GML application schema, which in turn imports the complete GML schema.
 
 ![GML schemas](./images/gml-schemas.png)
 
 **Figure 1** - GML schemas
 
-A Schematron schema (ISO 19757-3) may be used to define supplementary data constraints that lay beyond the reach of an XML Schema grammar. A GML instance document may include a schema reference using the `xml-model` processing instruction (PI) as described in [ISO 19757-11](http://standards.iso.org/ittf/PubliclyAvailableStandards/c054793_ISO_IEC_19757-11_2011.zip). The PI must appear before the document element as shown in the following listing.
+A Schematron schema (ISO 19757-3) may be used to define supplementary data constraints that lay beyond the reach of an XML Schema grammar. A GML instance document may include a schema reference using the `xml-model` processing instruction (PI) as described in [ISO 19757-11](https://standards.iso.org/ittf/PubliclyAvailableStandards/c054793_ISO_IEC_19757-11_2011.zip). The PI must appear before the document element as shown in the following listing.
 
 ```
 <?xml version="1.0" encoding="UTF-8"?>
@@ -20,7 +20,7 @@ A Schematron schema (ISO 19757-3) may be used to define supplementary data const
 </CityModel>
 ```
 
-The `uom` attribute indicates the unit of measure for some measured quantity. If the value is not an absolute URI, it is expected to be a unit symbol (possibly with a prefix symbol) appearing in the _Unified Code for Units of Measure_ ([UCUM](http://unitsofmeasure.org/ucum.html)). 
+The `uom` attribute indicates the unit of measure for some measured quantity. If the value is not an absolute URI, it is expected to be a unit symbol (possibly with a prefix symbol) appearing in the _Unified Code for Units of Measure_ ([UCUM](https://unitsofmeasure.org/ucum.html)). 
 
 ## Test coverage 
 
@@ -69,8 +69,8 @@ The Javadoc documentation provides more detailed information about the test meth
 
 The documents listed below stipulate requirements that must be satisfied by a conforming application schema.
 
-* [ISO-19136 - Geographic information -- Geography Markup Language (GML)](http://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=32554). Also published as [OGC 07-036](http://portal.opengeospatial.org/files/?artifact_id=20509).
-* [XML Schema Part 1: Structures](http://www.w3.org/TR/xmlschema-1/), Second Edition
+* [ISO-19136 - Geographic information -- Geography Markup Language (GML)](https://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=32554). Also published as [OGC 07-036](https://portal.opengeospatial.org/files/?artifact_id=20509) and [OGC 07-036r1](https://portal.ogc.org/files/?artifact_id=74183%26version=2).
+* [XML Schema Part 1: Structures](https://www.w3.org/TR/xmlschema-1/), Second Edition
 
 A conforming GML application schema must satisfy all mandatory constraints _and_ define at least one type of GML object in accord with clauses 21.3 through 21.11. The applicable type-specific test cases are described in clauses A.1.4 through A.1.12. 
 
@@ -89,7 +89,7 @@ The test run arguments are summarized in Table 3\. The _Obligation_ descriptor c
 | Name | Value domain | Obligation | Description |
 | ---- | ------------ | ---------- | ----------- |
 | gml | URI | M | An absolute URI that refers to either a representation of a GML data instance or an application schema1.|
-| sch | URI | O | A URI referring to a Schematron schema that defines supplementary data constraints2.| 
+| sch | URI | O | A URI referring to a Schematron schema that defines supplementary data constraints2.| <
 
 
 **Notes:**

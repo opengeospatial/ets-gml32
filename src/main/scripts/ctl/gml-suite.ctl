@@ -34,10 +34,12 @@
           <div style="background:#F0F8FF" bgcolor="#F0F8FF">
             <p>The GML resource is checked against the following specifications:</p>
             <ul>
-              <li><a href="http://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=32554" 
+              <li><a href="https://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=32554" 
                    target="_blank">ISO 19136:2007</a>, Geographic information - 
                    Geography Markup Language (GML)</li>
-              <li><a href="http://www.w3.org/TR/xmlschema-1/" target="_blank"> 
+              <li><a href="https://portal.ogc.org/files/?artifact_id=74183%26version=2" 
+                   target="_blank">GML 3.2.2</a>, GML 3.2 corrigendum</li>
+              <li><a href="https://www.w3.org/TR/xmlschema-1/" target="_blank"> 
                     XML Schema Part 1: Structures</a>, Second Edition</li>
             </ul>
           </div>

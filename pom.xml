@@ -10,7 +10,7 @@
   <version>1.31-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>GML (ISO 19136:2007) Conformance Test Suite, Version 3.2.1</name>
+  <name>GML 3.2 (ISO 19136:2007) Conformance Test Suite</name>
   <description>
   Checks GML application schemas or data sets for conformance to ISO 19136:2007.
   </description>
@@ -45,7 +45,7 @@
 
   <properties>
     <ets-code>gml32</ets-code>
-    <spec-version>3.2.1</spec-version>
+    <spec-version>3.2</spec-version>
     <soapui.test.fail.ignore>false</soapui.test.fail.ignore>
     <soapui.teamengine.endpoint>http://localhost:8081/teamengine</soapui.teamengine.endpoint>
     <soapui.teamengine.user>ogctest</soapui.teamengine.user>

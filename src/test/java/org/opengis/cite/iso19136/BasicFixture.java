@@ -29,7 +29,7 @@ public class BasicFixture {
     @BeforeClass
     public static void initBasicFixture() throws ParserConfigurationException {
         URL schemaCatalog = BasicFixture.class
-                .getResource("/schema-catalog.xml");
+                .getResource("/schema-catalog-gml-3.2.1.xml");
         xsdCompiler = new XmlSchemaCompiler(schemaCatalog);
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware(true);

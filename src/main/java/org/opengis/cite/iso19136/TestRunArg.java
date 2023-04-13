@@ -23,7 +23,11 @@ public enum TestRunArg {
     /**
      * An absolute URI referring to a GML data resource.
      */
-    GML;
+    GML,
+    /**
+     * Version of GML to be tested, e.g. 3.2.1 or 3.2.2
+     */
+    VERSION;
 
     @Override
     public String toString() {

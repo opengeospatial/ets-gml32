@@ -1,0 +1,15 @@
+<gml:Polygon xmlns:gml="http://www.opengis.net/gml/3.2"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.opengis.net/gml/3.2
+                                  http://schemas.opengis.net/gml/3.2.1/gml.xsd"
+             gml:id="ID1">
+    <gml:exterior>
+        <gml:Ring>
+            <gml:curveMember>
+                <gml:LineString srsName="http://www.opengis.net/gml/srs/epsg.xml#4326" srsDimension="2" gml:id="ID2">
+                    <gml:posList>0 0 0 1 1 1 1 0 0 0</gml:posList>
+                </gml:LineString>
+            </gml:curveMember>
+        </gml:Ring>
+    </gml:exterior>
+</gml:Polygon>

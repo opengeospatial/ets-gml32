@@ -10,6 +10,6 @@
  * 
  * @see <a href="http://portal.opengeospatial.org/files/?artifact_id=20509" 
  * target="_blank">OpenGIS Geography Markup Language (GML) Encoding Standard, 
- * Version 3.2.1</a>
+ * Version 3.2</a>
  */
 package org.opengis.cite.iso19136.components;

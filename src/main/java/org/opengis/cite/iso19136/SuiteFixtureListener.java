@@ -47,6 +47,7 @@ public class SuiteFixtureListener implements ISuiteListener {
 		processIUTParameter(suite);
 		processGmlReference(suite);
 		processSchematronSchema(suite);
+		processVersionParameter(suite);
 	}
 
 	@Override
@@ -89,6 +90,23 @@ public class SuiteFixtureListener implements ISuiteListener {
 					"Failed to read resource from " + iutRef, x);
 		}
 		params.remove(TestRunArg.IUT.toString());
+	}
+
+	/**
+	 * Processes the {@link org.opengis.cite.iso19136.TestRunArg#VERSION} test suite
+	 * parameter that refers to a POSTed message entity. Its value is a String
+	 * representing the version of the GML to be tested.
+	 * 
+	 * @param suite
+	 *            An ISuite object representing a TestNG test suite.
+	 */
+	void processVersionParameter(ISuite suite) {
+		Map<String, String> params = suite.getXmlSuite().getParameters();
+		String versionRef = params.get(TestRunArg.VERSION.toString());
+		if (null == versionRef || versionRef.isEmpty()) {
+			versionRef = "3.2.2";
+		}
+		suite.setAttribute(SuiteAttribute.VERSION.getName(), versionRef);
 	}
 
 	/**

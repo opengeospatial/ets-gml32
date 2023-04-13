@@ -49,6 +49,7 @@ public class VerifyXMLSchemaTests {
     public void initSuite() {
         this.suite = mock(ISuite.class);
         when(testContext.getSuite()).thenReturn(suite);
+        when(testContext.getSuite().getAttribute("version")).thenReturn("3.2.1");
     }
 
     @Test(expected = NullPointerException.class)
