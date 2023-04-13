@@ -2,7 +2,7 @@
 
 ## Scope 
 
-This executable test suite (ETS) verifies the conformance of GML data and application schemas with respect to ISO 19136:2007 (GML 3.2.1).It includes the corrigendum GML 3.2.2. It can be used to check a GML **application schema** or an **instance document**; both types of resources are referenced by URI. The application schema could be accessed from a variety of sources, such as a WFS (DescribeFeatureType request using the GET method) or a catalogue service. As shown in Figure 1, a conforming GML data instance must refer to the relevant GML application schema, which in turn imports the complete GML schema.
+This executable test suite (ETS) verifies the conformance of GML data and application schemas with respect to ISO 19136:2007 (GML 3.2). It includes Version 3.2.1 and the corrigendum GML 3.2.2. It can be used to check a GML **application schema** or an **instance document**; both types of resources are referenced by URI. The application schema could be accessed from a variety of sources, such as a WFS (DescribeFeatureType request using the GET method) or a catalogue service. As shown in Figure 1, a conforming GML data instance must refer to the relevant GML application schema, which in turn imports the complete GML schema.
 
 ![GML schemas](./images/gml-schemas.png)
 
@@ -89,8 +89,7 @@ The test run arguments are summarized in Table 3\. The _Obligation_ descriptor c
 | Name | Value domain | Obligation | Description |
 | ---- | ------------ | ---------- | ----------- |
 | gml | URI | M | An absolute URI that refers to either a representation of a GML data instance or an application schema1.|
-| sch | URI | O | A URI referring to a Schematron schema that defines supplementary data constraints2.| 
-| version | String | O | The bugfix version GML 3.2 that should be used for testing. Supported are 3.2.1 and 3.2.2.| 
+| sch | URI | O | A URI referring to a Schematron schema that defines supplementary data constraints2.| <
 
 
 **Notes:**

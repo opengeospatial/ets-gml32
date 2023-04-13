@@ -66,15 +66,6 @@
               </label>
               <input id="sch-uri" name="sch-uri" size="128" type="text" value="" />
             </p>
-            <p>
-              <label class="form-label" for="version">
-                <h4 style="margin-bottom: 0.5em">GML 3.2 bugfix version</h4>
-              </label>
-              <select id="version" name="version">
-                <option value="3.2.2">3.2.2</option>
-                <option value="3.2.1">3.2.1</option>
-              </select>
-            </p>
           </fieldset>
           <p>
             <input class="form-button" type="submit" value="Start"/> | 
@@ -96,7 +87,6 @@
             </xsl:choose>
           </entry>
           <entry key="sch"><xsl:value-of select="$form-data/values/value[@key='sch-uri']"/></entry>
-          <entry key="version"><xsl:value-of select="$form-data/values/value[@key='version']"/></entry>
         </properties>
       </xsl:variable>
       <xsl:variable name="testRunDir">
