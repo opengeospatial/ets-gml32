@@ -96,7 +96,16 @@ public class XMLSchemaTests {
         String version = (String) testContext.getSuite().getAttribute(
                 SuiteAttribute.VERSION.getName());
         
-        GmlVersion gmlVersion = GmlVersion.fromString(version);
+        // https://github.com/opengeospatial/ets-gml32/issues/75
+        // If this ETS is used by another one, the version parameter is most likely not set
+        // Set version 3.2.2 as default
+        GmlVersion gmlVersion = GmlVersion.V322;
+        
+        try {
+			gmlVersion = GmlVersion.fromString(version);
+		} catch (IllegalArgumentException e) {
+			logr.info("No GML version was provided. Version 3.2.2 will be used.");
+		}
         
         URL entityCatalog = null;
         
@@ -110,6 +119,8 @@ public class XMLSchemaTests {
                 ETS_ROOT_PKG + "schema-catalog.xml");
 			break;
 		default:
+			entityCatalog = this.getClass().getResource(
+	                ETS_ROOT_PKG + "schema-catalog.xml");
 			break;
 		}
         Assert.assertNotNull(entityCatalog, "Could not create EntityCatalog URI for Version: " + gmlVersion);
