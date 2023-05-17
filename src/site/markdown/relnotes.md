@@ -1,5 +1,13 @@
 # Release Notes
 
+## 1.31 (2023-05-17)
+
+* [#75](https://github.com/opengeospatial/ets-gml32/issues/75): XML schema compilation fails when test suite is called from other ETS
+* [#72](https://github.com/opengeospatial/ets-gml32/issues/72): Update TEAM Engine dependency to v5.6.1
+* [#69](https://github.com/opengeospatial/ets-gml32/issues/69): Implement support for GML 3.2.2
+* [#65](https://github.com/opengeospatial/ets-gml32/issues/65): validateMembersOfGmlObjectCollection test fails
+* [#68](https://github.com/opengeospatial/ets-gml32/pull/68): Add credentials to SoapUI project
+
 ## 1.30 (2022-02-25)
 
 * [#61](https://github.com/opengeospatial/ets-gml32/issues/61): Add template to get an XML/JSON response via rest endpoint
