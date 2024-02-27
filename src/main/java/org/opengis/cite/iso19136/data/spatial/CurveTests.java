@@ -5,19 +5,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
-
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Unmarshaller;
+
 import org.apache.xerces.xs.XSElementDeclaration;
+import org.apache.sis.xml.MarshallerPool;
 import org.geotoolkit.gml.xml.v321.CurveType;
-import org.geotoolkit.xml.MarshallerPool;
+import org.geotoolkit.gml.xml.GMLMarshallerPool;
+
 import org.opengis.cite.geomatics.gml.GmlUtils;
 import org.opengis.cite.iso19136.GML32;
 import org.opengis.cite.iso19136.data.DataFixture;
@@ -40,7 +42,7 @@ import org.w3c.dom.NodeList;
  * connected to one another, with the end point of each segment (except the
  * last) being the start point of the next segment.
  * </p>
- * 
+ *
  * <p style="margin-bottom: 0.5em">
  * <strong>Sources</strong>
  * </p>
@@ -90,7 +92,7 @@ public class CurveTests extends DataFixture {
 	/**
 	 * [{@code Test}] Verifies that a gml:Curve element has a valid CRS
 	 * reference.
-	 * 
+	 *
 	 * <p style="margin-bottom: 0.5em">
 	 * <strong>Sources</strong>
 	 * </p>
@@ -115,7 +117,7 @@ public class CurveTests extends DataFixture {
 	 * <li>the segments are connected;</li>
 	 * <li>the segments are all located within the valid area of the CRS.</li>
 	 * </ol>
-	 * 
+	 *
 	 * <p style="margin-bottom: 0.5em">
 	 * <strong>Sources</strong>
 	 * </p>
@@ -127,8 +129,7 @@ public class CurveTests extends DataFixture {
 	public void validCurveSegments() {
 		Unmarshaller gmlUnmarshaller;
 		try {
-			MarshallerPool pool = new MarshallerPool(
-					"org.geotoolkit.gml.xml.v321");
+			MarshallerPool pool = GMLMarshallerPool.getInstance();
 			gmlUnmarshaller = pool.acquireUnmarshaller();
 		} catch (JAXBException jxe) {
 			throw new RuntimeException(jxe);

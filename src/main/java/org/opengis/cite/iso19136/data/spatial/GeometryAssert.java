@@ -5,23 +5,31 @@ import java.util.ListIterator;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
-import org.geotoolkit.geometry.Envelopes;
-import org.geotoolkit.geometry.jts.JTS;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Unmarshaller;
+
+import org.apache.sis.referencing.CRS;
+import org.apache.sis.xml.MarshallerPool;
 import org.geotoolkit.gml.xml.AbstractRing;
 import org.geotoolkit.gml.xml.v321.AbstractCurveSegmentType;
 import org.geotoolkit.gml.xml.v321.AbstractCurveType;
 import org.geotoolkit.gml.xml.v321.AbstractGeometryType;
 import org.geotoolkit.gml.xml.v321.AbstractSurfaceType;
 import org.geotoolkit.gml.xml.v321.CurveType;
-import org.geotoolkit.referencing.CRS;
-import org.geotoolkit.xml.MarshallerPool;
+import org.geotoolkit.gml.xml.GMLMarshallerPool;
+
+import org.locationtech.jts.algorithm.CGAlgorithms;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryCollection;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.LineString;
+import org.locationtech.jts.geom.Polygon;
+
 import org.opengis.cite.geomatics.Extents;
 import org.opengis.cite.geomatics.GeodesyUtils;
 import org.opengis.cite.geomatics.gml.CurveCoordinateListFactory;
@@ -35,20 +43,10 @@ import org.opengis.cite.iso19136.util.TestSuiteLogger;
 import org.opengis.cite.iso19136.util.XMLUtils;
 import org.opengis.geometry.Envelope;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
-import org.opengis.referencing.operation.MathTransform;
-import org.opengis.referencing.operation.TransformException;
 import org.opengis.util.FactoryException;
 import org.testng.Assert;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-
-import com.vividsolutions.jts.algorithm.CGAlgorithms;
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryCollection;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * Provides specialized assertion methods that apply to representations of
@@ -62,7 +60,7 @@ public class GeometryAssert {
     private static Unmarshaller initGmlUnmarshaller() {
         Unmarshaller unmarshaller = null;
         try {
-            MarshallerPool pool = new MarshallerPool("org.geotoolkit.gml.xml.v321");
+            MarshallerPool pool = GMLMarshallerPool.getInstance();
             unmarshaller = pool.acquireUnmarshaller();
         } catch (JAXBException je) {
             throw new RuntimeException(je);
@@ -79,11 +77,11 @@ public class GeometryAssert {
      * a "well-known" CRS definition or refers to a CRS definition. The
      * reference may be inherited from a containing geometry (aggregate) or
      * feature envelope.
-     * 
+     *
      * @param geom
      *            A DOM Element node representing a GML geometry element (or an
      *            element that can be substituted for one).
-     * 
+     *
      * @see "ISO 19136: cl. 9.10, 10.1.3.2"
      */
     public static void assertValidCRS(Element geom) {
@@ -103,11 +101,11 @@ public class GeometryAssert {
     /**
      * Asserts that the given geometry element is covered by the valid area of
      * its associated CRS.
-     * 
+     *
      * <p>
      * <strong>WARNING:</strong> May be problematic for 3D coordinates.
      * </p>
-     * 
+     *
      * @param gmlGeom
      *            A GML geometry element.
      */
@@ -117,7 +115,7 @@ public class GeometryAssert {
                 gmlGeom.getClass().getSimpleName(), gmlGeom.getId()));
         // Geotk v3 does not recognize 'http' CRS identifiers
         gmlGeom.setSrsName(GeodesyUtils.convertSRSNameToURN(srsName));
-        Envelope crsDomain = Envelopes.getDomainOfValidity(gmlGeom.getCoordinateReferenceSystem());
+        Envelope crsDomain = CRS.getDomainOfValidity(gmlGeom.getCoordinateReferenceSystem(false));
         Polygon validArea = Extents.envelopeAsPolygon(crsDomain);
         Geometry geom = GmlUtils.computeConvexHull(gmlGeom);
         if (geom.getClass().equals(GeometryCollection.class)) {
@@ -132,13 +130,13 @@ public class GeometryAssert {
      * Asserts that the number of direct positions in the posList element
      * appearing within each segment of the given curve geometry satisfies the
      * minimum length requirements.
-     * 
+     *
      * The number of entries in a posList element is equal to the product of the
      * dimensionality of the CRS and the number of direct positions. An
      * additional check ensures that the number of entries is consistent with
      * the CRS even if the minimum length constraint is satisfied; that is,
      * <code>size(posList) % dimCRS = 0</code>.
-     * 
+     *
      * @param gmlCurve
      *            An Element node representing a GML curve geometry (gml:Curve
      *            or gml:LineString)
@@ -158,7 +156,7 @@ public class GeometryAssert {
         // Geotk v3 does not recognize 'http' CRS identifiers
         srsName = GeodesyUtils.convertSRSNameToURN(srsName);
         try {
-            CoordinateReferenceSystem crs = CRS.decode(srsName);
+            CoordinateReferenceSystem crs = CRS.forCode(srsName);
             crsDim = crs.getCoordinateSystem().getDimension();
         } catch (FactoryException fe) {
             TestSuiteLogger.log(Level.WARNING, srsName, fe);
@@ -182,7 +180,7 @@ public class GeometryAssert {
      * Asserts that all segments of a curve are connected; that is, the end
      * point of each segment (except the last) is identical to the start point
      * of the next segment.
-     * 
+     *
      * @param gmlCurve
      *            An Element node representing a gml:Curve element.
      */
@@ -210,7 +208,7 @@ public class GeometryAssert {
         for (int i = 0; i < segmentList.size(); i++) {
             AbstractCurveSegmentType segment = segmentList.get(i);
             CurveSegmentType segmentType = CurveCoordinateListFactory.segmentTypeMap.get(segment.getClass().getName());
-            List<Coordinate> coordList = segmentType.getCoordinateList(segment, curve.getCoordinateReferenceSystem());
+            List<Coordinate> coordList = segmentType.getCoordinateList(segment, curve.getCoordinateReferenceSystem(false));
             firstPoint = coordList.get(0);
             if (i > 0) {
                 assertCoordinateEquals(firstPoint, lastPoint, 2,
@@ -225,7 +223,7 @@ public class GeometryAssert {
      * Asserts that the components of a composite curve are connected; that is,
      * the orientation of the curve members is such that each component (except
      * the first) begins where the preceding one ends.
-     * 
+     *
      * @param gmlCurve
      *            An Element node representing a gml:CompositeCurve element.
      */
@@ -274,7 +272,7 @@ public class GeometryAssert {
     /**
      * Asserts that the given Coordinate tuples are equal within the specified
      * tolerance.
-     * 
+     *
      * @param actualPos
      *            The actual position.
      * @param expectedPos
@@ -302,12 +300,12 @@ public class GeometryAssert {
      * boundary points), and</li>
      * <li><em>closed</em> (forms a cycle).</li>
      * </ol>
-     * 
+     *
      * Furthermore, each interior ring must be covered by the surface delimited
      * by the exterior boundary (the rings may touch at a tangent point).
-     * 
+     *
      * Note: Surface patches based on parametric curves are not supported.
-     * 
+     *
      * @param surfaceElem
      *            A DOM Element node representing a surface geometry
      *            (substitutes for gml:AbstractSurface).
@@ -387,7 +385,7 @@ public class GeometryAssert {
      * and</li>
      * <li>all interior rings are oriented in a clockwise (CW) direction.</li>
      * </ol>
-     * 
+     *
      * @param surfaceElem
      *            A DOM Element node representing a surface geometry
      *            (substitutes for gml:AbstractSurface).

@@ -3,19 +3,21 @@ package org.opengis.cite.iso19136.data.spatial;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamReader;
 
-import org.geotoolkit.geometry.GeneralEnvelope;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Unmarshaller;
+
+import org.apache.sis.geometry.GeneralEnvelope;
+import org.apache.sis.referencing.CRS;
+import org.apache.sis.xml.MarshallerPool;
 import org.geotoolkit.gml.xml.v321.EnvelopeType;
-import org.geotoolkit.referencing.CRS;
-import org.geotoolkit.xml.MarshallerPool;
+import org.geotoolkit.gml.xml.GMLMarshallerPool;
+
 import org.opengis.cite.geomatics.GeodesyUtils;
 import org.opengis.cite.iso19136.GML32;
 import org.opengis.cite.iso19136.data.DataFixture;
@@ -30,14 +32,14 @@ import org.testng.annotations.Test;
 /**
  * Validates the content of a gml:Envelope element, which implements the
  * GM_Envelope class from ISO 19107.
- * 
+ *
  * <p>
  * The "lowerCorner" represents a coordinate position consisting of all the
  * minimal ordinates for each dimension for all points within the envelope. The
  * "upperCorner" is a coordinate position consisting of all the maximal
  * ordinates for each dimension for all points within the envelope.
  * </p>
- * 
+ *
  * <p style="margin-bottom: 0.5em">
  * <strong>Sources</strong>
  * </p>
@@ -63,8 +65,7 @@ public class EnvelopeTests extends DataFixture {
 		this.envelopes = new ArrayList<Envelope>();
 		Unmarshaller unmarshaller;
 		try {
-			MarshallerPool pool = new MarshallerPool(
-					"org.geotoolkit.gml.xml.v321");
+			MarshallerPool pool = GMLMarshallerPool.getInstance();
 			unmarshaller = pool.acquireUnmarshaller();
 		} catch (JAXBException jxb) {
 			throw new RuntimeException(jxb);
@@ -88,7 +89,7 @@ public class EnvelopeTests extends DataFixture {
 						String crsRef = GeodesyUtils
 								.getAbbreviatedCRSIdentifier(env.getSrsName());
 						GeneralEnvelope genEnv = new GeneralEnvelope(
-								CRS.decode(crsRef));
+								CRS.forCode(crsRef));
 						double[] lowerPos = env.getLowerCorner()
 								.getCoordinate();
 						double[] upperPos = env.getUpperCorner()
@@ -120,7 +121,7 @@ public class EnvelopeTests extends DataFixture {
 	 * [{@code Test}] An envelope must refer to a coordinate reference system
 	 * using the {@code srsName} attribute. The alternative is to specify the
 	 * CRS separately for each corner position but this is very uncommon.
-	 * 
+	 *
 	 * <p>
 	 * The value of the srsName attribute must be an absolute URI, but it need
 	 * not be dereferenceable for well-known CRS identifiers. The 'urn' or
@@ -134,13 +135,13 @@ public class EnvelopeTests extends DataFixture {
 	 * <li>urn:ogc:def:crs:EPSG::4326</li>
 	 * <li>http://www.opengis.net/def/crs/EPSG/0/4326</li>
 	 * </ul>
-	 * 
+	 *
 	 * <p>
 	 * <strong>Note:</strong> Since gml:Envelope is not a geometry object, the
 	 * CRS reference cannot be inherited from some larger spatial context
 	 * according to ISO 19136, cl. 9.10.
 	 * </p>
-	 * 
+	 *
 	 * @see <a href="http://portal.opengeospatial.org/files/?artifact_id=37802"
 	 *      target="_blank">OGC 09-048r3</a>
 	 */
@@ -165,7 +166,7 @@ public class EnvelopeTests extends DataFixture {
 	 * coordinates of the upper corner, where the coordinate tuples are compared
 	 * item by item. Furthermore, the dimension of the corner positions must be
 	 * identical and equal to that of the CRS.
-	 * 
+	 *
 	 * @see "ISO 19107: cl. 6.4.3.2, 6.4.3.3"
 	 */
 	@Test(description = "See ISO 19107: 6.4.3.2, 6.4.3.3")
