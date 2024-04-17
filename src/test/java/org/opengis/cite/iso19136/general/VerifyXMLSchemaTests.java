@@ -1,5 +1,9 @@
 package org.opengis.cite.iso19136.general;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -14,12 +18,7 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import org.mockito.Matchers;
+import org.mockito.ArgumentMatchers;
 import org.opengis.cite.iso19136.SuiteAttribute;
 import org.testng.ISuite;
 import org.testng.ITestContext;
@@ -70,8 +69,8 @@ public class VerifyXMLSchemaTests {
         iut.getSchemaURIsFromTestContext(testContext);
         iut.compileXMLSchema(testContext);
         verify(suite).setAttribute(
-                Matchers.eq(SuiteAttribute.SCHEMA.getName()),
-                Matchers.isA(Schema.class));
+                ArgumentMatchers.eq(SuiteAttribute.SCHEMA.getName()),
+                ArgumentMatchers.isA(Schema.class));
     }
 
     @Test
@@ -99,7 +98,7 @@ public class VerifyXMLSchemaTests {
         iut.getSchemaURIsFromTestContext(testContext);
         iut.compileXMLSchema(testContext);
         verify(suite).setAttribute(
-                Matchers.eq(SuiteAttribute.SCHEMA.getName()),
-                Matchers.isA(Schema.class));
+                ArgumentMatchers.eq(SuiteAttribute.SCHEMA.getName()),
+                ArgumentMatchers.isA(Schema.class));
     }
 }
