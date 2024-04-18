@@ -8,7 +8,6 @@ import java.net.URI;
 import java.net.URL;
 import java.util.logging.Level;
 
-import javax.ws.rs.core.MediaType;
 import javax.xml.namespace.QName;
 import javax.xml.stream.EventFilter;
 import javax.xml.stream.XMLEventReader;
@@ -33,6 +32,8 @@ import org.opengis.cite.iso19136.util.XMLUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.w3c.dom.NodeList;
+
+import jakarta.ws.rs.core.MediaType;
 
 /**
  * Checks various property value constraints.
