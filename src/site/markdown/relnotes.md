@@ -1,5 +1,9 @@
 # Release Notes
 
+## 1.32 (2024-05-17)
+
+* [#80](https://github.com/opengeospatial/ets-gml32/pull/80): Upgrade versions of teamengine and geomatics-geotk dependencies and update soapui iut value
+
 ## 1.31 (2023-05-17)
 
 * [#75](https://github.com/opengeospatial/ets-gml32/issues/75): XML schema compilation fails when test suite is called from other ETS
