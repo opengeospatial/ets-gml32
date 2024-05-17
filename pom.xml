@@ -50,11 +50,11 @@
     <soapui.teamengine.endpoint>http://localhost:8081/teamengine</soapui.teamengine.endpoint>
     <soapui.teamengine.user>ogctest</soapui.teamengine.user>
     <soapui.teamengine.password>ogctest</soapui.teamengine.password>
-    <soapui.iut>http://cite.deegree.org/deegree-webservices-3.4.30/services/gml321?service=WFS&amp;request=GetFeature&amp;Version=2.0.0&amp;typenames=app:Autos</soapui.iut>
+    <soapui.iut>http://cite.deegree.org/deegree-webservices-3.5.6/services/gml321?service=WFS&amp;request=GetFeature&amp;Version=2.0.0&amp;typenames=app:Autos</soapui.iut>
     <soapui.tests.passed>22</soapui.tests.passed>
     <soapui.tests.skipped>11</soapui.tests.skipped>
     <soapui.tests.failed>0</soapui.tests.failed>
-    <docker.teamengine.version>5.6.1</docker.teamengine.version>
+    <docker.teamengine.version>5.7</docker.teamengine.version>
   </properties>
 
   <pluginRepositories>
@@ -68,11 +68,23 @@
     <dependency>
       <groupId>org.opengis.cite.teamengine</groupId>
       <artifactId>teamengine-spi</artifactId>
-      <version>5.6.1</version>
+      <version>5.7</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>xercesImpl</artifactId>
+          <groupId>xerces</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.opengis.cite</groupId>
       <artifactId>schema-utils</artifactId>
+      <exclusions>
+        <exclusion>
+          <artifactId>xercesImpl</artifactId>
+          <groupId>xerces</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>com.sun.jersey</groupId>
@@ -81,7 +93,7 @@
     <dependency>
       <groupId>org.opengis.cite</groupId>
       <artifactId>geomatics-geotk</artifactId>
-      <version>1.15</version>
+      <version>1.17</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -120,6 +132,12 @@
       <groupId>org.geotoolkit.pending</groupId>
       <artifactId>geotk-xml-gml</artifactId>
       <version>3.21</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>jts</artifactId>
+          <groupId>com.vividsolutions</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.opengis</groupId>
