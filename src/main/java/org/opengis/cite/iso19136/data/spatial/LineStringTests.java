@@ -5,19 +5,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
-
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Unmarshaller;
+
 import org.apache.xerces.xs.XSElementDeclaration;
+import org.apache.sis.xml.MarshallerPool;
 import org.geotoolkit.gml.xml.v321.LineStringType;
-import org.geotoolkit.xml.MarshallerPool;
+import org.geotoolkit.gml.xml.GMLMarshallerPool;
+
 import org.opengis.cite.geomatics.gml.GmlUtils;
 import org.opengis.cite.iso19136.GML32;
 import org.opengis.cite.iso19136.data.DataFixture;
@@ -36,7 +38,7 @@ import org.w3c.dom.NodeList;
  * that consists of a single (implicit) segment with linear interpolation; it
  * must have two or more coordinate tuples. Note that in ISO 19107 a
  * GM_LineString is treated as a curve segment, not as a geometry type.
- * 
+ *
  * <p style="margin-bottom: 0.5em">
  * <strong>Sources</strong>
  * </p>
@@ -86,7 +88,7 @@ public class LineStringTests extends DataFixture {
 	/**
 	 * [{@code Test}] Verifies that a gml:LineString element has a valid CRS
 	 * reference.
-	 * 
+	 *
 	 * <p style="margin-bottom: 0.5em">
 	 * <strong>Sources</strong>
 	 * </p>
@@ -106,7 +108,7 @@ public class LineStringTests extends DataFixture {
 	/**
 	 * [{@code Test}] Verifies that a gml:LineString element contains at least
 	 * two coordinate tuples and that it lies within the valid area of the CRS.
-	 * 
+	 *
 	 * <p style="margin-bottom: 0.5em">
 	 * <strong>Sources</strong>
 	 * </p>
@@ -118,8 +120,7 @@ public class LineStringTests extends DataFixture {
 	public void validLineString() {
 		Unmarshaller gmlUnmarshaller;
 		try {
-			MarshallerPool pool = new MarshallerPool(
-					"org.geotoolkit.gml.xml.v321");
+			MarshallerPool pool = GMLMarshallerPool.getInstance();
 			gmlUnmarshaller = pool.acquireUnmarshaller();
 		} catch (JAXBException jxe) {
 			throw new RuntimeException(jxe);

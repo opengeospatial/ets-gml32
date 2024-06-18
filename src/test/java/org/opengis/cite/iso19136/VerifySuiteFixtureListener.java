@@ -14,7 +14,7 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Matchers;
+import org.mockito.ArgumentMatchers;
 import org.testng.ISuite;
 import org.testng.xml.XmlSuite;
 
@@ -52,7 +52,7 @@ public class VerifySuiteFixtureListener {
         SuiteFixtureListener iut = new SuiteFixtureListener();
         iut.onStart(suite);
         verify(suite).setAttribute(
-                Matchers.eq(SuiteAttribute.SCHEMA_LOC_SET.getName()),
+                ArgumentMatchers.eq(SuiteAttribute.SCHEMA_LOC_SET.getName()),
                 uriSet.capture());
         assertFalse("Expected non-empty set of URIs.", uriSet.getValue()
                 .isEmpty());

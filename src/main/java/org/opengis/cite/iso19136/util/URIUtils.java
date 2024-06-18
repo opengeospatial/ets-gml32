@@ -15,9 +15,11 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.Response;
+
 
 /**
  * Provides a collection of utility methods for manipulating or resolving URI
@@ -87,21 +89,24 @@ public class URIUtils {
         if (uriRef.getScheme().equalsIgnoreCase("file")) {
             return new File(uriRef);
         }
-        Client client = Client.create();
-        WebResource webRes = client.resource(uriRef);
-        ClientResponse rsp = webRes.get(ClientResponse.class);
+        Client client = ClientBuilder.newClient();
+        WebTarget target = client.target(uriRef);
+        Response rsp = target.request().get();
         File destFile = File.createTempFile("entity-", ".xml");
         if (rsp.hasEntity()) {
-            InputStream is = rsp.getEntityInputStream();
-            OutputStream os = new FileOutputStream(destFile);
-            byte[] buffer = new byte[8 * 1024];
-            int bytesRead;
-            while ((bytesRead = is.read(buffer)) != -1) {
-                os.write(buffer, 0, bytesRead);
-            }
-            is.close();
-            os.flush();
-            os.close();
+        	Object entity = rsp.getEntity();
+        	if(entity instanceof InputStream) {
+                InputStream is = (InputStream) entity;
+                OutputStream os = new FileOutputStream(destFile);
+                byte[] buffer = new byte[8 * 1024];
+                int bytesRead;
+                while ((bytesRead = is.read(buffer)) != -1) {
+                    os.write(buffer, 0, bytesRead);
+                }
+                is.close();
+                os.flush();
+                os.close();
+        	}
         }
         TestSuiteLogger.log(Level.FINE, "Wrote " + destFile.length()
                 + " bytes to file at " + destFile.getAbsolutePath());

@@ -13,10 +13,10 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.xerces.xs.XSElementDeclaration;
-import org.geotoolkit.geometry.Envelopes;
-import org.geotoolkit.geometry.GeneralDirectPosition;
-import org.geotoolkit.geometry.ImmutableEnvelope;
-import org.geotoolkit.referencing.CRS;
+import org.apache.sis.geometry.GeneralDirectPosition;
+import org.apache.sis.geometry.ImmutableEnvelope;
+import org.apache.sis.referencing.CRS;
+
 import org.opengis.cite.geomatics.GeodesyUtils;
 import org.opengis.cite.geomatics.gml.GmlUtils;
 import org.opengis.cite.iso19136.ErrorMessage;
@@ -39,7 +39,7 @@ import org.w3c.dom.NodeList;
  * Validates the content of a gml:Point element (or any element in its
  * substitution group), which implements the GM_Point class from ISO 19107. A
  * point is defined by a single coordinate tuple.
- * 
+ *
  * <p style="margin-bottom: 0.5em">
  * <strong>Sources</strong>
  * </p>
@@ -88,7 +88,7 @@ public class PointTests extends DataFixture {
 	/**
 	 * [{@code Test}] Verifies that a gml:Point element has a valid CRS
 	 * reference.
-	 * 
+	 *
 	 * <p style="margin-bottom: 0.5em">
 	 * <strong>Sources</strong>
 	 * </p>
@@ -112,13 +112,13 @@ public class PointTests extends DataFixture {
 	 * <li>length of coordinate tuple = CRS dimension;</li>
 	 * <li>the point is located within the valid area of the CRS.</li>
 	 * </ol>
-	 * 
+	 *
 	 * <p>
 	 * Note that the last constraint will detect obvious cases where the axis
 	 * order is incorrect (e.g. a position expressed in EPSG 4326 as -122.22,
 	 * 50.55).
 	 * </p>
-	 * 
+	 *
 	 * <p style="margin-bottom: 0.5em">
 	 * <strong>Sources</strong>
 	 * </p>
@@ -150,7 +150,7 @@ public class PointTests extends DataFixture {
 							point.getAttributeNS(GML32.NS_NAME, "id"),
 							GmlUtils.findCRSReference(point)));
 			ImmutableEnvelope validArea = new ImmutableEnvelope(
-					Envelopes.getDomainOfValidity(dpos
+					CRS.getDomainOfValidity(dpos
 							.getCoordinateReferenceSystem()));
 			Assert.assertTrue(validArea.contains(dpos), String.format(
 					"%s[@gml:id='%s'] is not within CRS area of use: %s.",
@@ -164,12 +164,12 @@ public class PointTests extends DataFixture {
 	 * Creates a DirectPosition object from a gml:Point element. It will have
 	 * the same CRS as the given point; the reference system may be inherited
 	 * from a containing geometry (aggregate) or feature.
-	 * 
+	 *
 	 * @param point
 	 *            A gml:Point element (or an element in its substitution group).
 	 * @param ignoreThirdDimension
-	 *            If this flag is true then it will ignore third dimension 
-	 *            else it will include all dimension.  
+	 *            If this flag is true then it will ignore third dimension
+	 *            else it will include all dimension.
 	 * @throws IndexOutOfBoundsException
 	 *             If the length of the coordinate tuple exceeds the dimension
 	 *             of the associated CRS.
@@ -185,10 +185,10 @@ public class PointTests extends DataFixture {
 		String srsName = GmlUtils.findCRSReference(point);
 		CoordinateReferenceSystem crs = null;
 		try {
-                        crs = CRS.decode(GeodesyUtils.getAbbreviatedCRSIdentifier(srsName));
+                        crs = CRS.forCode(GeodesyUtils.getAbbreviatedCRSIdentifier(srsName));
                         // The only Projected CRS is returned if third dimension is ignored.
                         if (ignoreThirdDimension) {
-                            crs = CRS.getHorizontalCRS(crs);
+                            crs = CRS.getHorizontalComponent(crs);
                         }
 		} catch (FactoryException fex) {
 			TestSuiteLogger.log(Level.WARNING, String.format(

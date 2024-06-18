@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Unmarshaller;
 
+import org.apache.sis.xml.MarshallerPool;
 import org.geotoolkit.gml.xml.v321.CurveType;
-import org.geotoolkit.xml.MarshallerPool;
+import org.geotoolkit.gml.xml.GMLMarshallerPool;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.opengis.cite.iso19136.BasicFixture;
@@ -25,7 +27,7 @@ public class VerifyGeometryAssert extends BasicFixture {
 
     @BeforeClass
     public static void initFixture() throws JAXBException {
-        MarshallerPool pool = new MarshallerPool("org.geotoolkit.gml.xml.v321");
+        MarshallerPool pool = GMLMarshallerPool.getInstance();
         gmlUnmarshaller = pool.acquireUnmarshaller();
     }
 
