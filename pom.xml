@@ -54,7 +54,7 @@
     <soapui.tests.passed>22</soapui.tests.passed>
     <soapui.tests.skipped>11</soapui.tests.skipped>
     <soapui.tests.failed>0</soapui.tests.failed>
-    <docker.teamengine.version>6.0-SNAPSHOT</docker.teamengine.version>
+    <docker.teamengine.version>6.0.0-RC1</docker.teamengine.version>
   </properties>
 
   <pluginRepositories>
@@ -68,7 +68,7 @@
     <dependency>
       <groupId>org.opengis.cite.teamengine</groupId>
       <artifactId>teamengine-spi</artifactId>
-      <version>6.0-SNAPSHOT</version>
+      <version>6.0.0-RC1</version>
     </dependency>
     <dependency>
       <groupId>org.opengis.cite</groupId>
