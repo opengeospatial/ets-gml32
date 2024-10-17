@@ -22,10 +22,10 @@ import org.w3c.dom.NodeList;
 
 /**
  * Validates the content of a gml:CompositeCurve element, which implements the
- * GM_CompositeCurve class from ISO 19107. A composite curve is a sequence of
- * orientable curves agreeing in orientation such that each curve (except the
- * first) begins where the previous one ends.
- * 
+ * GM_CompositeCurve class from ISO 19107. A composite curve is a sequence of orientable
+ * curves agreeing in orientation such that each curve (except the first) begins where the
+ * previous one ends.
+ *
  * <p style="margin-bottom: 0.5em">
  * <strong>Sources</strong>
  * </p>
@@ -37,12 +37,13 @@ import org.w3c.dom.NodeList;
 public class CompositeCurveTests extends DataFixture {
 
 	NodeList curveNodes;
+
 	List<QName> curveElems = new ArrayList<QName>();
 
 	/**
-	 * A configuration method ({@code BeforeClass}) that looks for
-	 * gml:CompositeCurve elements in the GML document under test. If none are
-	 * found all test methods defined in the class will be skipped.
+	 * A configuration method ({@code BeforeClass}) that looks for gml:CompositeCurve
+	 * elements in the GML document under test. If none are found all test methods defined
+	 * in the class will be skipped.
 	 */
 	@BeforeClass(alwaysRun = true)
 	public void findCompositeCurves() {
@@ -50,19 +51,19 @@ public class CompositeCurveTests extends DataFixture {
 		this.curveElems.add(new QName(GML32.NS_NAME, GML32.COMP_CURVE));
 		String xpath = "//gml:CompositeCurve";
 		try {
-			this.curveNodes = (NodeList) XMLUtils.evaluateXPath(data, xpath,
-					null, XPathConstants.NODESET);
-		} catch (XPathExpressionException xpe) { // won't happen
+			this.curveNodes = (NodeList) XMLUtils.evaluateXPath(data, xpath, null, XPathConstants.NODESET);
+		}
+		catch (XPathExpressionException xpe) { // won't happen
 			throw new RuntimeException(xpe);
 		}
-		if(this.curveNodes.getLength() == 0)
-				throw new SkipException("No gml:CompositeCurve elements found.");
+		if (this.curveNodes.getLength() == 0)
+			throw new SkipException("No gml:CompositeCurve elements found.");
 	}
 
 	/**
-	 * [{@code Test}] Verifies that the component curves of a gml:CompositeCurve
-	 * element are connected.
-	 * 
+	 * [{@code Test}] Verifies that the component curves of a gml:CompositeCurve element
+	 * are connected.
+	 *
 	 * <p style="margin-bottom: 0.5em">
 	 * <strong>Sources</strong>
 	 * </p>
@@ -78,4 +79,5 @@ public class CompositeCurveTests extends DataFixture {
 			GeometryAssert.assertCurveComponentsAreConnected(curveElem);
 		}
 	}
+
 }

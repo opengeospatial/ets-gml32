@@ -33,9 +33,13 @@ import org.xml.sax.SAXException;
 public class VerifyXMLSchemaModelUtils {
 
 	private static final String ALPHA_NS = "http://www.example.net/alpha";
+
 	private static final String BETA_NS = "http://www.example.net/beta";
+
 	private static final String GAMMA_NS = "http://www.example.net/gamma";
+
 	private static final String EXAMPLE_NS = "http://example.org/ns1";
+
 	private static XmlSchemaCompiler xsdCompiler;
 
 	public VerifyXMLSchemaModelUtils() {
@@ -43,8 +47,7 @@ public class VerifyXMLSchemaModelUtils {
 
 	@BeforeClass
 	public static void setUpClass() throws Exception {
-		URL schemaCatalog = VerifyXMLSchemaModelUtils.class
-				.getResource("/schema-catalog.xml");
+		URL schemaCatalog = VerifyXMLSchemaModelUtils.class.getResource("/schema-catalog.xml");
 		xsdCompiler = new XmlSchemaCompiler(schemaCatalog);
 	}
 
@@ -66,39 +69,30 @@ public class VerifyXMLSchemaModelUtils {
 	@Test
 	public void buildSchemaModel_alpha() throws IOException, SAXException {
 		URL url = this.getClass().getResource("/xsd/alpha.xsd");
-		Schema xsd = xsdCompiler.compileXmlSchema(new StreamSource(url
-				.openStream(), url.toString()));
+		Schema xsd = xsdCompiler.compileXmlSchema(new StreamSource(url.openStream(), url.toString()));
 		XSModel model = XSModelBuilder.buildXMLSchemaModel(xsd, ALPHA_NS);
 		assertNotNull("XSModel instance is null", model);
-		assertNotNull("Top-level element declaration 'Beta' not found",
-				model.getElementDeclaration("Beta", BETA_NS));
+		assertNotNull("Top-level element declaration 'Beta' not found", model.getElementDeclaration("Beta", BETA_NS));
 	}
 
 	@Test
 	public void findFeatures_simpleFeatures() throws IOException, SAXException {
 		URL url = this.getClass().getResource("/xsd/simple.xsd");
-		Schema xsd = xsdCompiler.compileXmlSchema(new StreamSource(url
-				.openStream(), url.toString()));
+		Schema xsd = xsdCompiler.compileXmlSchema(new StreamSource(url.openStream(), url.toString()));
 		XSModel model = XSModelBuilder.buildXMLSchemaModel(xsd, EXAMPLE_NS);
 		assertNotNull("XSModel instance is null", model);
-		List<XSElementDeclaration> features = XMLSchemaModelUtils
-				.getFeatureDeclarations(model);
-		assertEquals("Unexpected number of feature declarations", 2,
-				features.size());
+		List<XSElementDeclaration> features = XMLSchemaModelUtils.getFeatureDeclarations(model);
+		assertEquals("Unexpected number of feature declarations", 2, features.size());
 	}
 
 	@Test
-	public void findGeometries_simpleFeatures() throws IOException,
-			SAXException {
+	public void findGeometries_simpleFeatures() throws IOException, SAXException {
 		URL url = this.getClass().getResource("/xsd/simple.xsd");
-		Schema xsd = xsdCompiler.compileXmlSchema(new StreamSource(url
-				.openStream(), url.toString()));
+		Schema xsd = xsdCompiler.compileXmlSchema(new StreamSource(url.openStream(), url.toString()));
 		XSModel model = XSModelBuilder.buildXMLSchemaModel(xsd, EXAMPLE_NS);
 		assertNotNull("XSModel instance is null", model);
-		List<XSElementDeclaration> geometries = XMLSchemaModelUtils
-				.getGeometryDeclarations(model);
-		assertEquals("Unexpected number of geometry declarations", 0,
-				geometries.size());
+		List<XSElementDeclaration> geometries = XMLSchemaModelUtils.getGeometryDeclarations(model);
+		assertEquals("Unexpected number of geometry declarations", 0, geometries.size());
 	}
 
 	@Test
@@ -106,10 +100,8 @@ public class VerifyXMLSchemaModelUtils {
 		URL url = this.getClass().getResource("/xsd/customGeom.xsd");
 		XSModel model = createXSModel(url, URI.create(EXAMPLE_NS));
 		assertNotNull("XSModel instance is null", model);
-		List<XSElementDeclaration> geometries = XMLSchemaModelUtils
-				.getGeometryDeclarations(model);
-		assertEquals("Found unexpected number of geometry declarations", 2,
-				geometries.size());
+		List<XSElementDeclaration> geometries = XMLSchemaModelUtils.getGeometryDeclarations(model);
+		assertEquals("Found unexpected number of geometry declarations", 2, geometries.size());
 	}
 
 	@Test
@@ -117,148 +109,115 @@ public class VerifyXMLSchemaModelUtils {
 		URL url = this.getClass().getResource("/xsd/customGeom.xsd");
 		XSModel model = createXSModel(url, URI.create(EXAMPLE_NS));
 		assertNotNull("XSModel instance is null", model);
-		Set<String> nsNames = XMLSchemaModelUtils
-				.getApplicationNamespaces(model);
+		Set<String> nsNames = XMLSchemaModelUtils.getApplicationNamespaces(model);
 		assertEquals("Unexpected number of namespace names", 1, nsNames.size());
-		assertTrue("Namespace name not in set: " + EXAMPLE_NS,
-				nsNames.contains(EXAMPLE_NS));
+		assertTrue("Namespace name not in set: " + EXAMPLE_NS, nsNames.contains(EXAMPLE_NS));
 	}
 
 	@Test
-	public void findGlobalElementsByComplexType_PointWithBearingPropertyType()
-			throws IOException, SAXException {
+	public void findGlobalElementsByComplexType_PointWithBearingPropertyType() throws IOException, SAXException {
 		URL url = this.getClass().getResource("/xsd/customGeom.xsd");
 		XSModel model = createXSModel(url, URI.create(EXAMPLE_NS));
 		assertNotNull("XSModel instance is null", model);
-		List<XSElementDeclaration> elems = XMLSchemaModelUtils
-				.getGlobalElementsByType(model, model.getTypeDefinition(
-						"PointWithBearingPropertyType", EXAMPLE_NS));
-		assertEquals("Unexpected number of element declarations", 1,
-				elems.size());
+		List<XSElementDeclaration> elems = XMLSchemaModelUtils.getGlobalElementsByType(model,
+				model.getTypeDefinition("PointWithBearingPropertyType", EXAMPLE_NS));
+		assertEquals("Unexpected number of element declarations", 1, elems.size());
 	}
 
 	@Test
-	public void findLocalElementsBySimpleType_AngleType() throws IOException,
-			SAXException {
+	public void findLocalElementsBySimpleType_AngleType() throws IOException, SAXException {
 		URL url = this.getClass().getResource("/xsd/customGeom.xsd");
 		XSModel model = createXSModel(url, URI.create(EXAMPLE_NS));
 		assertNotNull("XSModel instance is null", model);
-		List<XSElementDeclaration> elems = XMLSchemaModelUtils
-				.getLocalElementsByType(model,
-						model.getTypeDefinition("AngleType", GML32.NS_NAME),
-						null);
-		assertEquals("Unexpected number of element declarations", 1,
-				elems.size());
+		List<XSElementDeclaration> elems = XMLSchemaModelUtils.getLocalElementsByType(model,
+				model.getTypeDefinition("AngleType", GML32.NS_NAME), null);
+		assertEquals("Unexpected number of element declarations", 1, elems.size());
 		assertNotNull("Expected elem to have enclosing complex type def.",
 				elems.iterator().next().getEnclosingCTDefinition());
 	}
 
 	@Test
-	public void findLocalElementsWithFilter_MeasureType() throws IOException,
-			SAXException {
+	public void findLocalElementsWithFilter_MeasureType() throws IOException, SAXException {
 		URL url = this.getClass().getResource("/xsd/customGeom.xsd");
 		XSModel model = createXSModel(url, URI.create(EXAMPLE_NS));
 		assertNotNull("XSModel instance is null", model);
-		List<XSElementDeclaration> elems = XMLSchemaModelUtils
-				.getLocalElementsByType(model,
-						model.getTypeDefinition("MeasureType", GML32.NS_NAME),
-						new FeatureTypeFilter());
-		assertEquals("Unexpected number of element declarations", 1,
-				elems.size());
+		List<XSElementDeclaration> elems = XMLSchemaModelUtils.getLocalElementsByType(model,
+				model.getTypeDefinition("MeasureType", GML32.NS_NAME), new FeatureTypeFilter());
+		assertEquals("Unexpected number of element declarations", 1, elems.size());
 		assertEquals("Unexpected name of enclosing type.", "RadioTowerType",
 				elems.iterator().next().getEnclosingCTDefinition().getName());
 	}
 
 	@Test
-	public void findGeometryProperties_customGeom() throws IOException,
-			SAXException {
+	public void findGeometryProperties_customGeom() throws IOException, SAXException {
 		URL url = this.getClass().getResource("/xsd/customGeom.xsd");
 		XSModel model = createXSModel(url, URI.create(EXAMPLE_NS));
 		assertNotNull("XSModel instance is null", model);
-		List<XSElementDeclaration> geomProps = XMLSchemaModelUtils
-				.getExplicitGeometryProperties(model);
-		assertEquals("Unexpected number of geometry properties", 3,
-				geomProps.size());
+		List<XSElementDeclaration> geomProps = XMLSchemaModelUtils.getExplicitGeometryProperties(model);
+		assertEquals("Unexpected number of geometry properties", 3, geomProps.size());
 	}
 
 	@Test
-	public void findExplicitGeometryProperties_simple() throws IOException,
-			SAXException {
+	public void findExplicitGeometryProperties_simple() throws IOException, SAXException {
 		URL url = this.getClass().getResource("/xsd/simple.xsd");
 		XSModel model = createXSModel(url, URI.create(EXAMPLE_NS));
-		List<XSElementDeclaration> geomProps = XMLSchemaModelUtils
-				.getExplicitGeometryProperties(model);
-		assertEquals("Unexpected number of geometry properties", 3,
-				geomProps.size());
+		List<XSElementDeclaration> geomProps = XMLSchemaModelUtils.getExplicitGeometryProperties(model);
+		assertEquals("Unexpected number of geometry properties", 3, geomProps.size());
 	}
 
 	@Test
-	public void getAllElementsInParticle_AbstractGMLType() throws IOException,
-			SAXException {
+	public void getAllElementsInParticle_AbstractGMLType() throws IOException, SAXException {
 		URL url = this.getClass().getResource("/xsd/customGeom.xsd");
 		XSModel model = createXSModel(url, URI.create(EXAMPLE_NS));
 		assertNotNull("XSModel instance is null", model);
-		XSComplexTypeDefinition typeDef = (XSComplexTypeDefinition) model
-				.getTypeDefinition("AbstractGMLType", GML32.NS_NAME);
-		List<XSElementDeclaration> elemDecls = XMLSchemaModelUtils
-				.getAllElementsInParticle(typeDef.getParticle());
-		assertEquals("Unexpected number of element declarations", 5,
-				elemDecls.size());
+		XSComplexTypeDefinition typeDef = (XSComplexTypeDefinition) model.getTypeDefinition("AbstractGMLType",
+				GML32.NS_NAME);
+		List<XSElementDeclaration> elemDecls = XMLSchemaModelUtils.getAllElementsInParticle(typeDef.getParticle());
+		assertEquals("Unexpected number of element declarations", 5, elemDecls.size());
 	}
 
 	@Test
-	public void getAllElementsInParticleWithNestedModelGroup()
-			throws IOException, SAXException {
+	public void getAllElementsInParticleWithNestedModelGroup() throws IOException, SAXException {
 		URL url = this.getClass().getResource("/xsd/customGeom.xsd");
 		XSModel model = createXSModel(url, URI.create(EXAMPLE_NS));
 		// gml:GridType contains sequence/choice
-		XSComplexTypeDefinition gridTypeDef = (XSComplexTypeDefinition) model
-				.getTypeDefinition("GridType", GML32.NS_NAME);
-		List<XSElementDeclaration> elemDecls = XMLSchemaModelUtils
-				.getAllElementsInParticle(gridTypeDef.getParticle());
-		assertEquals("Unexpected number of element declarations", 8,
-				elemDecls.size());
-		assertEquals("Unexpected name for component[6]", "axisLabels",
-				elemDecls.get(6).getName());
+		XSComplexTypeDefinition gridTypeDef = (XSComplexTypeDefinition) model.getTypeDefinition("GridType",
+				GML32.NS_NAME);
+		List<XSElementDeclaration> elemDecls = XMLSchemaModelUtils.getAllElementsInParticle(gridTypeDef.getParticle());
+		assertEquals("Unexpected number of element declarations", 8, elemDecls.size());
+		assertEquals("Unexpected name for component[6]", "axisLabels", elemDecls.get(6).getName());
 	}
 
 	@Test
 	public void getComplexTypes_Beta() throws IOException, SAXException {
 		URL url = this.getClass().getResource("/xsd/beta.xsd");
 		XSModel model = createXSModel(url, URI.create(BETA_NS));
-		Set<XSComplexTypeDefinition> typeDefs = XMLSchemaModelUtils
-				.getReferencedComplexTypeDefinitions(model);
-		assertEquals("Unexpected number of type definitions", 2,
-				typeDefs.size());
-		XSTypeDefinition gammaPropType = model.getTypeDefinition(
-				"GammaPropertyType", BETA_NS);
-		assertFalse("Found type def not referenced by global element: "
-				+ gammaPropType, typeDefs.contains(gammaPropType));
+		Set<XSComplexTypeDefinition> typeDefs = XMLSchemaModelUtils.getReferencedComplexTypeDefinitions(model);
+		assertEquals("Unexpected number of type definitions", 2, typeDefs.size());
+		XSTypeDefinition gammaPropType = model.getTypeDefinition("GammaPropertyType", BETA_NS);
+		assertFalse("Found type def not referenced by global element: " + gammaPropType,
+				typeDefs.contains(gammaPropType));
 	}
 
 	@Test
-	public void pointPropertyTypeHasGeometryValueDomain() throws IOException,
-			SAXException {
+	public void pointPropertyTypeHasGeometryValueDomain() throws IOException, SAXException {
 		URL url = this.getClass().getResource("/xsd/simple.xsd");
 		XSModel model = createXSModel(url, URI.create(EXAMPLE_NS));
-		XSComplexTypeDefinition pointProp = (XSComplexTypeDefinition) model
-				.getTypeDefinition(GML32.POINT_PROP_TYPE, GML32.NS_NAME);
+		XSComplexTypeDefinition pointProp = (XSComplexTypeDefinition) model.getTypeDefinition(GML32.POINT_PROP_TYPE,
+				GML32.NS_NAME);
 		boolean result = XMLSchemaModelUtils.propertyHasValueDomain(pointProp,
-				model.getElementDeclaration(GML32.ABSTRACT_GEOMETRY,
-						GML32.NS_NAME));
+				model.getElementDeclaration(GML32.ABSTRACT_GEOMETRY, GML32.NS_NAME));
 		assertTrue(result);
 	}
 
 	@Test
-	public void pointPropertyTypeDoesNotHaveTemporalValueDomain()
-			throws IOException, SAXException {
+	public void pointPropertyTypeDoesNotHaveTemporalValueDomain() throws IOException, SAXException {
 		URL url = this.getClass().getResource("/xsd/simple.xsd");
 		XSModel model = createXSModel(url, URI.create(EXAMPLE_NS));
-		XSComplexTypeDefinition pointProp = (XSComplexTypeDefinition) model
-				.getTypeDefinition(GML32.POINT_PROP_TYPE, GML32.NS_NAME);
-		boolean result = XMLSchemaModelUtils
-				.propertyHasValueDomain(pointProp, model.getElementDeclaration(
-						GML32.ABSTRACT_TIME, GML32.NS_NAME));
+		XSComplexTypeDefinition pointProp = (XSComplexTypeDefinition) model.getTypeDefinition(GML32.POINT_PROP_TYPE,
+				GML32.NS_NAME);
+		boolean result = XMLSchemaModelUtils.propertyHasValueDomain(pointProp,
+				model.getElementDeclaration(GML32.ABSTRACT_TIME, GML32.NS_NAME));
 		assertFalse(result);
 	}
 
@@ -266,71 +225,53 @@ public class VerifyXMLSchemaModelUtils {
 	public void findImplicitCurveProperties() throws IOException, SAXException {
 		URL url = this.getClass().getResource("/xsd/simple.xsd");
 		XSModel model = createXSModel(url, URI.create(EXAMPLE_NS));
-		XSElementDeclaration curve = model.getElementDeclaration(
-				GML32.ABSTRACT_CURVE, GML32.NS_NAME);
-		List<XSElementDeclaration> curveProps = XMLSchemaModelUtils
-				.getImplicitProperties(model, curve);
-		assertEquals("Unexpected number of implicit curve properties.", 2,
-				curveProps.size());
+		XSElementDeclaration curve = model.getElementDeclaration(GML32.ABSTRACT_CURVE, GML32.NS_NAME);
+		List<XSElementDeclaration> curveProps = XMLSchemaModelUtils.getImplicitProperties(model, curve);
+		assertEquals("Unexpected number of implicit curve properties.", 2, curveProps.size());
 	}
 
 	@Test
 	public void findAllGeometryProperties() throws IOException, SAXException {
 		URL url = this.getClass().getResource("/xsd/simple.xsd");
 		XSModel model = createXSModel(url, URI.create(EXAMPLE_NS));
-		XSElementDeclaration geometry = model.getElementDeclaration(
-				GML32.ABSTRACT_GEOMETRY, GML32.NS_NAME);
-		List<XSElementDeclaration> geomProps = XMLSchemaModelUtils
-				.getImplicitProperties(model, geometry);
-		geomProps.addAll(XMLSchemaModelUtils
-				.getExplicitGeometryProperties(model));
-		assertEquals("Unexpected number of geometry properties.", 5,
-				geomProps.size());
+		XSElementDeclaration geometry = model.getElementDeclaration(GML32.ABSTRACT_GEOMETRY, GML32.NS_NAME);
+		List<XSElementDeclaration> geomProps = XMLSchemaModelUtils.getImplicitProperties(model, geometry);
+		geomProps.addAll(XMLSchemaModelUtils.getExplicitGeometryProperties(model));
+		assertEquals("Unexpected number of geometry properties.", 5, geomProps.size());
 	}
 
 	@Test
-	public void findElementParticlesInComplexFeatureType() throws IOException,
-			SAXException {
+	public void findElementParticlesInComplexFeatureType() throws IOException, SAXException {
 		URL url = this.getClass().getResource("/xsd/simple.xsd");
 		XSModel model = createXSModel(url, URI.create(EXAMPLE_NS));
-		XSComplexTypeDefinition type = (XSComplexTypeDefinition) model
-				.getTypeDefinition("ComplexFeatureType", EXAMPLE_NS);
-		List<XSParticle> particles = XMLSchemaModelUtils
-				.getAllElementParticles(type.getParticle());
-		assertEquals("Unexpected number of element particles.", 12,
-				particles.size());
+		XSComplexTypeDefinition type = (XSComplexTypeDefinition) model.getTypeDefinition("ComplexFeatureType",
+				EXAMPLE_NS);
+		List<XSParticle> particles = XMLSchemaModelUtils.getAllElementParticles(type.getParticle());
+		assertEquals("Unexpected number of element particles.", 12, particles.size());
 	}
 
 	@Test(expected = UnsupportedOperationException.class)
 	public void xsNamedMapIsImmutable() throws IOException, SAXException {
 		URL url = this.getClass().getResource("/xsd/simple.xsd");
 		XSModel model = createXSModel(url, URI.create(EXAMPLE_NS));
-		XSNamedMap typeDefs = model.getComponentsByNamespace(
-				XSConstants.TYPE_DEFINITION, EXAMPLE_NS);
+		XSNamedMap typeDefs = model.getComponentsByNamespace(XSConstants.TYPE_DEFINITION, EXAMPLE_NS);
 		QName typeName = new QName(EXAMPLE_NS, "SimpleFeatureType");
 		typeDefs.remove(typeName);
 	}
 
 	@Test
-	public void findGlobalAndLocalFeatureMembers() throws IOException,
-			SAXException {
+	public void findGlobalAndLocalFeatureMembers() throws IOException, SAXException {
 		URL url = this.getClass().getResource("/xsd/collections.xsd");
 		XSModel model = createXSModel(url, URI.create(EXAMPLE_NS));
-		XSTypeDefinition baseType = model.getTypeDefinition(
-				GML32.FEATURE_MEMBER_TYPE, GML32.NS_NAME);
-		List<XSElementDeclaration> memberProps = XMLSchemaModelUtils
-				.getElementDeclarationsByType(model, baseType);
-		assertEquals(
-				"Unexpected number of feature member element declarations", 2,
-				memberProps.size());
+		XSTypeDefinition baseType = model.getTypeDefinition(GML32.FEATURE_MEMBER_TYPE, GML32.NS_NAME);
+		List<XSElementDeclaration> memberProps = XMLSchemaModelUtils.getElementDeclarationsByType(model, baseType);
+		assertEquals("Unexpected number of feature member element declarations", 2, memberProps.size());
 	}
 
-	XSModel createXSModel(URL schemaUrl, URI targetNamespace)
-			throws IOException, SAXException {
-		Schema xsd = xsdCompiler.compileXmlSchema(new StreamSource(schemaUrl
-				.openStream(), schemaUrl.toString()));
-		XSModel model = XSModelBuilder.buildXMLSchemaModel(xsd,
-				targetNamespace.toString());
+	XSModel createXSModel(URL schemaUrl, URI targetNamespace) throws IOException, SAXException {
+		Schema xsd = xsdCompiler.compileXmlSchema(new StreamSource(schemaUrl.openStream(), schemaUrl.toString()));
+		XSModel model = XSModelBuilder.buildXMLSchemaModel(xsd, targetNamespace.toString());
 		return model;
 	}
+
 }

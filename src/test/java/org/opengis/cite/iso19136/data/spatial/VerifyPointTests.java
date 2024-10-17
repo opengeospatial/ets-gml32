@@ -34,8 +34,7 @@ public class VerifyPointTests extends BasicFixture {
 	}
 
 	@Test
-	public void findPointWithBearing() throws URISyntaxException, IOException,
-			SAXException {
+	public void findPointWithBearing() throws URISyntaxException, IOException, SAXException {
 		PointTests iut = new PointTests();
 		URL dataURL = this.getClass().getResource("/geom/PointWithBearing.xml");
 		iut.setDataFile(new File(dataURL.toURI()));
@@ -44,8 +43,7 @@ public class VerifyPointTests extends BasicFixture {
 		iut.setSchemaModel(model);
 		iut.findPoints();
 		assertEquals("Unexpected number of points.", 1, iut.points.getLength());
-		assertEquals("Point geometry has unexpected name.", "PointWithBearing",
-				iut.points.item(0).getLocalName());
+		assertEquals("Point geometry has unexpected name.", "PointWithBearing", iut.points.item(0).getLocalName());
 	}
 
 	@Test
@@ -101,4 +99,5 @@ public class VerifyPointTests extends BasicFixture {
 		iut.findPoints();
 		iut.pointHasValidPosition();
 	}
+
 }

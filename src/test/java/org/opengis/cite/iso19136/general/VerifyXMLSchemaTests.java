@@ -25,80 +25,75 @@ import org.testng.ITestContext;
 import org.xml.sax.SAXException;
 
 /**
- * Verifies the behavior of the XMLSchemaTests test class. Test stubs replace
- * fixture constituents where appropriate.
+ * Verifies the behavior of the XMLSchemaTests test class. Test stubs replace fixture
+ * constituents where appropriate.
  */
 public class VerifyXMLSchemaTests {
 
-    private static ITestContext testContext;
-    private ISuite suite;
+	private static ITestContext testContext;
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
+	private ISuite suite;
 
-    public VerifyXMLSchemaTests() {
-    }
+	@Rule
+	public ExpectedException thrown = ExpectedException.none();
 
-    @BeforeClass
-    public static void initTestContext() {
-        testContext = mock(ITestContext.class);
-    }
+	public VerifyXMLSchemaTests() {
+	}
 
-    @Before
-    public void initSuite() {
-        this.suite = mock(ISuite.class);
-        when(testContext.getSuite()).thenReturn(suite);
-        when(testContext.getSuite().getAttribute("version")).thenReturn("3.2.1");
-    }
+	@BeforeClass
+	public static void initTestContext() {
+		testContext = mock(ITestContext.class);
+	}
 
-    @Test(expected = NullPointerException.class)
-    public void supplyNullSchema() throws SAXException, IOException {
-        XMLSchemaTests iut = new XMLSchemaTests();
-        iut.compileXMLSchema(testContext);
-    }
+	@Before
+	public void initSuite() {
+		this.suite = mock(ISuite.class);
+		when(testContext.getSuite()).thenReturn(suite);
+		when(testContext.getSuite().getAttribute("version")).thenReturn("3.2.1");
+	}
 
-    @Test
-    public void validSchemaViaTestContext() throws SAXException, IOException,
-            URISyntaxException {
-        URL url = this.getClass().getResource("/xsd/alpha.xsd");
-        Set<URI> uriSet = new HashSet<URI>();
-        uriSet.add(url.toURI());
-        when(suite.getAttribute(SuiteAttribute.SCHEMA_LOC_SET.getName()))
-                .thenReturn(uriSet);
-        XMLSchemaTests iut = new XMLSchemaTests();
-        iut.getSchemaURIsFromTestContext(testContext);
-        iut.compileXMLSchema(testContext);
-        verify(suite).setAttribute(
-                ArgumentMatchers.eq(SuiteAttribute.SCHEMA.getName()),
-                ArgumentMatchers.isA(Schema.class));
-    }
+	@Test(expected = NullPointerException.class)
+	public void supplyNullSchema() throws SAXException, IOException {
+		XMLSchemaTests iut = new XMLSchemaTests();
+		iut.compileXMLSchema(testContext);
+	}
 
-    @Test
-    public void compileInvalidSchemaShouldFail() throws SAXException,
-            IOException, URISyntaxException {
-        thrown.expect(AssertionError.class);
-        thrown.expectMessage("Cannot resolve the name 'tns:DeltaType'");
-        URL url = this.getClass().getResource("/xsd/gamma-MissingTypeDef.xsd");
-        Set<URI> uriSet = new HashSet<URI>();
-        uriSet.add(url.toURI());
-        XMLSchemaTests iut = new XMLSchemaTests();
-        iut.setSchemaLocations(uriSet);
-        iut.compileXMLSchema(testContext);
-    }
+	@Test
+	public void validSchemaViaTestContext() throws SAXException, IOException, URISyntaxException {
+		URL url = this.getClass().getResource("/xsd/alpha.xsd");
+		Set<URI> uriSet = new HashSet<URI>();
+		uriSet.add(url.toURI());
+		when(suite.getAttribute(SuiteAttribute.SCHEMA_LOC_SET.getName())).thenReturn(uriSet);
+		XMLSchemaTests iut = new XMLSchemaTests();
+		iut.getSchemaURIsFromTestContext(testContext);
+		iut.compileXMLSchema(testContext);
+		verify(suite).setAttribute(ArgumentMatchers.eq(SuiteAttribute.SCHEMA.getName()),
+				ArgumentMatchers.isA(Schema.class));
+	}
 
-    @Test
-    public void compileSchemaWithNonASCIIElements() throws SAXException,
-            IOException, URISyntaxException {
-        URL url = this.getClass().getResource("/xsd/cite-gmlsf0.xsd");
-        Set<URI> uriSet = new HashSet<URI>();
-        uriSet.add(url.toURI());
-        when(suite.getAttribute(SuiteAttribute.SCHEMA_LOC_SET.getName()))
-                .thenReturn(uriSet);
-        XMLSchemaTests iut = new XMLSchemaTests();
-        iut.getSchemaURIsFromTestContext(testContext);
-        iut.compileXMLSchema(testContext);
-        verify(suite).setAttribute(
-                ArgumentMatchers.eq(SuiteAttribute.SCHEMA.getName()),
-                ArgumentMatchers.isA(Schema.class));
-    }
+	@Test
+	public void compileInvalidSchemaShouldFail() throws SAXException, IOException, URISyntaxException {
+		thrown.expect(AssertionError.class);
+		thrown.expectMessage("Cannot resolve the name 'tns:DeltaType'");
+		URL url = this.getClass().getResource("/xsd/gamma-MissingTypeDef.xsd");
+		Set<URI> uriSet = new HashSet<URI>();
+		uriSet.add(url.toURI());
+		XMLSchemaTests iut = new XMLSchemaTests();
+		iut.setSchemaLocations(uriSet);
+		iut.compileXMLSchema(testContext);
+	}
+
+	@Test
+	public void compileSchemaWithNonASCIIElements() throws SAXException, IOException, URISyntaxException {
+		URL url = this.getClass().getResource("/xsd/cite-gmlsf0.xsd");
+		Set<URI> uriSet = new HashSet<URI>();
+		uriSet.add(url.toURI());
+		when(suite.getAttribute(SuiteAttribute.SCHEMA_LOC_SET.getName())).thenReturn(uriSet);
+		XMLSchemaTests iut = new XMLSchemaTests();
+		iut.getSchemaURIsFromTestContext(testContext);
+		iut.compileXMLSchema(testContext);
+		verify(suite).setAttribute(ArgumentMatchers.eq(SuiteAttribute.SCHEMA.getName()),
+				ArgumentMatchers.isA(Schema.class));
+	}
+
 }

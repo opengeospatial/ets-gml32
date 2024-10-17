@@ -15,16 +15,16 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
- * Checks constraints that apply to various complex properties of GML objects.
- * The values of such properties (that typically define binary associations)
- * include metadata descriptions, spatial geometry objects, topology objects,
- * temporal objects, and location descriptions.
- * 
- * Implicit property type definitions are examined to ensure they have valid
- * content models, since invalid type derivations (i.e. restrictions of existing
- * GML property types) should be detected when the application schema is
- * initially assessed for XML Schema compliance.
- * 
+ * Checks constraints that apply to various complex properties of GML objects. The values
+ * of such properties (that typically define binary associations) include metadata
+ * descriptions, spatial geometry objects, topology objects, temporal objects, and
+ * location descriptions.
+ *
+ * Implicit property type definitions are examined to ensure they have valid content
+ * models, since invalid type derivations (i.e. restrictions of existing GML property
+ * types) should be detected when the application schema is initially assessed for XML
+ * Schema compliance.
+ *
  * <p style="margin-bottom: 0.5em">
  * <strong>Sources</strong>
  * </p>
@@ -36,13 +36,12 @@ import org.testng.annotations.Test;
 public class ComplexPropertyTests extends SchemaModelFixture {
 
 	/**
-	 * [{@code Test}] Validates the content of metadata properties. A metadata
-	 * property type must be derived by extension from
-	 * gml:AbstractMetadataPropertyType; it shall follow one of the patterns
-	 * specified for GML property types in clause 7.2.3, and cannot contain a
-	 * wildcard particle. A property value must be specified--an empty content
-	 * model is not permitted even if a reference is allowed.
-	 * 
+	 * [{@code Test}] Validates the content of metadata properties. A metadata property
+	 * type must be derived by extension from gml:AbstractMetadataPropertyType; it shall
+	 * follow one of the patterns specified for GML property types in clause 7.2.3, and
+	 * cannot contain a wildcard particle. A property value must be specified--an empty
+	 * content model is not permitted even if a reference is allowed.
+	 *
 	 * <p style="margin-bottom: 0.5em">
 	 * <strong>Sources</strong>
 	 * </p>
@@ -53,33 +52,30 @@ public class ComplexPropertyTests extends SchemaModelFixture {
 	 */
 	@Test(description = "See ISO 19136: 7.2.6, A.1.1.9")
 	public void validateMetadataProperties() {
-		XSTypeDefinition metadataPropType = this.model.getTypeDefinition(
-				GML32.MD_PROP_TYPE, GML32.NS_NAME);
-		List<XSElementDeclaration> metadataProps = XMLSchemaModelUtils
-				.getGlobalElementsByType(this.model, metadataPropType);
-		metadataProps.addAll(XMLSchemaModelUtils.getLocalElementsByType(
-				this.model, metadataPropType, new GMLObjectTypeFilter()));
+		XSTypeDefinition metadataPropType = this.model.getTypeDefinition(GML32.MD_PROP_TYPE, GML32.NS_NAME);
+		List<XSElementDeclaration> metadataProps = XMLSchemaModelUtils.getGlobalElementsByType(this.model,
+				metadataPropType);
+		metadataProps.addAll(
+				XMLSchemaModelUtils.getLocalElementsByType(this.model, metadataPropType, new GMLObjectTypeFilter()));
 		for (XSElementDeclaration metaDataProp : metadataProps) {
 			ETSAssert.assertValidPropertyType(model, metaDataProp, null);
-			XSComplexTypeDefinition propTypeDef = (XSComplexTypeDefinition) metaDataProp
-					.getTypeDefinition();
+			XSComplexTypeDefinition propTypeDef = (XSComplexTypeDefinition) metaDataProp.getTypeDefinition();
 			if (propTypeDef.getContentType() == XSComplexTypeDefinition.CONTENTTYPE_EMPTY) {
-				throw new AssertionError(ErrorMessage.format(
-						ErrorMessageKeys.MD_PROP_UNSPECIFIED, metaDataProp));
+				throw new AssertionError(ErrorMessage.format(ErrorMessageKeys.MD_PROP_UNSPECIFIED, metaDataProp));
 			}
 		}
 	}
 
 	/**
-	 * [{@code Test}] A GML object collection is any gml:AbstractObject having a
-	 * property element whose content model is derived by extension from
-	 * gml:AbstractMemberType. A member property type shall follow one of the
-	 * patterns specified for GML property types in clause 7.2.3.
-	 * 
-	 * Furthermore, the collection type may also include a reference to the
-	 * attribute group gml:AggregationAttributeGroup in order to provide
-	 * additional information about the semantics of the object collection.
-	 * 
+	 * [{@code Test}] A GML object collection is any gml:AbstractObject having a property
+	 * element whose content model is derived by extension from gml:AbstractMemberType. A
+	 * member property type shall follow one of the patterns specified for GML property
+	 * types in clause 7.2.3.
+	 *
+	 * Furthermore, the collection type may also include a reference to the attribute
+	 * group gml:AggregationAttributeGroup in order to provide additional information
+	 * about the semantics of the object collection.
+	 *
 	 * <p style="margin-bottom: 0.5em">
 	 * <strong>Sources</strong>
 	 * </p>
@@ -90,14 +86,14 @@ public class ComplexPropertyTests extends SchemaModelFixture {
 	 */
 	@Test(description = "See ISO 19136: 7.2.5, A.1.1.14")
 	public void validateMembersOfGmlObjectCollection() {
-		XSTypeDefinition memberPropType = this.model.getTypeDefinition(
-				GML32.MEMBER_PROP_TYPE, GML32.NS_NAME);
-		List<XSElementDeclaration> memberProps = XMLSchemaModelUtils
-				.getGlobalElementsByType(this.model, memberPropType);
-		memberProps.addAll(XMLSchemaModelUtils.getLocalElementsByType(
-				this.model, memberPropType, null));
+		XSTypeDefinition memberPropType = this.model.getTypeDefinition(GML32.MEMBER_PROP_TYPE, GML32.NS_NAME);
+		List<XSElementDeclaration> memberProps = XMLSchemaModelUtils.getGlobalElementsByType(this.model,
+				memberPropType);
+		memberProps.addAll(XMLSchemaModelUtils.getLocalElementsByType(this.model, memberPropType, null));
 		for (XSElementDeclaration memberProp : memberProps) {
-			Assert.assertTrue(memberProp.getTypeDefinition().getBaseType().equals(memberPropType), String.format("Type %s not an AbstractMemberType.", memberProp.getName()));
+			Assert.assertTrue(memberProp.getTypeDefinition().getBaseType().equals(memberPropType),
+					String.format("Type %s not an AbstractMemberType.", memberProp.getName()));
 		}
 	}
+
 }

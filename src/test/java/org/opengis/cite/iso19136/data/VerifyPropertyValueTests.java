@@ -22,7 +22,9 @@ import org.testng.ITestContext;
 public class VerifyPropertyValueTests {
 
 	private static ITestContext testContext;
+
 	private static ISuite suite;
+
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
 
@@ -40,8 +42,8 @@ public class VerifyPropertyValueTests {
 	}
 
 	@Test
-	public void locationReference_notTextEntity() throws URISyntaxException,
-			FileNotFoundException, MalformedURLException {
+	public void locationReference_notTextEntity()
+			throws URISyntaxException, FileNotFoundException, MalformedURLException {
 		thrown.expect(AssertionError.class);
 		thrown.expectMessage("Response entity has unexpected media type");
 		URL url = this.getClass().getResource("/SimpleFeature-1.xml");
@@ -52,8 +54,8 @@ public class VerifyPropertyValueTests {
 	}
 
 	@Test
-	public void locationReference_missingHref() throws URISyntaxException,
-			FileNotFoundException, MalformedURLException {
+	public void locationReference_missingHref()
+			throws URISyntaxException, FileNotFoundException, MalformedURLException {
 		thrown.expect(AssertionError.class);
 		thrown.expectMessage("Infoset item is missing or empty");
 		URL url = this.getClass().getResource("/SimpleFeature-2.xml");
@@ -64,8 +66,7 @@ public class VerifyPropertyValueTests {
 	}
 
 	@Test
-	public void locationName_noCodeList() throws URISyntaxException,
-			FileNotFoundException, MalformedURLException {
+	public void locationName_noCodeList() throws URISyntaxException, FileNotFoundException, MalformedURLException {
 		thrown.expect(AssertionError.class);
 		thrown.expectMessage("Failed to connect");
 		URL url = this.getClass().getResource("/SimpleFeature-2.xml");

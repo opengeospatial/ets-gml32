@@ -29,8 +29,11 @@ import jakarta.ws.rs.core.MediaType;
 public class VerifyETSAssert {
 
 	private static final String WADL_NS = "http://wadl.dev.java.net/2009/02";
+
 	private static DocumentBuilder docBuilder;
+
 	private static SchemaFactory factory;
+
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
 
@@ -52,15 +55,12 @@ public class VerifyETSAssert {
 		URL url = this.getClass().getResource("/Gamma.xml");
 		Schema schema = factory.newSchema();
 		Validator validator = schema.newValidator();
-		ETSAssert
-				.assertSchemaValid(validator, new StreamSource(url.toString()));
+		ETSAssert.assertSchemaValid(validator, new StreamSource(url.toString()));
 	}
 
 	@Test
-	public void assertXPathWithNamespaceBindings() throws SAXException,
-			IOException {
-		Document doc = docBuilder.parse(this.getClass().getResourceAsStream(
-				"/capabilities-simple.xml"));
+	public void assertXPathWithNamespaceBindings() throws SAXException, IOException {
+		Document doc = docBuilder.parse(this.getClass().getResourceAsStream("/capabilities-simple.xml"));
 		Map<String, String> nsBindings = new HashMap<String, String>();
 		nsBindings.put(WADL_NS, "ns1");
 		String xpath = "//ns1:resources";
@@ -71,8 +71,7 @@ public class VerifyETSAssert {
 	public void assertXPath_expectError() throws SAXException, IOException {
 		thrown.expect(AssertionError.class);
 		thrown.expectMessage("Unexpected result evaluating XPath expression");
-		Document doc = docBuilder.parse(this.getClass().getResourceAsStream(
-				"/capabilities-simple.xml"));
+		Document doc = docBuilder.parse(this.getClass().getResourceAsStream("/capabilities-simple.xml"));
 		// using built-in namespace binding
 		String xpath = "//ows:OperationsMetadata/ows:Constraint[@name='XMLEncoding']/ows:DefaultValue = 'TRUE'";
 		ETSAssert.assertXPath(xpath, doc, null);
@@ -93,8 +92,7 @@ public class VerifyETSAssert {
 	}
 
 	@Test
-	public void assertURLIsResolvable_cannotConnect()
-			throws MalformedURLException {
+	public void assertURLIsResolvable_cannotConnect() throws MalformedURLException {
 		thrown.expect(AssertionError.class);
 		thrown.expectMessage("Failed to connect to URL");
 		Random random = new Random();
@@ -109,4 +107,5 @@ public class VerifyETSAssert {
 		URL url = new URL("http://www.w3schools.com/xml/note.xml");
 		ETSAssert.assertURLIsResolvable(url, MediaType.TEXT_XML_TYPE);
 	}
+
 }

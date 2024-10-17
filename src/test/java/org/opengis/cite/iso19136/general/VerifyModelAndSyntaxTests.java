@@ -21,60 +21,50 @@ import org.xml.sax.SAXException;
  */
 public class VerifyModelAndSyntaxTests {
 
-    private static final String EXAMPLE_NS = "http://example.org/ns1";
-    private static XmlSchemaCompiler xsdCompiler;
+	private static final String EXAMPLE_NS = "http://example.org/ns1";
 
-    public VerifyModelAndSyntaxTests() {
-    }
+	private static XmlSchemaCompiler xsdCompiler;
 
-    @BeforeClass
-    public static void setUpClass() {
-        URL schemaCatalog = VerifyXMLSchemaModelUtils.class
-                .getResource("/schema-catalog.xml");
-        xsdCompiler = new XmlSchemaCompiler(schemaCatalog);
-    }
+	public VerifyModelAndSyntaxTests() {
+	}
 
-    @Test
-    public void hasIDAttribute_GenericFeature() throws IOException,
-            SAXException {
-        URL url = this.getClass().getResource("/xsd/simple2.xsd");
-        XSModel model = createXSModel(url, URI.create(EXAMPLE_NS));
-        XSElementDeclaration elemDecl = model.getElementDeclaration(
-                "GenericFeature", EXAMPLE_NS);
-        ModelAndSyntaxTests iut = new ModelAndSyntaxTests();
-        boolean result = iut.hasIDTypeAttribute(elemDecl);
-        Assert.assertTrue("Expected to find ID attribute declared for: "
-                + elemDecl.getName(), result);
-    }
+	@BeforeClass
+	public static void setUpClass() {
+		URL schemaCatalog = VerifyXMLSchemaModelUtils.class.getResource("/schema-catalog.xml");
+		xsdCompiler = new XmlSchemaCompiler(schemaCatalog);
+	}
 
-    /**
-     * This test works only with GML 3.2.1
-     * 
-     * @throws IOException
-     * @throws SAXException
-     */
-    @Test
-    public void hasIDAttribute_LinearRing() throws IOException, SAXException {
-        URL schemaCatalog = VerifyXMLSchemaModelUtils.class
-                .getResource("/schema-catalog-gml-3.2.1.xml");
-        xsdCompiler = new XmlSchemaCompiler(schemaCatalog);
-        URL url = this.getClass().getResource("/xsd/simple2.xsd");
-        XSModel model = createXSModel(url, URI.create(EXAMPLE_NS));
-        XSElementDeclaration elemDecl = model.getElementDeclaration(
-                "LinearRing", GML32.NS_NAME);
-        ModelAndSyntaxTests iut = new ModelAndSyntaxTests();
-        boolean result = iut.hasIDTypeAttribute(elemDecl);
-        Assert.assertFalse(
-                "Expected no ID attribute declared for: " + elemDecl.getName(),
-                result);
-    }
+	@Test
+	public void hasIDAttribute_GenericFeature() throws IOException, SAXException {
+		URL url = this.getClass().getResource("/xsd/simple2.xsd");
+		XSModel model = createXSModel(url, URI.create(EXAMPLE_NS));
+		XSElementDeclaration elemDecl = model.getElementDeclaration("GenericFeature", EXAMPLE_NS);
+		ModelAndSyntaxTests iut = new ModelAndSyntaxTests();
+		boolean result = iut.hasIDTypeAttribute(elemDecl);
+		Assert.assertTrue("Expected to find ID attribute declared for: " + elemDecl.getName(), result);
+	}
 
-    XSModel createXSModel(URL schemaUrl, URI targetNamespace)
-            throws IOException, SAXException {
-        Schema xsd = xsdCompiler.compileXmlSchema(new StreamSource(schemaUrl
-                .openStream(), schemaUrl.toString()));
-        XSModel model = XSModelBuilder.buildXMLSchemaModel(xsd,
-                targetNamespace.toString());
-        return model;
-    }
+	/**
+	 * This test works only with GML 3.2.1
+	 * @throws IOException
+	 * @throws SAXException
+	 */
+	@Test
+	public void hasIDAttribute_LinearRing() throws IOException, SAXException {
+		URL schemaCatalog = VerifyXMLSchemaModelUtils.class.getResource("/schema-catalog-gml-3.2.1.xml");
+		xsdCompiler = new XmlSchemaCompiler(schemaCatalog);
+		URL url = this.getClass().getResource("/xsd/simple2.xsd");
+		XSModel model = createXSModel(url, URI.create(EXAMPLE_NS));
+		XSElementDeclaration elemDecl = model.getElementDeclaration("LinearRing", GML32.NS_NAME);
+		ModelAndSyntaxTests iut = new ModelAndSyntaxTests();
+		boolean result = iut.hasIDTypeAttribute(elemDecl);
+		Assert.assertFalse("Expected no ID attribute declared for: " + elemDecl.getName(), result);
+	}
+
+	XSModel createXSModel(URL schemaUrl, URI targetNamespace) throws IOException, SAXException {
+		Schema xsd = xsdCompiler.compileXmlSchema(new StreamSource(schemaUrl.openStream(), schemaUrl.toString()));
+		XSModel model = XSModelBuilder.buildXMLSchemaModel(xsd, targetNamespace.toString());
+		return model;
+	}
+
 }

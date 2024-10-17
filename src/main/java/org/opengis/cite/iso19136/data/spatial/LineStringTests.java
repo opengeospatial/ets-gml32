@@ -33,11 +33,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 /**
- * Validates the content of a gml:LineString element (or any element in its
- * substitution group). In GML a LineString is a regarded as a special curve
- * that consists of a single (implicit) segment with linear interpolation; it
- * must have two or more coordinate tuples. Note that in ISO 19107 a
- * GM_LineString is treated as a curve segment, not as a geometry type.
+ * Validates the content of a gml:LineString element (or any element in its substitution
+ * group). In GML a LineString is a regarded as a special curve that consists of a single
+ * (implicit) segment with linear interpolation; it must have two or more coordinate
+ * tuples. Note that in ISO 19107 a GM_LineString is treated as a curve segment, not as a
+ * geometry type.
  *
  * <p style="margin-bottom: 0.5em">
  * <strong>Sources</strong>
@@ -50,34 +50,31 @@ import org.w3c.dom.NodeList;
 public class LineStringTests extends DataFixture {
 
 	NodeList lineNodes;
+
 	List<QName> lineElems = new ArrayList<QName>();
 
 	/**
-	 * A configuration method ({@code BeforeClass}) that looks for
-	 * gml:LineString elements in the GML document under test. If none are found
-	 * all test methods defined in the class will be skipped.
+	 * A configuration method ({@code BeforeClass}) that looks for gml:LineString elements
+	 * in the GML document under test. If none are found all test methods defined in the
+	 * class will be skipped.
 	 */
 	@BeforeClass(alwaysRun = true)
 	public void findLineStrings() {
 		Source data = new StreamSource(this.dataFile);
 		this.lineElems.add(new QName(GML32.NS_NAME, GML32.LINE_STRING));
 		if (null != this.model) {
-			XSElementDeclaration gmlCurve = this.model.getElementDeclaration(
-					GML32.LINE_STRING, GML32.NS_NAME);
-			List<XSElementDeclaration> lineDecls = XMLSchemaModelUtils
-					.getElementsByAffiliation(this.model, gmlCurve);
+			XSElementDeclaration gmlCurve = this.model.getElementDeclaration(GML32.LINE_STRING, GML32.NS_NAME);
+			List<XSElementDeclaration> lineDecls = XMLSchemaModelUtils.getElementsByAffiliation(this.model, gmlCurve);
 			for (XSElementDeclaration decl : lineDecls) {
-				this.lineElems.add(new QName(decl.getNamespace(), decl
-						.getName()));
+				this.lineElems.add(new QName(decl.getNamespace(), decl.getName()));
 			}
 		}
 		Map<String, String> namespaceBindings = new HashMap<String, String>();
-		String xpath = generateXPathExpression(this.lineElems,
-				namespaceBindings);
+		String xpath = generateXPathExpression(this.lineElems, namespaceBindings);
 		try {
-			this.lineNodes = (NodeList) XMLUtils.evaluateXPath(data, xpath,
-					namespaceBindings, XPathConstants.NODESET);
-		} catch (XPathExpressionException xpe) { // won't happen
+			this.lineNodes = (NodeList) XMLUtils.evaluateXPath(data, xpath, namespaceBindings, XPathConstants.NODESET);
+		}
+		catch (XPathExpressionException xpe) { // won't happen
 			throw new RuntimeException(xpe);
 		}
 		if (this.lineNodes.getLength() == 0) {
@@ -86,8 +83,7 @@ public class LineStringTests extends DataFixture {
 	}
 
 	/**
-	 * [{@code Test}] Verifies that a gml:LineString element has a valid CRS
-	 * reference.
+	 * [{@code Test}] Verifies that a gml:LineString element has a valid CRS reference.
 	 *
 	 * <p style="margin-bottom: 0.5em">
 	 * <strong>Sources</strong>
@@ -106,8 +102,8 @@ public class LineStringTests extends DataFixture {
 	}
 
 	/**
-	 * [{@code Test}] Verifies that a gml:LineString element contains at least
-	 * two coordinate tuples and that it lies within the valid area of the CRS.
+	 * [{@code Test}] Verifies that a gml:LineString element contains at least two
+	 * coordinate tuples and that it lies within the valid area of the CRS.
 	 *
 	 * <p style="margin-bottom: 0.5em">
 	 * <strong>Sources</strong>
@@ -122,7 +118,8 @@ public class LineStringTests extends DataFixture {
 		try {
 			MarshallerPool pool = GMLMarshallerPool.getInstance();
 			gmlUnmarshaller = pool.acquireUnmarshaller();
-		} catch (JAXBException jxe) {
+		}
+		catch (JAXBException jxe) {
 			throw new RuntimeException(jxe);
 		}
 		for (int i = 0; i < this.lineNodes.getLength(); i++) {
@@ -131,23 +128,23 @@ public class LineStringTests extends DataFixture {
 			GeometryAssert.assertAllCurveSegmentsHaveRequiredLength(lineElem);
 			LineStringType line;
 			try {
-				JAXBElement<LineStringType> result = gmlUnmarshaller.unmarshal(
-						lineElem, LineStringType.class);
+				JAXBElement<LineStringType> result = gmlUnmarshaller.unmarshal(lineElem, LineStringType.class);
 				line = result.getValue();
-				//Set srsDimension from data file if present.
+				// Set srsDimension from data file if present.
 				NodeList posList = lineElem.getElementsByTagNameNS(GML32.NS_NAME, "posList");
 				if (posList.getLength() > 0) {
-				    Element pos = (Element) posList.item(0);
-				    if (null != pos && pos.getAttribute("srsDimension") != "") {
-				        line.setSrsDimension(Integer.valueOf(pos.getAttribute("srsDimension")));
-				    }
+					Element pos = (Element) posList.item(0);
+					if (null != pos && pos.getAttribute("srsDimension") != "") {
+						line.setSrsDimension(Integer.valueOf(pos.getAttribute("srsDimension")));
+					}
 				}
-			} catch (JAXBException e) {
-				TestSuiteLogger.log(Level.WARNING,
-						"Failed to unmarshal LineString geometry.", e);
+			}
+			catch (JAXBException e) {
+				TestSuiteLogger.log(Level.WARNING, "Failed to unmarshal LineString geometry.", e);
 				continue;
 			}
 			GeometryAssert.assertGeometryCoveredByValidArea(line);
 		}
 	}
+
 }

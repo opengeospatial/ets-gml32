@@ -27,7 +27,7 @@ public class VerifyComplexPropertyTests extends BasicFixture {
 		iut.setSchemaModel(model);
 		iut.validateMembersOfGmlObjectCollection();
 	}
-	
+
 	@Test
 	public void unspecifiedMetadataProperty() throws IOException, SAXException {
 		thrown.expect(AssertionError.class);
