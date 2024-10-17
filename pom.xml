@@ -129,7 +129,6 @@
           <artifactId>soapui-maven-plugin</artifactId>
           <configuration>
             <projectFile>src/test/resources/soapui/ets-gml32-soapui-project.xml</projectFile>
-            <settingsFile>src/test/resources/soapui/ets-gml32-soapui-settings.xml</settingsFile>
             <testFailIgnore>${soapui.test.fail.ignore}</testFailIgnore>
             <projectProperties>
               <value>teamengine.endpoint=${soapui.teamengine.endpoint}</value>
