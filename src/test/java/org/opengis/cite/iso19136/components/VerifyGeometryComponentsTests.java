@@ -28,41 +28,39 @@ import org.xml.sax.SAXException;
  */
 public class VerifyGeometryComponentsTests {
 
-    private static final String CITIES_NS = "http://www.interactive-instruments.de/namespaces/demo/cities/2.0/cities";
-    private static ITestContext testContext;
-    private static ISuite suite;
+	private static final String CITIES_NS = "http://www.interactive-instruments.de/namespaces/demo/cities/2.0/cities";
 
-    public VerifyGeometryComponentsTests() {
-    }
+	private static ITestContext testContext;
 
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-        testContext = mock(ITestContext.class);
-        suite = mock(ISuite.class);
-        when(testContext.getSuite()).thenReturn(suite);
-    }
+	private static ISuite suite;
 
-    @Test
-    public void findLocalGeomProperties() throws URISyntaxException,
-            SAXException, IOException {
-        URL url = this.getClass().getResource("/xsd/cities.xsd");
-        XSModel model = createXSModel(url, URI.create(CITIES_NS));
-        GeometryComponentTests iut = new GeometryComponentTests();
-        iut.setSchemaModel(model);
-        iut.hasGeometryComponents(testContext);
-    }
+	public VerifyGeometryComponentsTests() {
+	}
 
-    XSModel createXSModel(URL schemaUrl, URI targetNamespace)
-            throws URISyntaxException, SAXException, IOException {
-        Set<URI> uriSet = new HashSet<URI>();
-        uriSet.add(schemaUrl.toURI());
-        URL entityCatalog = getClass().getResource(
-                "/org/opengis/cite/iso19136/schema-catalog.xml");
-        XmlSchemaCompiler xsdCompiler = new XmlSchemaCompiler(entityCatalog);
-        Schema xsd = xsdCompiler.compileXmlSchema(uriSet.toArray(new URI[uriSet
-                .size()]));
-        XSModel model = XSModelBuilder.buildXMLSchemaModel(xsd,
-                targetNamespace.toString());
-        return model;
-    }
+	@BeforeClass
+	public static void setUpClass() throws Exception {
+		testContext = mock(ITestContext.class);
+		suite = mock(ISuite.class);
+		when(testContext.getSuite()).thenReturn(suite);
+	}
+
+	@Test
+	public void findLocalGeomProperties() throws URISyntaxException, SAXException, IOException {
+		URL url = this.getClass().getResource("/xsd/cities.xsd");
+		XSModel model = createXSModel(url, URI.create(CITIES_NS));
+		GeometryComponentTests iut = new GeometryComponentTests();
+		iut.setSchemaModel(model);
+		iut.hasGeometryComponents(testContext);
+	}
+
+	XSModel createXSModel(URL schemaUrl, URI targetNamespace) throws URISyntaxException, SAXException, IOException {
+		Set<URI> uriSet = new HashSet<URI>();
+		uriSet.add(schemaUrl.toURI());
+		URL entityCatalog = getClass().getResource("/org/opengis/cite/iso19136/schema-catalog.xml");
+		XmlSchemaCompiler xsdCompiler = new XmlSchemaCompiler(entityCatalog);
+		Schema xsd = xsdCompiler.compileXmlSchema(uriSet.toArray(new URI[uriSet.size()]));
+		XSModel model = XSModelBuilder.buildXMLSchemaModel(xsd, targetNamespace.toString());
+		return model;
+	}
+
 }

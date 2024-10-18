@@ -9,64 +9,66 @@ import org.apache.xerces.xs.XSModel;
 import org.opengis.cite.iso19136.general.AppSchemaInfo;
 
 /**
- * An enumerated type defining ISuite attributes that may be set to constitute a
- * shared test fixture.
+ * An enumerated type defining ISuite attributes that may be set to constitute a shared
+ * test fixture.
  */
 @SuppressWarnings("rawtypes")
 public enum SuiteAttribute {
 
-    /**
-     * A {@code Set<URI>} specifying the locations of XML Schema grammars.
-     */
-    SCHEMA_LOC_SET("schema-loc-set", Set.class),
-    /**
-     * An immutable XML Schema object representing a set of constraints defined
-     * in some grammar-based schema language.
-     */
-    SCHEMA("schema", Schema.class),
-    /**
-     * A File containing GML data.
-     */
-    GML("gml-data", File.class),
-    /**
-     * An absolute URI referring to a Schematron schema.
-     */
-    SCHEMATRON("schematron", URI.class),
-    /**
-     * Contains the XML Schema components comprising an application schema.
-     */
-    XSMODEL("xsmodel", XSModel.class),
-    /**
-     * Provides information about the types of geographic content in an
-     * application schema.
-     */
-    SCHEMA_INFO("schema-info", AppSchemaInfo.class),
-    /**
-     * Provides information about the types of geographic content in an
-     * application schema.
-     */
-    VERSION("version", String.class);
+	/**
+	 * A {@code Set<URI>} specifying the locations of XML Schema grammars.
+	 */
+	SCHEMA_LOC_SET("schema-loc-set", Set.class),
+	/**
+	 * An immutable XML Schema object representing a set of constraints defined in some
+	 * grammar-based schema language.
+	 */
+	SCHEMA("schema", Schema.class),
+	/**
+	 * A File containing GML data.
+	 */
+	GML("gml-data", File.class),
+	/**
+	 * An absolute URI referring to a Schematron schema.
+	 */
+	SCHEMATRON("schematron", URI.class),
+	/**
+	 * Contains the XML Schema components comprising an application schema.
+	 */
+	XSMODEL("xsmodel", XSModel.class),
+	/**
+	 * Provides information about the types of geographic content in an application
+	 * schema.
+	 */
+	SCHEMA_INFO("schema-info", AppSchemaInfo.class),
+	/**
+	 * Provides information about the types of geographic content in an application
+	 * schema.
+	 */
+	VERSION("version", String.class);
 
-    private final Class attrType;
-    private final String attrName;
+	private final Class attrType;
 
-    private SuiteAttribute(String attrName, Class attrType) {
-        this.attrName = attrName;
-        this.attrType = attrType;
-    }
+	private final String attrName;
 
-    public Class getType() {
-        return attrType;
-    }
+	private SuiteAttribute(String attrName, Class attrType) {
+		this.attrName = attrName;
+		this.attrType = attrType;
+	}
 
-    public String getName() {
-        return attrName;
-    }
+	public Class getType() {
+		return attrType;
+	}
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder(attrName);
-        sb.append('(').append(attrType.getName()).append(')');
-        return sb.toString();
-    }
+	public String getName() {
+		return attrName;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder(attrName);
+		sb.append('(').append(attrType.getName()).append(')');
+		return sb.toString();
+	}
+
 }

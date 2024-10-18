@@ -23,23 +23,21 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 /**
- * Verifies schema components that define topology and topology property types.
- * These test methods belong to the "topology" group.
- * 
+ * Verifies schema components that define topology and topology property types. These test
+ * methods belong to the "topology" group.
+ *
  * A topology type must be declared as a global element that can substitute for
  * {@code gml:AbstractTopology}; its content model must be derived from
  * {@code gml:AbstractTopologyType}. A topology property type may restrict
- * gml:TopoPrimitiveMemberType or reflect the content model of
- * gml:AssociationRoleType.
- * 
+ * gml:TopoPrimitiveMemberType or reflect the content model of gml:AssociationRoleType.
+ *
  * <p style="margin-bottom: 0.5em">
  * <strong>Sources</strong>
  * </p>
  * <ul>
  * <li>ISO 19136:2007, cl. 13: GML schema - topology</li>
  * <li>ISO 19136:2007, cl. 21.5 Schemas defining Spatial Topologies</li>
- * <li>ISO 19136:2007, cl. A.1.6: GML application schemas defining Spatial
- * Topologies</li>
+ * <li>ISO 19136:2007, cl. A.1.6: GML application schemas defining Spatial Topologies</li>
  * </ul>
  */
 public class TopologyComponentTests extends SchemaModelFixture {
@@ -51,66 +49,52 @@ public class TopologyComponentTests extends SchemaModelFixture {
 	}
 
 	/**
-	 * Determines if the application schema includes any topology-related
-	 * components (elements or type definitions). If not, all tests in this
-	 * group are skipped.
-	 * 
-	 * @param testContext
-	 *            The test (set) context.
+	 * Determines if the application schema includes any topology-related components
+	 * (elements or type definitions). If not, all tests in this group are skipped.
+	 * @param testContext The test (set) context.
 	 */
 	@BeforeTest
 	public void hasTopologyComponents(ITestContext testContext) {
 		if (null == this.model) {
-			this.model = (XSModel) testContext.getSuite().getAttribute(
-					SuiteAttribute.XSMODEL.getName());
+			this.model = (XSModel) testContext.getSuite().getAttribute(SuiteAttribute.XSMODEL.getName());
 		}
-		topoBaseType = this.model.getTypeDefinition(GML32.ABSTRACT_TOPO_TYPE,
-				GML32.NS_NAME);
+		topoBaseType = this.model.getTypeDefinition(GML32.ABSTRACT_TOPO_TYPE, GML32.NS_NAME);
 		// types derived by extension from gml:AbstractTopologyType
-		List<XSElementDeclaration> topoElements = XMLSchemaModelUtils
-				.getGlobalElementsByType(this.model, topoBaseType);
-		XSElementDeclaration abstractTopo = this.model.getElementDeclaration(
-				GML32.ABSTRACT_TOPO, GML32.NS_NAME);
+		List<XSElementDeclaration> topoElements = XMLSchemaModelUtils.getGlobalElementsByType(this.model, topoBaseType);
+		XSElementDeclaration abstractTopo = this.model.getElementDeclaration(GML32.ABSTRACT_TOPO, GML32.NS_NAME);
 		// implicit topology property types
-		List<XSElementDeclaration> topoProps = XMLSchemaModelUtils
-				.getImplicitProperties(this.model, abstractTopo);
+		List<XSElementDeclaration> topoProps = XMLSchemaModelUtils.getImplicitProperties(this.model, abstractTopo);
 		if (topoElements.isEmpty() && topoProps.isEmpty()) {
-			throw new SkipException(
-					"No GML topology (property) components found in schema.");
+			throw new SkipException("No GML topology (property) components found in schema.");
 		}
 	}
 
 	/**
-	 * [{@code Test}] All topology types (elements) declared in an application
-	 * schema must substitute for {@code gml:AbstractTopology}.
-	 * 
+	 * [{@code Test}] All topology types (elements) declared in an application schema must
+	 * substitute for {@code gml:AbstractTopology}.
+	 *
 	 * @see "ISO 19136:2007, cl. 21.5.2.1: User-defined Topology Types"
 	 */
 	@Test(description = "See ISO 19136: 21.5.2.1")
 	public void substitutesForGMLTopology() {
-		List<XSElementDeclaration> topoElems = XMLSchemaModelUtils
-				.getTopologyDeclarations(this.model);
-		Set<XSTypeDefinition> topoTypeDefs = XMLSchemaModelUtils
-				.getDerivedTypeDefinitions(this.model, topoBaseType,
-						XSConstants.DERIVATION_EXTENSION);
+		List<XSElementDeclaration> topoElems = XMLSchemaModelUtils.getTopologyDeclarations(this.model);
+		Set<XSTypeDefinition> topoTypeDefs = XMLSchemaModelUtils.getDerivedTypeDefinitions(this.model, topoBaseType,
+				XSConstants.DERIVATION_EXTENSION);
 		for (XSTypeDefinition typeDef : topoTypeDefs) {
-			List<XSElementDeclaration> topoDecls = XMLSchemaModelUtils
-					.getGlobalElementsByType(this.model, typeDef);
+			List<XSElementDeclaration> topoDecls = XMLSchemaModelUtils.getGlobalElementsByType(this.model, typeDef);
 			for (XSElementDeclaration topoDecl : topoDecls) {
-				Assert.assertTrue(topoElems.contains(topoDecl), ErrorMessage
-						.format(ErrorMessageKeys.SUBSTITUTION_ERROR, new QName(
-								topoDecl.getNamespace(), topoDecl.getName()),
-								"gml:AbstractTopology"));
+				Assert.assertTrue(topoElems.contains(topoDecl), ErrorMessage.format(ErrorMessageKeys.SUBSTITUTION_ERROR,
+						new QName(topoDecl.getNamespace(), topoDecl.getName()), "gml:AbstractTopology"));
 			}
 		}
 	}
 
 	/**
-	 * [{@code Test}] The value of a topology property is an element
-	 * substitutable for gml:AbstractTopology. Topology properties may be
-	 * defined explicitly (based on a pre-defined GML topology property type) or
-	 * implicitly by mimicking the GML property type content model.
-	 * 
+	 * [{@code Test}] The value of a topology property is an element substitutable for
+	 * gml:AbstractTopology. Topology properties may be defined explicitly (based on a
+	 * pre-defined GML topology property type) or implicitly by mimicking the GML property
+	 * type content model.
+	 *
 	 * <p style="margin-bottom: 0.5em">
 	 * <strong>Sources</strong>
 	 * </p>
@@ -122,12 +106,11 @@ public class TopologyComponentTests extends SchemaModelFixture {
 	 */
 	@Test(description = "See ISO 19136: 9.6, 21.5.2.2, A.1.1.11")
 	public void validateImplicitTopologyProperty() {
-		XSElementDeclaration topology = this.model.getElementDeclaration(
-				GML32.ABSTRACT_TOPO, GML32.NS_NAME);
-		List<XSElementDeclaration> topoProps = XMLSchemaModelUtils
-				.getImplicitProperties(model, topology);
+		XSElementDeclaration topology = this.model.getElementDeclaration(GML32.ABSTRACT_TOPO, GML32.NS_NAME);
+		List<XSElementDeclaration> topoProps = XMLSchemaModelUtils.getImplicitProperties(model, topology);
 		for (XSElementDeclaration prop : topoProps) {
 			ETSAssert.assertValidPropertyType(model, prop, null);
 		}
 	}
+
 }

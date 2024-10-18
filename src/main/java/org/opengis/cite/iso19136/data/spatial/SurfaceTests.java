@@ -23,20 +23,19 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 /**
- * Validates the content of a gml:Surface element (or any element in its
- * substitution group), which implements the GM_Surface class from ISO 19107. A
- * surface is a 2-dimensional primitive composed of one or more surface patches.
+ * Validates the content of a gml:Surface element (or any element in its substitution
+ * group), which implements the GM_Surface class from ISO 19107. A surface is a
+ * 2-dimensional primitive composed of one or more surface patches.
  * <p>
- * A surface has an "up" direction in terms of the upward (positive) normal,
- * which is the side of the surface from which the exterior boundary appears
- * counterclockwise and interior boundaries are traversed in a clockwise manner
- * (see figure below). If the surface is the boundary of a solid, the "up"
- * direction is usually outward.
+ * A surface has an "up" direction in terms of the upward (positive) normal, which is the
+ * side of the surface from which the exterior boundary appears counterclockwise and
+ * interior boundaries are traversed in a clockwise manner (see figure below). If the
+ * surface is the boundary of a solid, the "up" direction is usually outward.
  * </p>
  * <p style="text-align: center">
  * <img src="./doc-files/surface.png" alt="Surface upNormal">
  * </p>
- * 
+ *
  * <p style="margin-bottom: 0.5em">
  * <strong>Sources</strong>
  * </p>
@@ -48,46 +47,42 @@ import org.w3c.dom.NodeList;
 public class SurfaceTests extends DataFixture {
 
 	NodeList surfaceNodes;
+
 	List<QName> surfaceElems = new ArrayList<QName>();
 
 	/**
-	 * A configuration method ({@code BeforeClass}) that looks for gml:Surface
-	 * elements in the GML document under test (including any elements in its
-	 * substitution group). If none are found all test methods defined in the
-	 * class will be skipped.
+	 * A configuration method ({@code BeforeClass}) that looks for gml:Surface elements in
+	 * the GML document under test (including any elements in its substitution group). If
+	 * none are found all test methods defined in the class will be skipped.
 	 */
 	@BeforeClass
 	public void findSurfaces() {
 		Source data = new StreamSource(this.dataFile);
 		if (null != this.model) {
-			XSElementDeclaration gmlSurface = this.model.getElementDeclaration(
-					GML32.ABSTRACT_SURFACE, GML32.NS_NAME);
-			List<XSElementDeclaration> surfaceDecls = XMLSchemaModelUtils
-					.getElementsByAffiliation(this.model, gmlSurface);
+			XSElementDeclaration gmlSurface = this.model.getElementDeclaration(GML32.ABSTRACT_SURFACE, GML32.NS_NAME);
+			List<XSElementDeclaration> surfaceDecls = XMLSchemaModelUtils.getElementsByAffiliation(this.model,
+					gmlSurface);
 			for (XSElementDeclaration decl : surfaceDecls) {
-				this.surfaceElems.add(new QName(decl.getNamespace(), decl
-						.getName()));
+				this.surfaceElems.add(new QName(decl.getNamespace(), decl.getName()));
 			}
 		}
 		Map<String, String> namespaceBindings = new HashMap<String, String>();
-		String xpath = generateXPathExpression(this.surfaceElems,
-				namespaceBindings);
+		String xpath = generateXPathExpression(this.surfaceElems, namespaceBindings);
 		try {
-			this.surfaceNodes = (NodeList) XMLUtils.evaluateXPath(data, xpath,
-					namespaceBindings, XPathConstants.NODESET);
-		} catch (XPathExpressionException xpe) { // won't happen
+			this.surfaceNodes = (NodeList) XMLUtils.evaluateXPath(data, xpath, namespaceBindings,
+					XPathConstants.NODESET);
+		}
+		catch (XPathExpressionException xpe) { // won't happen
 			throw new RuntimeException(xpe);
 		}
 		if (this.surfaceNodes.getLength() == 0) {
-			throw new SkipException(
-					"No surface elements (substitute for gml:AbstractSurface) found in GML data.");
+			throw new SkipException("No surface elements (substitute for gml:AbstractSurface) found in GML data.");
 		}
 	}
 
 	/**
-	 * [{@code Test}] Verifies that a gml:Surface element has a valid CRS
-	 * reference.
-	 * 
+	 * [{@code Test}] Verifies that a gml:Surface element has a valid CRS reference.
+	 *
 	 * <p style="margin-bottom: 0.5em">
 	 * <strong>Sources</strong>
 	 * </p>
@@ -105,14 +100,14 @@ public class SurfaceTests extends DataFixture {
 	}
 
 	/**
-	 * [{@code Test}] Checks that the boundary of a surface is topologically
-	 * correct. Each component of the surface boundary must be a simple closed
-	 * curve (ring); that is, it must not self-intersect and it forms a cycle
-	 * such that the end points are identical.
-	 * 
-	 * Furthermore, each interior ring must be covered by the surface delimited
-	 * by the exterior boundary (the rings may touch at a tangent point).
-	 * 
+	 * [{@code Test}] Checks that the boundary of a surface is topologically correct. Each
+	 * component of the surface boundary must be a simple closed curve (ring); that is, it
+	 * must not self-intersect and it forms a cycle such that the end points are
+	 * identical.
+	 *
+	 * Furthermore, each interior ring must be covered by the surface delimited by the
+	 * exterior boundary (the rings may touch at a tangent point).
+	 *
 	 * <p style="margin-bottom: 0.5em">
 	 * <strong>Sources</strong>
 	 * </p>
@@ -132,11 +127,10 @@ public class SurfaceTests extends DataFixture {
 	}
 
 	/**
-	 * [{@code Test}] Checks that the orientation of the surface boundary is
-	 * consistent with the upward normal. In essence, the interior is always to
-	 * the left of a boundary curve. All patches must be oriented in the same
-	 * manner.
-	 * 
+	 * [{@code Test}] Checks that the orientation of the surface boundary is consistent
+	 * with the upward normal. In essence, the interior is always to the left of a
+	 * boundary curve. All patches must be oriented in the same manner.
+	 *
 	 * <p style="margin-bottom: 0.5em">
 	 * <strong>Sources</strong>
 	 * </p>

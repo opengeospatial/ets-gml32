@@ -1,40 +1,42 @@
 package org.opengis.cite.iso19136.util;
 
 public enum GmlVersion {
-    /**
-     * Version 3.2.1
-     */
-    V321("3.2.1"),
-    /**
-     * Version 3.2.2
-     */
-    V322("3.2.2");
 
-    private final String stringRepresentation;
+	/**
+	 * Version 3.2.1
+	 */
+	V321("3.2.1"),
+	/**
+	 * Version 3.2.2
+	 */
+	V322("3.2.2");
 
-    public final String getStringRepresentation() {
-        return stringRepresentation;
-    }
+	private final String stringRepresentation;
 
-    GmlVersion(String stringRepresentation) {
-        this.stringRepresentation = stringRepresentation;
-    }
+	public final String getStringRepresentation() {
+		return stringRepresentation;
+	}
 
-    public static GmlVersion fromString(String version) {
-        for (GmlVersion c : GmlVersion.values()) {
-            if (c.getStringRepresentation().equalsIgnoreCase(version)) {
-                return c;
-            }
-        }
-        throw new IllegalArgumentException(version);
-    }
+	GmlVersion(String stringRepresentation) {
+		this.stringRepresentation = stringRepresentation;
+	}
 
-    public static String toString(GmlVersion version) {
-        return version.stringRepresentation;
-    }
+	public static GmlVersion fromString(String version) {
+		for (GmlVersion c : GmlVersion.values()) {
+			if (c.getStringRepresentation().equalsIgnoreCase(version)) {
+				return c;
+			}
+		}
+		throw new IllegalArgumentException(version);
+	}
 
-    @Override
-    public String toString() {
-        return toString(this);
-    }
+	public static String toString(GmlVersion version) {
+		return version.stringRepresentation;
+	}
+
+	@Override
+	public String toString() {
+		return toString(this);
+	}
+
 }

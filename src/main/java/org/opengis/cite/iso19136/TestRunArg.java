@@ -5,32 +5,32 @@ package org.opengis.cite.iso19136;
  */
 public enum TestRunArg {
 
-    /**
-     * An absolute URI that refers to a representation of the test subject or
-     * metadata about it.
-     */
-    IUT,
-    /**
-     * An absolute URI referring to a GML application schema (XML Schema)
-     * resource.
-     */
-    XSD,
-    /**
-     * An absolute URI referring to a Schematron schema (ISO 19757-3) that
-     * defines supplementary data constraints.
-     */
-    SCH,
-    /**
-     * An absolute URI referring to a GML data resource.
-     */
-    GML,
-    /**
-     * Version of GML to be tested, e.g. 3.2.1 or 3.2.2
-     */
-    VERSION;
+	/**
+	 * An absolute URI that refers to a representation of the test subject or metadata
+	 * about it.
+	 */
+	IUT,
+	/**
+	 * An absolute URI referring to a GML application schema (XML Schema) resource.
+	 */
+	XSD,
+	/**
+	 * An absolute URI referring to a Schematron schema (ISO 19757-3) that defines
+	 * supplementary data constraints.
+	 */
+	SCH,
+	/**
+	 * An absolute URI referring to a GML data resource.
+	 */
+	GML,
+	/**
+	 * Version of GML to be tested, e.g. 3.2.1 or 3.2.2
+	 */
+	VERSION;
 
-    @Override
-    public String toString() {
-        return name().toLowerCase();
-    }
+	@Override
+	public String toString() {
+		return name().toLowerCase();
+	}
+
 }

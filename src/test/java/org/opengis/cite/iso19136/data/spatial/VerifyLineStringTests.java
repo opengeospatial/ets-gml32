@@ -28,8 +28,7 @@ public class VerifyLineStringTests extends BasicFixture {
 		LineStringTests iut = new LineStringTests();
 		iut.setDataFile(dataFile);
 		iut.findLineStrings();
-		assertEquals("Unexpected number of curves.", 2,
-				iut.lineNodes.getLength());
+		assertEquals("Unexpected number of curves.", 2, iut.lineNodes.getLength());
 	}
 
 	@Test
@@ -43,8 +42,7 @@ public class VerifyLineStringTests extends BasicFixture {
 	}
 
 	@Test
-	public void valid3DLineString() throws URISyntaxException, DOMException,
-			FactoryException {
+	public void valid3DLineString() throws URISyntaxException, DOMException, FactoryException {
 		URL url = this.getClass().getResource("/geom/LineString.xml");
 		File dataFile = new File(url.toURI());
 		LineStringTests iut = new LineStringTests();
@@ -54,10 +52,8 @@ public class VerifyLineStringTests extends BasicFixture {
 	}
 
 	@Test
-	public void srsNameIsHttpId() throws URISyntaxException, DOMException,
-			FactoryException {
-		URL url = this.getClass().getResource(
-				"/geom/LineString-srsName-http.xml");
+	public void srsNameIsHttpId() throws URISyntaxException, DOMException, FactoryException {
+		URL url = this.getClass().getResource("/geom/LineString-srsName-http.xml");
 		File dataFile = new File(url.toURI());
 		LineStringTests iut = new LineStringTests();
 		iut.setDataFile(dataFile);
@@ -66,16 +62,15 @@ public class VerifyLineStringTests extends BasicFixture {
 	}
 
 	@Test
-	public void invalidLineStringCoords() throws URISyntaxException,
-			DOMException, FactoryException {
+	public void invalidLineStringCoords() throws URISyntaxException, DOMException, FactoryException {
 		thrown.expect(AssertionError.class);
 		thrown.expectMessage("not covered by valid area of CRS");
-		URL url = this.getClass().getResource(
-				"/geom/LineString-invalidCoords.xml");
+		URL url = this.getClass().getResource("/geom/LineString-invalidCoords.xml");
 		File dataFile = new File(url.toURI());
 		LineStringTests iut = new LineStringTests();
 		iut.setDataFile(dataFile);
 		iut.findLineStrings();
 		iut.validLineString();
 	}
+
 }

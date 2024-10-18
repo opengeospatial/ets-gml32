@@ -18,13 +18,13 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
- * Includes tests for adherence to mandatory GML model and syntax constraints. A
- * GML object is an element assigned to the gml:AbstractGML substitution group
- * (and thus is derived from gml:AbstractGMLType). Note that the so-called
- * "object-property model" is very similar to the "striped" encoding syntax
- * convention used in RDF/XML representations, where elements alternately
- * represent nodes (resources) and edges (properties).
- * 
+ * Includes tests for adherence to mandatory GML model and syntax constraints. A GML
+ * object is an element assigned to the gml:AbstractGML substitution group (and thus is
+ * derived from gml:AbstractGMLType). Note that the so-called "object-property model" is
+ * very similar to the "striped" encoding syntax convention used in RDF/XML
+ * representations, where elements alternately represent nodes (resources) and edges
+ * (properties).
+ *
  * <p style="margin-bottom: 0.5em">
  * <strong>Sources</strong>
  * </p>
@@ -36,11 +36,10 @@ import org.testng.annotations.Test;
 public class ModelAndSyntaxTests extends SchemaModelFixture {
 
 	/**
-	 * [{@code Test}] A GML property is a child element of a GML object; such a
-	 * property cannot itself be a GML object (i.e. derived from
-	 * gml:AbstractGMLType). Furthermore, it must not declare any attributes of
-	 * type xsd:ID.
-	 * 
+	 * [{@code Test}] A GML property is a child element of a GML object; such a property
+	 * cannot itself be a GML object (i.e. derived from gml:AbstractGMLType). Furthermore,
+	 * it must not declare any attributes of type xsd:ID.
+	 *
 	 * <p style="margin-bottom: 0.5em">
 	 * <strong>Sources</strong>
 	 * </p>
@@ -53,39 +52,30 @@ public class ModelAndSyntaxTests extends SchemaModelFixture {
 	public void verifyGMLObjectPropertyPattern() {
 		ValidationErrorHandler errCollector = new ValidationErrorHandler();
 		for (XSElementDeclaration gmlObject : gmlObjects) {
-			XSComplexTypeDefinition typeDef = (XSComplexTypeDefinition) gmlObject
-					.getTypeDefinition();
+			XSComplexTypeDefinition typeDef = (XSComplexTypeDefinition) gmlObject.getTypeDefinition();
 			// examine all element declaration particles
-			List<XSElementDeclaration> elemDecls = XMLSchemaModelUtils
-					.getAllElementsInParticle(typeDef.getParticle());
+			List<XSElementDeclaration> elemDecls = XMLSchemaModelUtils.getAllElementsInParticle(typeDef.getParticle());
 			for (XSElementDeclaration elem : elemDecls) {
 				if (isGMLObject(elem)) {
-					errCollector.addError(ErrorSeverity.ERROR, ErrorMessage
-							.format(ErrorMessageKeys.PROP_IS_GML_OBJ,
-									elem.getNamespace(), elem.getName(),
-									typeDef.getName()), null);
+					errCollector.addError(ErrorSeverity.ERROR, ErrorMessage.format(ErrorMessageKeys.PROP_IS_GML_OBJ,
+							elem.getNamespace(), elem.getName(), typeDef.getName()), null);
 				}
 				if (hasIDTypeAttribute(elem)) {
-					errCollector.addError(ErrorSeverity.ERROR, ErrorMessage
-							.format(ErrorMessageKeys.PROP_HAS_ID_ATTR,
-									elem.getNamespace(), elem.getName(),
-									typeDef.getName()), null);
+					errCollector.addError(ErrorSeverity.ERROR, ErrorMessage.format(ErrorMessageKeys.PROP_HAS_ID_ATTR,
+							elem.getNamespace(), elem.getName(), typeDef.getName()), null);
 				}
 			}
 		}
-		Assert.assertFalse(errCollector.errorsDetected(),
-				errCollector.toString());
+		Assert.assertFalse(errCollector.errorsDetected(), errCollector.toString());
 	}
 
 	/**
-	 * Determines if an element is a GML object. A GML object is an XML element
-	 * of a type derived from gml:AbstractGMLType.
-	 * 
-	 * @param elemDecl
-	 *            An XSElementDeclaration object.
-	 * @return {@code true} if the element corresponds to a GML object;
-	 *         {@code false} otherwise.
-	 * 
+	 * Determines if an element is a GML object. A GML object is an XML element of a type
+	 * derived from gml:AbstractGMLType.
+	 * @param elemDecl An XSElementDeclaration object.
+	 * @return {@code true} if the element corresponds to a GML object; {@code false}
+	 * otherwise.
+	 *
 	 * @see "ISO 19136:2007, 7.1.3: XML schema definition of GML language"
 	 * @see "ISO 19136:2007, 7.2.4.1: Derivation from AbstractGMLType"
 	 */
@@ -94,23 +84,19 @@ public class ModelAndSyntaxTests extends SchemaModelFixture {
 		if (typeDef.getTypeCategory() == XSTypeDefinition.SIMPLE_TYPE) {
 			return false;
 		}
-		boolean isGMLObject = typeDef.derivedFrom(GML32.NS_NAME,
-				GML32.ABSTRACT_GML_TYPE, XSConstants.DERIVATION_EXTENSION)
-				|| typeDef.derivedFrom(GML32.NS_NAME, GML32.ABSTRACT_GML_TYPE,
-						XSConstants.DERIVATION_RESTRICTION);
+		boolean isGMLObject = typeDef.derivedFrom(GML32.NS_NAME, GML32.ABSTRACT_GML_TYPE,
+				XSConstants.DERIVATION_EXTENSION)
+				|| typeDef.derivedFrom(GML32.NS_NAME, GML32.ABSTRACT_GML_TYPE, XSConstants.DERIVATION_RESTRICTION);
 		return isGMLObject;
 	}
 
 	/**
-	 * Determines if the type definition for the given element declaration
-	 * includes an attribute of type xsd:ID. Only GML objects should have one
-	 * (gml:id).
-	 * 
-	 * @param elemDecl
-	 *            An XSElementDeclaration object.
-	 * @return {@code true} if the element content model contains an ID type
-	 *         attribute; {@code false} otherwise.
-	 * 
+	 * Determines if the type definition for the given element declaration includes an
+	 * attribute of type xsd:ID. Only GML objects should have one (gml:id).
+	 * @param elemDecl An XSElementDeclaration object.
+	 * @return {@code true} if the element content model contains an ID type attribute;
+	 * {@code false} otherwise.
+	 *
 	 * @see "ISO 19136:2007, 7.1.3: XML schema definition of GML language"
 	 */
 	boolean hasIDTypeAttribute(XSElementDeclaration elemDecl) {
@@ -123,8 +109,7 @@ public class ModelAndSyntaxTests extends SchemaModelFixture {
 		boolean foundIDAttr = false;
 		for (int i = 0; i < attrUses.getLength(); i++) {
 			XSAttributeUse attrUse = (XSAttributeUse) attrUses.item(i);
-			XSSimpleTypeDefinition attrType = attrUse.getAttrDeclaration()
-					.getTypeDefinition();
+			XSSimpleTypeDefinition attrType = attrUse.getAttrDeclaration().getTypeDefinition();
 			if (attrType.getBuiltInKind() == XSConstants.ID_DT) {
 				foundIDAttr = true;
 				break;
@@ -132,4 +117,5 @@ public class ModelAndSyntaxTests extends SchemaModelFixture {
 		}
 		return foundIDAttr;
 	}
+
 }

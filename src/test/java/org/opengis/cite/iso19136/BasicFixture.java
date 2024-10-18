@@ -19,29 +19,29 @@ import org.opengis.cite.validation.XmlSchemaCompiler;
 import org.xml.sax.SAXException;
 
 public class BasicFixture {
-    protected static XmlSchemaCompiler xsdCompiler;
-    protected static DocumentBuilder docBuilder;
-    protected static final String NS1 = "http://example.org/ns1";
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
+	protected static XmlSchemaCompiler xsdCompiler;
 
-    @BeforeClass
-    public static void initBasicFixture() throws ParserConfigurationException {
-        URL schemaCatalog = BasicFixture.class
-                .getResource("/schema-catalog-gml-3.2.1.xml");
-        xsdCompiler = new XmlSchemaCompiler(schemaCatalog);
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        dbf.setNamespaceAware(true);
-        docBuilder = dbf.newDocumentBuilder();
-    }
+	protected static DocumentBuilder docBuilder;
 
-    protected static XSModel createXSModel(URL schemaUrl, URI targetNamespace)
-            throws IOException, SAXException {
-        Schema xsd = xsdCompiler.compileXmlSchema(new StreamSource(schemaUrl
-                .openStream(), schemaUrl.toString()));
-        XSModel model = XSModelBuilder.buildXMLSchemaModel(xsd,
-                targetNamespace.toString());
-        return model;
-    }
+	protected static final String NS1 = "http://example.org/ns1";
+
+	@Rule
+	public ExpectedException thrown = ExpectedException.none();
+
+	@BeforeClass
+	public static void initBasicFixture() throws ParserConfigurationException {
+		URL schemaCatalog = BasicFixture.class.getResource("/schema-catalog-gml-3.2.1.xml");
+		xsdCompiler = new XmlSchemaCompiler(schemaCatalog);
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		dbf.setNamespaceAware(true);
+		docBuilder = dbf.newDocumentBuilder();
+	}
+
+	protected static XSModel createXSModel(URL schemaUrl, URI targetNamespace) throws IOException, SAXException {
+		Schema xsd = xsdCompiler.compileXmlSchema(new StreamSource(schemaUrl.openStream(), schemaUrl.toString()));
+		XSModel model = XSModelBuilder.buildXMLSchemaModel(xsd, targetNamespace.toString());
+		return model;
+	}
+
 }

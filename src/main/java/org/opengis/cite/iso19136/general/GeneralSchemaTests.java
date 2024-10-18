@@ -29,60 +29,54 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 /**
- * Verifies that a GML application schema is constructed in accord with all
- * mandatory constraints stipulated in clause A.1.1 of ISO 19136. All test
- * methods in the class belong to the "general" group.
+ * Verifies that a GML application schema is constructed in accord with all mandatory
+ * constraints stipulated in clause A.1.1 of ISO 19136. All test methods in the class
+ * belong to the "general" group.
  */
 public class GeneralSchemaTests {
 
 	private Schema appSchema;
+
 	private XSModel model;
+
 	private URI targetNamespace;
+
 	private AppSchemaInfo schemaInfo;
 
 	/**
-	 * Creates a schema model using the Schema object obtained from the ISuite
-	 * context. The suite attribute {@link SuiteAttribute#SCHEMA schema} should
-	 * evaluate to a Schema object.
-	 * 
-	 * If the model is successfully created it is added to the ISuite context as
-	 * the {@link SuiteAttribute#XSMODEL model} attribute.
-	 * 
-	 * @param testContext
-	 *            The test (group) context.
+	 * Creates a schema model using the Schema object obtained from the ISuite context.
+	 * The suite attribute {@link SuiteAttribute#SCHEMA schema} should evaluate to a
+	 * Schema object.
+	 *
+	 * If the model is successfully created it is added to the ISuite context as the
+	 * {@link SuiteAttribute#XSMODEL model} attribute.
+	 * @param testContext The test (group) context.
 	 */
 	@BeforeClass
 	@SuppressWarnings("unchecked")
 	public void createSchemaModel(ITestContext testContext) {
-		Object schema = testContext.getSuite().getAttribute(
-				SuiteAttribute.SCHEMA.getName());
-		if ((null != schema)
-				&& Schema.class.isAssignableFrom(schema.getClass())) {
+		Object schema = testContext.getSuite().getAttribute(SuiteAttribute.SCHEMA.getName());
+		if ((null != schema) && Schema.class.isAssignableFrom(schema.getClass())) {
 			this.appSchema = Schema.class.cast(schema);
-		} else {
-			throw new MissingResourceException(
-					"Unable to obtain Schema object from ITestContext",
-					SuiteAttribute.SCHEMA.getType().getName(),
-					SuiteAttribute.SCHEMA.getName());
 		}
-		Set<URI> schemaURIs = (Set<URI>) testContext.getSuite().getAttribute(
-				SuiteAttribute.SCHEMA_LOC_SET.getName());
+		else {
+			throw new MissingResourceException("Unable to obtain Schema object from ITestContext",
+					SuiteAttribute.SCHEMA.getType().getName(), SuiteAttribute.SCHEMA.getName());
+		}
+		Set<URI> schemaURIs = (Set<URI>) testContext.getSuite().getAttribute(SuiteAttribute.SCHEMA_LOC_SET.getName());
 		this.targetNamespace = getApplicationNamespaceName(schemaURIs);
-		this.model = XSModelBuilder.buildXMLSchemaModel(appSchema,
-				targetNamespace.toString());
+		this.model = XSModelBuilder.buildXMLSchemaModel(appSchema, targetNamespace.toString());
 		if (null != model) {
-			testContext.getSuite().setAttribute(
-					SuiteAttribute.XSMODEL.getName(), this.model);
+			testContext.getSuite().setAttribute(SuiteAttribute.XSMODEL.getName(), this.model);
 		}
 		this.schemaInfo = new AppSchemaInfo();
-		testContext.getSuite().setAttribute(
-				SuiteAttribute.SCHEMA_INFO.getName(), this.schemaInfo);
+		testContext.getSuite().setAttribute(SuiteAttribute.SCHEMA_INFO.getName(), this.schemaInfo);
 	}
 
 	/**
-	 * [{@code @Test}] An application schema shall declare a target namespace
-	 * and it must not be "http://www.opengis.net/gml/3.2".
-	 * 
+	 * [{@code @Test}] An application schema shall declare a target namespace and it must
+	 * not be "http://www.opengis.net/gml/3.2".
+	 *
 	 * <p style="margin-bottom: 0.5em">
 	 * <strong>Sources</strong>
 	 * </p>
@@ -93,17 +87,16 @@ public class GeneralSchemaTests {
 	 */
 	@Test(description = "See ISO 19136: 21.2.2, A.1.1.1")
 	public void declareTargetNamespace() {
-		Assert.assertTrue(targetNamespace.isAbsolute(), ErrorMessage.format(
-				ErrorMessageKeys.RELATIVE_NS, targetNamespace.toString()));
+		Assert.assertTrue(targetNamespace.isAbsolute(),
+				ErrorMessage.format(ErrorMessageKeys.RELATIVE_NS, targetNamespace.toString()));
 		Assert.assertNotEquals(targetNamespace, URI.create(GML32.NS_NAME),
 				ErrorMessage.get(ErrorMessageKeys.UNEXPECTED_NS));
 	}
 
 	/**
-	 * [{@code @Test}] A GML application schema shall import the full GML
-	 * schema. The schemaLocation to the imported GML schema document must be
-	 * provided.
-	 * 
+	 * [{@code @Test}] A GML application schema shall import the full GML schema. The
+	 * schemaLocation to the imported GML schema document must be provided.
+	 *
 	 * <p style="margin-bottom: 0.5em">
 	 * <strong>Sources</strong>
 	 * </p>
@@ -114,17 +107,16 @@ public class GeneralSchemaTests {
 	 */
 	@Test(description = "See ISO 19136: 21.2.3, A.1.1.3")
 	public void importFullGMLSchema() {
-		XSNamedMap gmlElemDecls = model.getComponentsByNamespace(
-				XSConstants.ELEMENT_DECLARATION, GML32.NS_NAME);
+		XSNamedMap gmlElemDecls = model.getComponentsByNamespace(XSConstants.ELEMENT_DECLARATION, GML32.NS_NAME);
 		Assert.assertEquals(gmlElemDecls.getLength(), GML32.TOTAL_GLOBAL_ELEMS,
 				ErrorMessage.get(ErrorMessageKeys.IMPORT_FULL_GML));
 	}
 
 	/**
-	 * [{@code @Test}] A GML application schema shall be of at least one of the
-	 * schema types described in clauses 21.3 through 21.11. That is, a
-	 * compliant application schema must include definitions created in accord
-	 * with at least one of the following conformance classes:
+	 * [{@code @Test}] A GML application schema shall be of at least one of the schema
+	 * types described in clauses 21.3 through 21.11. That is, a compliant application
+	 * schema must include definitions created in accord with at least one of the
+	 * following conformance classes:
 	 * <ul>
 	 * <li>GML application schemas defining Features and Feature Collections</li>
 	 * <li>GML application schemas defining Spatial Geometries</li>
@@ -136,7 +128,7 @@ public class GeneralSchemaTests {
 	 * <li>GML application schemas defining Dictionaries and Definitions</li>
 	 * <li>GML application schemas defining Values</li>
 	 * </ul>
-	 * 
+	 *
 	 * <p style="margin-bottom: 0.5em">
 	 * <strong>Sources</strong>
 	 * </p>
@@ -144,31 +136,22 @@ public class GeneralSchemaTests {
 	 * <li>ISO 19136:2007, cl. A.1.1.2 (General rules)</li>
 	 * <li>ISO 19136:2007, cl. 21.2.1</li>
 	 * </ul>
-	 * 
+	 *
 	 */
 	@Test(description = "See ISO 19136: 21.2.1, A.1.1.2")
 	public void declaresGMLObjects() {
-		schemaInfo.setFeatureTypes(XMLSchemaModelUtils
-				.getFeatureDeclarations(model));
-		schemaInfo.setGeometryTypes(XMLSchemaModelUtils
-				.getGeometryDeclarations(model));
+		schemaInfo.setFeatureTypes(XMLSchemaModelUtils.getFeatureDeclarations(model));
+		schemaInfo.setGeometryTypes(XMLSchemaModelUtils.getGeometryDeclarations(model));
 		// geometryProperyTypes?
-		schemaInfo.setTopoTypes(XMLSchemaModelUtils
-				.getTopologyDeclarations(model));
-		schemaInfo.setTimeTypes(XMLSchemaModelUtils
-				.getTimeObjectDeclarations(model));
+		schemaInfo.setTopoTypes(XMLSchemaModelUtils.getTopologyDeclarations(model));
+		schemaInfo.setTimeTypes(XMLSchemaModelUtils.getTimeObjectDeclarations(model));
 		schemaInfo.setCrsTypes(XMLSchemaModelUtils.getCRSDeclarations(model));
-		schemaInfo.setCoverageTypes(XMLSchemaModelUtils
-				.getCoverageDeclarations(model));
-		schemaInfo.setObservationTypes(XMLSchemaModelUtils
-				.getObservationDeclarations(model));
-		schemaInfo.setDefinitionTypes(XMLSchemaModelUtils
-				.getDefinitionDeclarations(model));
-		TestSuiteLogger.log(Level.FINE,
-				"GML objects declared in app schema\n {0}",
+		schemaInfo.setCoverageTypes(XMLSchemaModelUtils.getCoverageDeclarations(model));
+		schemaInfo.setObservationTypes(XMLSchemaModelUtils.getObservationDeclarations(model));
+		schemaInfo.setDefinitionTypes(XMLSchemaModelUtils.getDefinitionDeclarations(model));
+		TestSuiteLogger.log(Level.FINE, "GML objects declared in app schema\n {0}",
 				new Object[] { schemaInfo.toString() });
-		Assert.assertTrue(schemaInfo.conforms(),
-				ErrorMessage.get(ErrorMessageKeys.NO_GML_DEFS));
+		Assert.assertTrue(schemaInfo.conforms(), ErrorMessage.get(ErrorMessageKeys.NO_GML_DEFS));
 	}
 
 	AppSchemaInfo getSchemaInfo() {
@@ -176,49 +159,46 @@ public class GeneralSchemaTests {
 	}
 
 	/**
-	 * Determines the target namespace of a GML application schema, which is
-	 * assumed to be the first schema found to have a target namespace name that
-	 * is <strong>not</strong> in the opengis.net domain. If a URI cannot be
-	 * dereferenced it is skipped.
-	 * 
-	 * @param schemaLocations
-	 *            A {@literal Set<URI>} of schema references.
-	 * @return A URI indicating the target namespace of a GML application
-	 *         schema.
+	 * Determines the target namespace of a GML application schema, which is assumed to be
+	 * the first schema found to have a target namespace name that is <strong>not</strong>
+	 * in the opengis.net domain. If a URI cannot be dereferenced it is skipped.
+	 * @param schemaLocations A {@literal Set<URI>} of schema references.
+	 * @return A URI indicating the target namespace of a GML application schema.
 	 */
 	URI getApplicationNamespaceName(Set<URI> schemaLocations) {
-	        String[] allowedNamespaces = new String[]{"opengis.net/sampling"};
+		String[] allowedNamespaces = new String[] { "opengis.net/sampling" };
 		XMLInputFactory factory = XMLInputFactory.newInstance();
 		String tns = null;
 		for (URI uri : schemaLocations) {
 			InputStream inStream = null;
 			try {
 				inStream = uri.toURL().openStream();
-				XMLEventReader reader = factory.createXMLEventReader(inStream,
-						"UTF-8");
+				XMLEventReader reader = factory.createXMLEventReader(inStream, "UTF-8");
 				StartElement docElem = reader.nextTag().asStartElement();
-				Attribute targetNS = docElem.getAttributeByName(new QName(
-						"targetNamespace"));
+				Attribute targetNS = docElem.getAttributeByName(new QName("targetNamespace"));
 				for (String namespace : allowedNamespaces) {
-				    if (null != targetNS && 
-				            (targetNS.getValue().contains(namespace) || !targetNS.getValue().contains("opengis.net"))) {
-				        tns = targetNS.getValue();
-                                        break;
-                                    }
-                                }
-			} catch (Exception e) {
-				TestSuiteLogger.log(Level.WARNING,
-						"Failed to read schema from " + uri, e);
+					if (null != targetNS && (targetNS.getValue().contains(namespace)
+							|| !targetNS.getValue().contains("opengis.net"))) {
+						tns = targetNS.getValue();
+						break;
+					}
+				}
+			}
+			catch (Exception e) {
+				TestSuiteLogger.log(Level.WARNING, "Failed to read schema from " + uri, e);
 				continue;
-			} finally {
+			}
+			finally {
 				if (null != inStream) {
 					try {
 						inStream.close();
-					} catch (IOException ignored) {
+					}
+					catch (IOException ignored) {
 					}
 				}
 			}
 		}
 		return URI.create(tns);
 	}
+
 }

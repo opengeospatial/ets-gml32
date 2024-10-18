@@ -28,8 +28,7 @@ public class VerifyCurveTests extends BasicFixture {
 		CurveTests iut = new CurveTests();
 		iut.setDataFile(dataFile);
 		iut.findCurves();
-		assertEquals("Unexpected number of curves.", 2,
-				iut.curveNodes.getLength());
+		assertEquals("Unexpected number of curves.", 2, iut.curveNodes.getLength());
 	}
 
 	@Test
@@ -43,8 +42,7 @@ public class VerifyCurveTests extends BasicFixture {
 	}
 
 	@Test
-	public void checkLineStringSegmentsAreValid() throws URISyntaxException,
-			DOMException, FactoryException {
+	public void checkLineStringSegmentsAreValid() throws URISyntaxException, DOMException, FactoryException {
 		URL url = this.getClass().getResource("/geom/MultiCurve-1.xml");
 		File dataFile = new File(url.toURI());
 		CurveTests iut = new CurveTests();
@@ -54,8 +52,7 @@ public class VerifyCurveTests extends BasicFixture {
 	}
 
 	@Test
-	public void checkGeodesicStringSegmentsAreValid()
-			throws URISyntaxException, DOMException, FactoryException {
+	public void checkGeodesicStringSegmentsAreValid() throws URISyntaxException, DOMException, FactoryException {
 		URL url = this.getClass().getResource("/geom/Curve-GeodesicString.xml");
 		File dataFile = new File(url.toURI());
 		CurveTests iut = new CurveTests();
@@ -65,12 +62,10 @@ public class VerifyCurveTests extends BasicFixture {
 	}
 
 	@Test
-	public void checkCurveSegments_wrongAxisOrder() throws URISyntaxException,
-			DOMException, FactoryException {
+	public void checkCurveSegments_wrongAxisOrder() throws URISyntaxException, DOMException, FactoryException {
 		thrown.expect(AssertionError.class);
 		thrown.expectMessage("not covered by valid area of CRS");
-		URL url = this.getClass().getResource(
-				"/geom/Curve-LineString-axisOrder.xml");
+		URL url = this.getClass().getResource("/geom/Curve-LineString-axisOrder.xml");
 		File dataFile = new File(url.toURI());
 		CurveTests iut = new CurveTests();
 		iut.setDataFile(dataFile);
@@ -79,8 +74,7 @@ public class VerifyCurveTests extends BasicFixture {
 	}
 
 	@Test
-	public void missingCurveSegments() throws URISyntaxException, DOMException,
-			FactoryException {
+	public void missingCurveSegments() throws URISyntaxException, DOMException, FactoryException {
 		thrown.expect(AssertionError.class);
 		thrown.expectMessage("has no curve segments");
 		URL url = this.getClass().getResource("/geom/Curve-empty.xml");
@@ -92,10 +86,8 @@ public class VerifyCurveTests extends BasicFixture {
 	}
 
 	@Test
-	public void curveWithArcByCenterPoint() throws URISyntaxException,
-			DOMException, FactoryException {
-		URL url = this.getClass().getResource(
-				"/geom/Curve-ArcByCenterPoint.xml");
+	public void curveWithArcByCenterPoint() throws URISyntaxException, DOMException, FactoryException {
+		URL url = this.getClass().getResource("/geom/Curve-ArcByCenterPoint.xml");
 		File dataFile = new File(url.toURI());
 		CurveTests iut = new CurveTests();
 		iut.setDataFile(dataFile);
@@ -104,8 +96,7 @@ public class VerifyCurveTests extends BasicFixture {
 	}
 
 	@Test
-	public void curveWith3Segments() throws URISyntaxException, DOMException,
-			FactoryException {
+	public void curveWith3Segments() throws URISyntaxException, DOMException, FactoryException {
 		URL url = this.getClass().getResource("/geom/Curve-ID_250.xml");
 		File dataFile = new File(url.toURI());
 		CurveTests iut = new CurveTests();

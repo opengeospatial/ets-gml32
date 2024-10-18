@@ -1,4 +1,6 @@
-FROM tomcat:7.0-jre8
+FROM tomcat:10.1-jre17
+
+RUN apt update && apt install -y unzip
 
 # add TEAM engine webapp
 ADD maven/dependency/teamengine-web-*.war /root/
@@ -20,6 +22,8 @@ ADD maven/ets-gml32-*-ctl.zip /root/
 RUN cd /root/ && unzip -q ets-gml32-*-ctl.zip -d /root/te_base/scripts
 ADD maven/ets-gml32-*-deps.zip /root/
 RUN cd /root/ && unzip -q -o ets-gml32-*-deps.zip -d /usr/local/tomcat/webapps/teamengine/WEB-INF/lib
+
+RUN rm -R /root/te_base/scripts/note
 
 # run tomcat
 CMD ["catalina.sh", "run"]

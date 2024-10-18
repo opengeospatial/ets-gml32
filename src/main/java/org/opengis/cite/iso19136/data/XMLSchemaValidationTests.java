@@ -16,9 +16,8 @@ import org.testng.annotations.Test;
 import org.xml.sax.SAXException;
 
 /**
- * Verifies that a GML instance document is valid with respect to an application
- * schema.
- * 
+ * Verifies that a GML instance document is valid with respect to an application schema.
+ *
  * <p style="margin-bottom: 0.5em">
  * <strong>Sources</strong>
  * </p>
@@ -34,32 +33,27 @@ public class XMLSchemaValidationTests extends DataFixture {
 	private Schema appSchema;
 
 	/**
-	 * Obtains the GML application schema from the ISuite context. The value of
-	 * the {@link org.opengis.cite.iso19136.SuiteAttribute#SCHEMA} attribute is
-	 * expected to be a Schema object.
-	 * 
-	 * @param testContext
-	 *            The test (group) context.
+	 * Obtains the GML application schema from the ISuite context. The value of the
+	 * {@link org.opengis.cite.iso19136.SuiteAttribute#SCHEMA} attribute is expected to be
+	 * a Schema object.
+	 * @param testContext The test (group) context.
 	 */
 	@BeforeClass
 	public void getXMLSchema(ITestContext testContext) {
-		this.appSchema = (Schema) testContext.getSuite().getAttribute(
-				SuiteAttribute.SCHEMA.getName());
+		this.appSchema = (Schema) testContext.getSuite().getAttribute(SuiteAttribute.SCHEMA.getName());
 	}
 
 	/**
 	 * [{@code Test}] Verifies that a GML instance is valid with respect to its
 	 * application schema.
-	 * 
+	 *
 	 * <p style="margin-bottom: 0.5em">
 	 * <strong>Sources</strong>
 	 * </p>
 	 * <ul>
 	 * <li>ISO 19136:2007, cl. A.3.4: Valid XML</li>
 	 * </ul>
-	 * 
-	 * @throws SAXException
-	 *             If a fatal error occurs (e.g. instance is not well-formed).
+	 * @throws SAXException If a fatal error occurs (e.g. instance is not well-formed).
 	 */
 	@Test(description = "See ISO 19136: A.3.4")
 	public void isXMLSchemaValid() throws SAXException {
@@ -68,12 +62,12 @@ public class XMLSchemaValidationTests extends DataFixture {
 		validator.setErrorHandler(errHandler);
 		try {
 			validator.validate(new StreamSource(this.dataFile));
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			// ignore--not processing a SAXSource here (see API documentation)
 		}
-		Assert.assertFalse(errHandler.errorsDetected(), ErrorMessage.format(
-				ErrorMessageKeys.NOT_SCHEMA_VALID, errHandler.getErrorCount(),
-				errHandler.toString()));
+		Assert.assertFalse(errHandler.errorsDetected(), ErrorMessage.format(ErrorMessageKeys.NOT_SCHEMA_VALID,
+				errHandler.getErrorCount(), errHandler.toString()));
 	}
 
 }
