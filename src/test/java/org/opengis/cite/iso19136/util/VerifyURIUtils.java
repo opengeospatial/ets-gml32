@@ -34,8 +34,7 @@ public class VerifyURIUtils {
 		URI uriRef = URI.create("http://www.w3schools.com/xml/note.xml");
 		Document doc = URIUtils.parseURI(uriRef);
 		assertNotNull(doc);
-		assertEquals("Document element has unexpected [local name].", "note",
-				doc.getDocumentElement().getLocalName());
+		assertEquals("Document element has unexpected [local name].", "note", doc.getDocumentElement().getLocalName());
 	}
 
 	@Ignore
@@ -49,35 +48,29 @@ public class VerifyURIUtils {
 	}
 
 	@Test
-	public void resolveClasspathResource() throws SAXException, IOException,
-			URISyntaxException {
+	public void resolveClasspathResource() throws SAXException, IOException, URISyntaxException {
 		URL url = this.getClass().getResource("/atom-feed.xml");
 		Document doc = URIUtils.parseURI(url.toURI());
 		assertNotNull(doc);
-		assertEquals("Document element has unexpected [local name].", "feed",
-				doc.getDocumentElement().getLocalName());
+		assertEquals("Document element has unexpected [local name].", "feed", doc.getDocumentElement().getLocalName());
 	}
 
 	@Test
-	public void resolveFileRefWithXInclude() throws SAXException, IOException,
-			URISyntaxException {
+	public void resolveFileRefWithXInclude() throws SAXException, IOException, URISyntaxException {
 		File file = new File("src/test/resources/Alpha-xinclude.xml");
 		Document doc = URIUtils.parseURI(file.toURI());
 		assertNotNull(doc);
-		assertEquals("Document element has unexpected [local name].", "Alpha",
-				doc.getDocumentElement().getLocalName());
-		NodeList nodes = doc.getDocumentElement().getElementsByTagNameNS(
-				"http://www.example.net/gamma", "Gamma");
-		assertEquals("Expected element {http://www.example.net/gamma}Gamma", 1,
-				nodes.getLength());
+		assertEquals("Document element has unexpected [local name].", "Alpha", doc.getDocumentElement().getLocalName());
+		NodeList nodes = doc.getDocumentElement().getElementsByTagNameNS("http://www.example.net/gamma", "Gamma");
+		assertEquals("Expected element {http://www.example.net/gamma}Gamma", 1, nodes.getLength());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void resolveMissingClasspathResource() throws SAXException,
-			URISyntaxException, IOException {
+	public void resolveMissingClasspathResource() throws SAXException, URISyntaxException, IOException {
 		URL url = this.getClass().getResource("/alpha.xml");
 		URI uri = (null != url) ? url.toURI() : null;
 		Document doc = URIUtils.parseURI(uri);
 		assertNull(doc);
 	}
+
 }

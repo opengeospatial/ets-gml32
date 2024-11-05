@@ -4,7 +4,6 @@
   <parameter name="sch"  value=""/>
 
   <listeners>
-    <listener class-name="org.opengis.cite.iso19136.TestRunListener" />
     <listener class-name="org.opengis.cite.iso19136.SuiteFixtureListener" />
   </listeners>
 

@@ -8,7 +8,6 @@ import java.net.URI;
 import java.net.URL;
 import java.util.logging.Level;
 
-import javax.ws.rs.core.MediaType;
 import javax.xml.namespace.QName;
 import javax.xml.stream.EventFilter;
 import javax.xml.stream.XMLEventReader;
@@ -34,6 +33,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.w3c.dom.NodeList;
 
+import jakarta.ws.rs.core.MediaType;
+
 /**
  * Checks various property value constraints.
  */
@@ -42,33 +43,28 @@ public class PropertyValueTests extends DataFixture {
 	private XMLInputFactory factory = XMLInputFactory.newInstance();
 
 	/**
-	 * [{@code @Test}] If a gml:locationName property has a codeSpace attribute,
-	 * then the attribute value must identify a controlled list (that includes
-	 * the location name). The list resource must be available, but no
-	 * particular format is assumed.
-	 * 
+	 * [{@code @Test}] If a gml:locationName property has a codeSpace attribute, then the
+	 * attribute value must identify a controlled list (that includes the location name).
+	 * The list resource must be available, but no particular format is assumed.
+	 *
 	 * <p style="margin-bottom: 0.5em">
 	 * <strong>Sources</strong>
 	 * </p>
 	 * <ul>
 	 * <li>ISO 19136:2007, cl. 9.4.2: locationName, locationReference</li>
 	 * </ul>
-	 * 
-	 * @throws FileNotFoundException
-	 *             If no data file is found.
-	 * @throws MalformedURLException
-	 *             If the codeSpace value is a malformed URL.
+	 * @throws FileNotFoundException If no data file is found.
+	 * @throws MalformedURLException If the codeSpace value is a malformed URL.
 	 */
 	@Test(description = "See ISO 19136: 9.4.2")
-	public void validateLocationName() throws FileNotFoundException,
-			MalformedURLException {
+	public void validateLocationName() throws FileNotFoundException, MalformedURLException {
 		Source source = new StreamSource(this.dataFile);
 		String xpath = "//gml:locationName/@codeSpace";
 		NodeList codeSpaceList;
 		try {
-			codeSpaceList = (NodeList) XMLUtils.evaluateXPath(source, xpath,
-					null, XPathConstants.NODESET);
-		} catch (XPathExpressionException xpe) {
+			codeSpaceList = (NodeList) XMLUtils.evaluateXPath(source, xpath, null, XPathConstants.NODESET);
+		}
+		catch (XPathExpressionException xpe) {
 			throw new RuntimeException(xpe);
 		}
 		for (int i = 0; i < codeSpaceList.getLength(); i++) {
@@ -78,51 +74,47 @@ public class PropertyValueTests extends DataFixture {
 	}
 
 	/**
-	 * [{@code @Test}] The gml:locationReference property must include the
-	 * xlink:href attribute. When the URI value is dereferenced the result must
-	 * be a text value (that purports to describe the location of the feature).
-	 * 
+	 * [{@code @Test}] The gml:locationReference property must include the xlink:href
+	 * attribute. When the URI value is dereferenced the result must be a text value (that
+	 * purports to describe the location of the feature).
+	 *
 	 * <p style="margin-bottom: 0.5em">
 	 * <strong>Sources</strong>
 	 * </p>
 	 * <ul>
 	 * <li>ISO 19136:2007, cl. 9.4.2: locationName, locationReference</li>
 	 * </ul>
-	 * 
-	 * @throws FileNotFoundException
-	 *             If no data file is found.
-	 * @throws MalformedURLException
-	 *             If a location reference is a malformed URL.
+	 * @throws FileNotFoundException If no data file is found.
+	 * @throws MalformedURLException If a location reference is a malformed URL.
 	 */
 	@Test(description = "See ISO 19136: 9.4.2")
-	public void validateLocationReference() throws FileNotFoundException,
-			MalformedURLException {
+	public void validateLocationReference() throws FileNotFoundException, MalformedURLException {
 		InputStream inStream = new FileInputStream(this.dataFile);
 		XMLEventReader reader = null;
 		try {
 			XMLEventReader baseReader = factory.createXMLEventReader(inStream);
-			reader = factory.createFilteredReader(baseReader,
-					new GMLEventFilter("locationReference"));
+			reader = factory.createFilteredReader(baseReader, new GMLEventFilter("locationReference"));
 			while (reader.hasNext()) {
 				QName xlinkHref = new QName(Namespaces.XLINK, "href");
 				StartElement locationRef = reader.nextEvent().asStartElement();
 				Attribute href = locationRef.getAttributeByName(xlinkHref);
-				Assert.assertNotNull(href, ErrorMessage.format(
-						ErrorMessageKeys.MISSING_INFOSET_ITEM, xlinkHref,
+				Assert.assertNotNull(href, ErrorMessage.format(ErrorMessageKeys.MISSING_INFOSET_ITEM, xlinkHref,
 						locationRef.getLocation().toString()));
 				URI uri = URI.create(href.getValue());
 				if (!uri.isAbsolute()) {
 					uri = this.dataFile.toURI().resolve(uri);
 				}
-				ETSAssert.assertURLIsResolvable(uri.toURL(),
-						MediaType.TEXT_PLAIN_TYPE);
+				ETSAssert.assertURLIsResolvable(uri.toURL(), MediaType.TEXT_PLAIN_TYPE);
 			}
-		} catch (XMLStreamException e) {
-		} finally {
+		}
+		catch (XMLStreamException e) {
+		}
+		finally {
 			try {
 				reader.close();
 				inStream.close();
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				TestSuiteLogger.log(Level.INFO, "Failed to close resource.", e);
 			}
 		}
@@ -152,5 +144,7 @@ public class PropertyValueTests extends DataFixture {
 			}
 			return isLocationReference;
 		}
+
 	}
+
 }

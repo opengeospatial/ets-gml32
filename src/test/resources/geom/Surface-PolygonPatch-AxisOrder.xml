@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Exterior ring has incorrect axis order (should be N,E) -->
 <gml:Surface xmlns:gml="http://www.opengis.net/gml/3.2"
-	gml:id="_77073d46-7578-4d9b-b031-ab587b75d30a" 
-	srsName="http://www.opengis.net/def/crs/EPSG/0/EPSG:3044">
+	gml:id="_77073d46-7578-4d9b-b031-ab587b75d30a"
+	srsName="http://www.opengis.net/def/crs/EPSG/0/3044">
 	<gml:patches>
 		<gml:PolygonPatch>
 			<gml:exterior>

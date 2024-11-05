@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBException;
 import javax.xml.stream.XMLStreamException;
 
 import org.junit.Rule;
@@ -23,8 +23,7 @@ public class VerifyEnvelopeTests {
 	public ExpectedException thrown = ExpectedException.none();
 
 	@Test
-	public void findEnvelopes_expectOne() throws URISyntaxException,
-			JAXBException, XMLStreamException, IOException {
+	public void findEnvelopes_expectOne() throws URISyntaxException, JAXBException, XMLStreamException, IOException {
 		URL url = this.getClass().getResource("/SimpleFeature-1.xml");
 		File dataFile = new File(url.toURI());
 		EnvelopeTests iut = new EnvelopeTests();
@@ -34,8 +33,7 @@ public class VerifyEnvelopeTests {
 	}
 
 	@Test
-	public void envelope_valid() throws URISyntaxException, JAXBException,
-			XMLStreamException, IOException {
+	public void envelope_valid() throws URISyntaxException, JAXBException, XMLStreamException, IOException {
 		URL url = this.getClass().getResource("/envelopes/Envelope-valid.xml");
 		File dataFile = new File(url.toURI());
 		EnvelopeTests iut = new EnvelopeTests();
@@ -45,8 +43,7 @@ public class VerifyEnvelopeTests {
 	}
 
 	@Test
-	public void envelopeHasNoCRS() throws URISyntaxException, JAXBException,
-			XMLStreamException, IOException {
+	public void envelopeHasNoCRS() throws URISyntaxException, JAXBException, XMLStreamException, IOException {
 		thrown.expect(AssertionError.class);
 		thrown.expectMessage("has unknown CRS");
 		URL url = this.getClass().getResource("/envelopes/Envelope-noCRS.xml");
@@ -58,12 +55,10 @@ public class VerifyEnvelopeTests {
 	}
 
 	@Test
-	public void envelope_invalidCorner() throws URISyntaxException,
-			JAXBException, XMLStreamException, IOException {
+	public void envelope_invalidCorner() throws URISyntaxException, JAXBException, XMLStreamException, IOException {
 		thrown.expect(AssertionError.class);
 		thrown.expectMessage("expected lowerCorner[1] < upperCorner[1]");
-		URL url = this.getClass().getResource(
-				"/envelopes/Envelope-invalidCorner.xml");
+		URL url = this.getClass().getResource("/envelopes/Envelope-invalidCorner.xml");
 		File dataFile = new File(url.toURI());
 		EnvelopeTests iut = new EnvelopeTests();
 		iut.setDataFile(dataFile);
@@ -73,8 +68,7 @@ public class VerifyEnvelopeTests {
 
 	@Test
 	public void envelopeHasHttpReference() throws URISyntaxException {
-		URL url = this.getClass()
-				.getResource("/envelopes/Envelope-httpRef.xml");
+		URL url = this.getClass().getResource("/envelopes/Envelope-httpRef.xml");
 		File dataFile = new File(url.toURI());
 		EnvelopeTests iut = new EnvelopeTests();
 		iut.setDataFile(dataFile);
@@ -86,12 +80,12 @@ public class VerifyEnvelopeTests {
 	public void envelopeHasInvalidEPSGCode() throws URISyntaxException {
 		thrown.expect(AssertionError.class);
 		thrown.expectMessage("has unknown CRS");
-		URL url = this.getClass()
-				.getResource("/envelopes/Envelope-invalidCRS.xml");
+		URL url = this.getClass().getResource("/envelopes/Envelope-invalidCRS.xml");
 		File dataFile = new File(url.toURI());
 		EnvelopeTests iut = new EnvelopeTests();
 		iut.setDataFile(dataFile);
 		iut.findEnvelopes();
 		iut.envelopeHasValidCRS();
 	}
+
 }

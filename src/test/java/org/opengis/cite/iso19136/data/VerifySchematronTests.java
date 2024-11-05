@@ -24,7 +24,9 @@ import org.testng.ITestContext;
 public class VerifySchematronTests {
 
 	private static ITestContext testContext;
+
 	private static ISuite suite;
+
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
 
@@ -48,8 +50,7 @@ public class VerifySchematronTests {
 		SchematronTests iut = new SchematronTests();
 		Map<String, String> piData = iut.getXmlModelPIData(file);
 		Assert.assertNotNull(piData);
-		Assert.assertEquals("Unexpected href value.",
-				"http://example.org/constraints.sch", piData.get("href"));
+		Assert.assertEquals("Unexpected href value.", "http://example.org/constraints.sch", piData.get("href"));
 	}
 
 	@Test
@@ -63,8 +64,7 @@ public class VerifySchematronTests {
 	}
 
 	@Test
-	public void checkForDeprecatedGMLElements_envelopeWithPosChildren()
-			throws URISyntaxException {
+	public void checkForDeprecatedGMLElements_envelopeWithPosChildren() throws URISyntaxException {
 		thrown.expect(AssertionError.class);
 		String fileName = "/SimpleFeature-1.xml";
 		URL url = this.getClass().getResource(fileName);
@@ -73,4 +73,5 @@ public class VerifySchematronTests {
 		iut.setDataFile(dataFile);
 		iut.checkForDeprecatedGMLElements();
 	}
+
 }

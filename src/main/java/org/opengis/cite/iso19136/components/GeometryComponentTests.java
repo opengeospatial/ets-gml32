@@ -23,30 +23,29 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 /**
- * Verifies schema components that define geometry and geometry property types.
- * These test methods belong to the "geometry" group.
- * 
+ * Verifies schema components that define geometry and geometry property types. These test
+ * methods belong to the "geometry" group.
+ *
  * A geometry type must be declared as a global element that can substitute for
  * {@code gml:AbstractGeometry}; its content model must be derived from
  * {@code gml:AbstractGeometryType}. A geometry property type may restrict
- * gml:GeometryPropertyType or reflect the content model of
- * gml:AssociationRoleType.
- * 
+ * gml:GeometryPropertyType or reflect the content model of gml:AssociationRoleType.
+ *
  * <p style="margin-bottom: 0.5em">
  * <strong>Sources</strong>
  * </p>
  * <ul>
  * <li>ISO 19136:2007, cl. 10: GML schema - geometric primitives</li>
- * <li>ISO 19136:2007, cl. 11: GML schema - geometric complex, geometric
- * composites and geometric aggregates</li>
+ * <li>ISO 19136:2007, cl. 11: GML schema - geometric complex, geometric composites and
+ * geometric aggregates</li>
  * <li>ISO 19136:2007, cl. 21.4: Schemas defining Spatial Geometries</li>
- * <li>ISO 19136:2007, cl. A.1.5: GML application schemas defining Spatial
- * Geometries</li>
+ * <li>ISO 19136:2007, cl. A.1.5: GML application schemas defining Spatial Geometries</li>
  * </ul>
  */
 public class GeometryComponentTests extends SchemaModelFixture {
 
 	private XSTypeDefinition gmlGeomBaseType;
+
 	private XSElementDeclaration abstractGmlGeom;
 
 	public GeometryComponentTests() {
@@ -54,76 +53,61 @@ public class GeometryComponentTests extends SchemaModelFixture {
 	}
 
 	/**
-	 * Determines if the application schema includes any geometry-related
-	 * components (elements or type definitions). If not, all tests in this
-	 * group are skipped.
-	 * 
-	 * @param testContext
-	 *            The test (set) context.
+	 * Determines if the application schema includes any geometry-related components
+	 * (elements or type definitions). If not, all tests in this group are skipped.
+	 * @param testContext The test (set) context.
 	 */
 	@BeforeTest
 	public void hasGeometryComponents(ITestContext testContext) {
 		if (null == this.model) {
-			this.model = (XSModel) testContext.getSuite().getAttribute(
-					SuiteAttribute.XSMODEL.getName());
+			this.model = (XSModel) testContext.getSuite().getAttribute(SuiteAttribute.XSMODEL.getName());
 		}
-		this.gmlGeomBaseType = this.model.getTypeDefinition(
-				GML32.ABSTRACT_GEOMETRY_TYPE, GML32.NS_NAME);
+		this.gmlGeomBaseType = this.model.getTypeDefinition(GML32.ABSTRACT_GEOMETRY_TYPE, GML32.NS_NAME);
 		// types derived by extension from gml:AbstractGeometryType
-		List<XSElementDeclaration> geomElements = XMLSchemaModelUtils
-				.getGlobalElementsByType(this.model, gmlGeomBaseType);
-		XSTypeDefinition geomPropBaseType = this.model.getTypeDefinition(
-				GML32.GEOM_PROP_TYPE, GML32.NS_NAME);
+		List<XSElementDeclaration> geomElements = XMLSchemaModelUtils.getGlobalElementsByType(this.model,
+				gmlGeomBaseType);
+		XSTypeDefinition geomPropBaseType = this.model.getTypeDefinition(GML32.GEOM_PROP_TYPE, GML32.NS_NAME);
 		// types that restrict gml:GeometryPropertyType
-		Set<XSTypeDefinition> geomPropTypes = XMLSchemaModelUtils
-				.getDerivedTypeDefinitions(this.model, geomPropBaseType,
-						XSConstants.DERIVATION_RESTRICTION);
-		this.abstractGmlGeom = this.model.getElementDeclaration(
-				GML32.ABSTRACT_GEOMETRY, GML32.NS_NAME);
+		Set<XSTypeDefinition> geomPropTypes = XMLSchemaModelUtils.getDerivedTypeDefinitions(this.model,
+				geomPropBaseType, XSConstants.DERIVATION_RESTRICTION);
+		this.abstractGmlGeom = this.model.getElementDeclaration(GML32.ABSTRACT_GEOMETRY, GML32.NS_NAME);
 		// implicit geometry properties
-		List<XSElementDeclaration> geomProps = XMLSchemaModelUtils
-				.getImplicitProperties(this.model, abstractGmlGeom);
+		List<XSElementDeclaration> geomProps = XMLSchemaModelUtils.getImplicitProperties(this.model, abstractGmlGeom);
 		// explicit geometry properties
-		geomProps.addAll(XMLSchemaModelUtils
-				.getExplicitGeometryProperties(this.model));
-		if (geomElements.isEmpty() && geomPropTypes.isEmpty()
-				&& geomProps.isEmpty()) {
+		geomProps.addAll(XMLSchemaModelUtils.getExplicitGeometryProperties(this.model));
+		if (geomElements.isEmpty() && geomPropTypes.isEmpty() && geomProps.isEmpty()) {
 			throw new SkipException(ErrorMessage.get(ErrorMessageKeys.NO_USERDEF_GEOM));
 		}
 	}
 
 	/**
-	 * [{@code Test}] All geometry types (elements) declared in an application
-	 * schema must substitute for {@code gml:AbstractGeometry}.
-	 * 
+	 * [{@code Test}] All geometry types (elements) declared in an application schema must
+	 * substitute for {@code gml:AbstractGeometry}.
+	 *
 	 * @see "ISO 19136:2007, cl. 21.4.2.1: User-defined Geometry Types"
 	 */
 	@Test(description = "See ISO 19136: 21.4.2.1")
 	public void substitutesForGMLGeometry() {
 		// find all members of gml:AbstractGeometry substitution group
-		List<XSElementDeclaration> geometries = XMLSchemaModelUtils
-				.getGeometryDeclarations(this.model);
-		Set<XSTypeDefinition> geomTypeDefs = XMLSchemaModelUtils
-				.getDerivedTypeDefinitions(this.model, gmlGeomBaseType,
-						XSConstants.DERIVATION_EXTENSION);
+		List<XSElementDeclaration> geometries = XMLSchemaModelUtils.getGeometryDeclarations(this.model);
+		Set<XSTypeDefinition> geomTypeDefs = XMLSchemaModelUtils.getDerivedTypeDefinitions(this.model, gmlGeomBaseType,
+				XSConstants.DERIVATION_EXTENSION);
 		for (XSTypeDefinition typeDef : geomTypeDefs) {
-			List<XSElementDeclaration> geomDecls = XMLSchemaModelUtils
-					.getGlobalElementsByType(this.model, typeDef);
+			List<XSElementDeclaration> geomDecls = XMLSchemaModelUtils.getGlobalElementsByType(this.model, typeDef);
 			for (XSElementDeclaration geomDecl : geomDecls) {
-				Assert.assertTrue(geometries.contains(geomDecl), ErrorMessage
-						.format(ErrorMessageKeys.SUBSTITUTION_ERROR, new QName(
-								geomDecl.getNamespace(), geomDecl.getName()),
-								"gml:AbstractGeometry"));
+				Assert.assertTrue(geometries.contains(geomDecl),
+						ErrorMessage.format(ErrorMessageKeys.SUBSTITUTION_ERROR,
+								new QName(geomDecl.getNamespace(), geomDecl.getName()), "gml:AbstractGeometry"));
 			}
 		}
 	}
 
 	/**
-	 * [{@code Test}] The value of a geometry property is an element
-	 * substitutable for gml:AbstractGeometry. Geometry properties may be
-	 * defined explicitly (based on a pre-defined GML geometry property type) or
-	 * implicitly by mimicking the property type content model.
-	 * 
+	 * [{@code Test}] The value of a geometry property is an element substitutable for
+	 * gml:AbstractGeometry. Geometry properties may be defined explicitly (based on a
+	 * pre-defined GML geometry property type) or implicitly by mimicking the property
+	 * type content model.
+	 *
 	 * <p style="margin-bottom: 0.5em">
 	 * <strong>Sources</strong>
 	 * </p>
@@ -135,12 +119,11 @@ public class GeometryComponentTests extends SchemaModelFixture {
 	 */
 	@Test(description = "See ISO 19136: 9.5, 21.4.2.2, A.1.1.10")
 	public void validateImplicitGeometryProperty() {
-		XSElementDeclaration geometry = this.model.getElementDeclaration(
-				GML32.ABSTRACT_GEOMETRY, GML32.NS_NAME);
-		List<XSElementDeclaration> geomProps = XMLSchemaModelUtils
-				.getImplicitProperties(model, geometry);
+		XSElementDeclaration geometry = this.model.getElementDeclaration(GML32.ABSTRACT_GEOMETRY, GML32.NS_NAME);
+		List<XSElementDeclaration> geomProps = XMLSchemaModelUtils.getImplicitProperties(model, geometry);
 		for (XSElementDeclaration prop : geomProps) {
 			ETSAssert.assertValidPropertyType(model, prop, abstractGmlGeom);
 		}
 	}
+
 }
