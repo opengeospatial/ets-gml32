@@ -7,7 +7,7 @@ Attention: Java 17 and Tomcat 10.1 are required.
 * [#78](https://github.com/opengeospatial/ets-gml32/issues/78): Migrate test suite to TEAM Engine 6 (Java 17)
 * [#77](https://github.com/opengeospatial/ets-gml32/pull/77): Upgrade to geomatics-geotk version 1.17-SNAPSHOT
 * [#82](https://github.com/opengeospatial/ets-gml32/pull/82): Set ets-common to version 11 and update assembly configuration and Jenkinsfiles
-* [#83](https://github.com/opengeospatial/ets-gml32/pull/83): Set ets-common to version 12
+* [#84](https://github.com/opengeospatial/ets-gml32/pull/84): Set ets-common version to 13
 
 ## 1.32 (2024-05-17)
 
