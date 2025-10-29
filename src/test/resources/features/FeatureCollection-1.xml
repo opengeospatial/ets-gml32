@@ -3,7 +3,7 @@
   xmlns:gml="http://www.opengis.net/gml/3.2">
   <gml:boundedBy>
     <gml:Envelope srsName="urn:ogc:def:crs:EPSG::4326">
-      <gml:lowerConder>48.43 -123.37</gml:lowerConder>
+      <gml:lowerCorner>48.43 -123.37</gml:lowerCorner>
       <gml:upperCorner>49.33 -122.60</gml:upperCorner>
     </gml:Envelope>
   </gml:boundedBy>
